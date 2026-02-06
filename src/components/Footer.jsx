@@ -59,8 +59,8 @@ const Footer = () => {
                                 <Phone size={18} />
                             </div>
                             <div>
-                                <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: '800', margin: 0 }}>S. Pream Kumar</p>
-                                <p style={{ fontSize: '0.9rem', color: '#fff', fontWeight: '600', margin: 0 }}>+91 80726 52321</p>
+                                <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: '800', margin: 0 }}>Subasanjeev S</p>
+                                <p style={{ fontSize: '0.9rem', color: '#fff', fontWeight: '600', margin: 0 }}>+91 9787668997</p>
                             </div>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -68,8 +68,8 @@ const Footer = () => {
                                 <MessageCircle size={18} />
                             </div>
                             <div>
-                                <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: '800', margin: 0 }}>P. Babu Prasanth</p>
-                                <p style={{ fontSize: '0.9rem', color: '#fff', fontWeight: '600', margin: 0 }}>+91 97876 68997</p>
+                                <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: '800', margin: 0 }}>Diva S</p>
+                                <p style={{ fontSize: '0.9rem', color: '#fff', fontWeight: '600', margin: 0 }}>+91 8072652321</p>
                             </div>
                         </div>
                     </div>

@@ -452,59 +452,104 @@ footer {
   flex-wrap: wrap;
 }
 
+/* Utility to hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 /* Responsive */
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 3rem;
+  }
+}
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
   }
 
-  .hero-title {
-    font-size: 3.5rem;
-  }
-
-  .prize-amount {
-    font-size: 3.5rem;
-  }
-
-  .countdown-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  section {
-    padding: 80px 0;
+  /* Hide the desktop register button on mobile if desired, or keep it */
+  .nav-actions .btn {
+    display: none;
   }
 
   .mobile-menu-btn {
     display: block !important;
   }
 
+  .hero-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+  }
+
+  .prize-amount {
+    font-size: 3rem;
+  }
+
+  .section-title {
+    font-size: 2.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .countdown-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  section {
+    padding: 80px 0;
+  }
+
+  /* Adjust grid for smaller screens */
+  .events-grid {
+    grid-template-columns: 1fr;
+    /* Force single column on smaller mobile tables */
+    gap: 2rem;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
   .mobile-nav-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(8, 9, 15, 0.95);
+    background: rgba(8, 9, 15, 0.98);
     backdrop-filter: blur(20px);
     z-index: 2000;
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
   }
 
   .mobile-menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
   }
 
   .mobile-nav-links {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 2rem;
   }
 
   .mobile-nav-links a {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 800;
     color: #fff;
     text-decoration: none;
@@ -513,6 +558,12 @@ footer {
 
   .mobile-nav-links .active-link {
     color: var(--primary);
+  }
+}
+
+@media (min-width: 769px) {
+  .events-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 }
 

@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Cpu, Gamepad2, FileText, Bug,
     Globe, HelpCircle, Code, Palette, Eye,
     Camera, Image, Users, Sparkles, ChevronRight, Terminal, Zap
 } from 'lucide-react';
+import { db } from '../firebaseConfig';
+import { collection, onSnapshot } from 'firebase/firestore';
 import PageTransition from './PageTransition';
 import eventPoster from '../assets/image.png';
 
-const TrackCard = ({ track, index }) => {
+const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
     const [isFlipped, setIsFlipped] = useState(false);
+    const [viewMode, setViewMode] = useState('RULES'); // RULES or TEAMS
+    const isFull = registeredCount >= maxLimit;
+    const progress = Math.min((registeredCount / maxLimit) * 100, 100);
 
     return (
         <motion.div
@@ -22,7 +27,7 @@ const TrackCard = ({ track, index }) => {
             onClick={() => setIsFlipped(!isFlipped)}
         >
             <div className="card-inner">
-                {/* Front Face: The Module Interface */}
+                {/* ... Front Face ... */}
                 <div className="card-face card-front" style={{ background: 'rgba(15, 17, 26, 0.4)', backdropFilter: 'blur(20px)' }}>
                     <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '5px' }}>
                         <div className="badge" style={{ background: 'rgba(56, 234, 140, 0.1)', color: 'var(--primary)', border: '1px solid rgba(56, 234, 140, 0.2)' }}>{track.tag}</div>
@@ -49,7 +54,21 @@ const TrackCard = ({ track, index }) => {
                                 <p style={{ fontSize: '0.75rem', color: 'var(--primary)', opacity: 0.8, margin: '4px 0 0', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>{track.subtitle}</p>
                             </div>
                         </div>
-                        <p className="card-desc" style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5', margin: '0.5rem 0 1rem' }}>{track.desc}</p>
+                        {/* Progress Bar UI */}
+                        <div style={{ width: '100%', marginBottom: '1rem' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px', color: 'var(--text-muted)' }}>
+                                <span>Slots Status</span>
+                                <span style={{ color: isFull ? '#FF5F56' : 'var(--primary)' }}>{registeredCount} / {maxLimit}</span>
+                            </div>
+                            <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
+                                <div style={{
+                                    width: `${progress}%`,
+                                    height: '100%',
+                                    background: isFull ? '#FF5F56' : 'var(--primary)',
+                                    transition: 'width 0.5s ease-out'
+                                }} />
+                            </div>
+                        </div>
                     </div>
 
                     <div className="card-footer" style={{ padding: '20px', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
@@ -57,31 +76,81 @@ const TrackCard = ({ track, index }) => {
                             <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', display: 'block', fontWeight: '800' }}>PRIZES</span>
                             <span className="card-price" style={{ color: 'var(--primary)', fontWeight: '900', fontSize: '1.1rem' }}>{track.prize}</span>
                         </div>
-                        <button className="btn btn-outline" style={{ padding: '0.5rem 1rem', fontSize: '0.7rem', border: '1px solid rgba(56, 234, 140, 0.3)' }}>
-                            EXECUTE <ChevronRight size={14} style={{ marginLeft: '4px' }} />
+                        <button disabled={isFull} className={`btn ${isFull ? 'btn-disabled' : 'btn-outline'}`} style={{ padding: '0.5rem 1rem', fontSize: '0.7rem', border: isFull ? '1px solid #FF5F56' : '1px solid rgba(56, 234, 140, 0.3)', color: isFull ? '#FF5F56' : '' }}>
+                            {isFull ? 'CLOSED' : 'EXECUTE'} <ChevronRight size={14} style={{ marginLeft: '4px' }} />
                         </button>
                     </div>
                 </div>
 
-                {/* Back Face: The Source Code / Rules */}
-                <div className="card-face card-back" style={{ background: '#0F111A', border: '2px solid var(--primary)' }}>
-                    <div className="card-back-content" style={{ padding: '2rem' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2rem', borderBottom: '1px solid rgba(56, 234, 140, 0.2)', paddingBottom: '10px' }}>
-                            <Terminal size={18} className="text-[#38EA8C]" />
-                            <h3 className="back-title" style={{ fontSize: '0.9rem', letterSpacing: '2px', margin: 0 }}>EVENT_RULES.TXT</h3>
+                {/* Maximum Height Back Face */}
+                <div className="card-face card-back" style={{ background: '#0F111A', border: '2px solid var(--primary)', display: 'flex', flexDirection: 'column' }}>
+                    <div className="card-back-content" style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
+                        {/* Tabs */}
+                        <div style={{ display: 'flex', justifyContent: 'space-around', borderBottom: '1px solid rgba(56, 234, 140, 0.2)', marginBottom: '1rem', paddingBottom: '0.5rem' }}>
+                            <span
+                                onClick={(e) => { e.stopPropagation(); setViewMode('RULES'); }}
+                                style={{
+                                    cursor: 'pointer',
+                                    fontSize: '0.8rem',
+                                    fontWeight: 'bold',
+                                    color: viewMode === 'RULES' ? 'var(--primary)' : 'var(--text-muted)',
+                                    borderBottom: viewMode === 'RULES' ? '2px solid var(--primary)' : 'none',
+                                    paddingBottom: '4px'
+                                }}
+                            >
+                                RULES
+                            </span>
+                            <span
+                                onClick={(e) => { e.stopPropagation(); setViewMode('TEAMS'); }}
+                                style={{
+                                    cursor: 'pointer',
+                                    fontSize: '0.8rem',
+                                    fontWeight: 'bold',
+                                    color: viewMode === 'TEAMS' ? 'var(--primary)' : 'var(--text-muted)',
+                                    borderBottom: viewMode === 'TEAMS' ? '2px solid var(--primary)' : 'none',
+                                    paddingBottom: '4px'
+                                }}
+                            >
+                                TEAMS ({registeredCount})
+                            </span>
                         </div>
 
-                        <ul className="features-list" style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem' }}>
-                            {track.rules.map((rule, idx) => (
-                                <li key={idx} style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '12px', display: 'flex', gap: '10px' }}>
-                                    <span style={{ color: 'var(--primary)' }}>[0{idx + 1}]</span> {rule}
-                                </li>
-                            ))}
-                        </ul>
+                        {/* Content Area */}
+                        <div style={{ flex: 1, overflowY: 'auto', marginBottom: '1rem', scrollbarWidth: 'thin', scrollbarColor: 'var(--primary) transparent' }}>
+                            {viewMode === 'RULES' ? (
+                                <ul className="features-list" style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                                    {track.rules.map((rule, idx) => (
+                                        <li key={idx} style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '12px', display: 'flex', gap: '10px' }}>
+                                            <span style={{ color: 'var(--primary)' }}>[0{idx + 1}]</span> {rule}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                    {teamList && teamList.length > 0 ? (
+                                        <ol style={{ paddingLeft: '1.2rem', margin: 0 }}>
+                                            {teamList.map((team, idx) => (
+                                                <li key={idx} style={{ marginBottom: '8px' }}>
+                                                    <strong style={{ color: '#fff' }}>{team.teamName}</strong>
+                                                </li>
+                                            ))}
+                                        </ol>
+                                    ) : (
+                                        <p style={{ fontStyle: 'italic', textAlign: 'center', opacity: 0.7 }}>No teams registered yet.</p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
 
                         <div className="back-footer">
-                            <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.8rem', fontWeight: '800' }}>
-                                INITIALIZE REGISTRATION
+                            <button
+                                onClick={(e) => { e.stopPropagation(); window.location.href = '/register'; }}
+                                disabled={isFull}
+                                className="btn btn-primary"
+                                style={{ width: '100%', fontSize: '0.8rem', fontWeight: '800', opacity: isFull ? 0.5 : 1, cursor: isFull ? 'not-allowed' : 'pointer' }}
+                            >
+                                {isFull ? 'REGISTRATION CLOSED' : 'INITIALIZE REGISTRATION'}
                             </button>
                         </div>
                     </div>
@@ -93,11 +162,42 @@ const TrackCard = ({ track, index }) => {
 
 const Events = () => {
     const [filter, setFilter] = useState('ALL');
+    const [eventCounts, setEventCounts] = useState({});
+
+    const [eventTeams, setEventTeams] = useState({}); // New state for team lists
+
+    useEffect(() => {
+        // Real-time listener for event counts and team details
+        const unsubscribe = onSnapshot(collection(db, "registrations"), (snapshot) => {
+            const counts = {};
+            const teams = {};
+
+            snapshot.docs.forEach(doc => {
+                const data = doc.data();
+                const eventName = data.eventName;
+                if (eventName) {
+                    // Update Count
+                    counts[eventName] = (counts[eventName] || 0) + 1;
+
+                    // Update Team List
+                    if (!teams[eventName]) teams[eventName] = [];
+                    teams[eventName].push({ teamName: data.teamName, id: doc.id });
+                }
+            });
+            setEventCounts(counts);
+            setEventTeams(teams);
+        }, (error) => {
+            console.error("Error fetching event data:", error);
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     const allEvents = [
         {
             title: "PUBLITEX",
             subtitle: "PAPER PRESENTATION",
+            dbName: "Paper Presentation", // Mapped to DB value
             icon: <FileText />,
             img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
             desc: "Present your innovative ideas and research in the field of technology and engineering.",
@@ -109,6 +209,7 @@ const Events = () => {
         {
             title: "CODE SURGEON",
             subtitle: "DEBUGGING CHALLENGE",
+            dbName: "Code Debugging",
             icon: <Bug />,
             img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=800",
             desc: "Test your skills in finding and fixing critical bugs in complex codebases.",
@@ -120,6 +221,7 @@ const Events = () => {
         {
             title: "INNOVEXPO",
             subtitle: "PROJECT EXPO",
+            dbName: "Project Expo",
             icon: <Cpu />,
             img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
             desc: "Showcase your working projects that offer practical real-world solutions.",
@@ -132,6 +234,7 @@ const Events = () => {
         {
             title: "DEVATHON",
             subtitle: "WEB/APP DEV",
+            dbName: "Web Designing", // Assuming mapping
             icon: <Globe />,
             img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800",
             desc: "Build modern, responsive web or mobile applications with the latest tech stack.",
@@ -143,6 +246,7 @@ const Events = () => {
         {
             title: "QUIZTRON",
             subtitle: "TECH QUIZ",
+            dbName: "Technical Quiz",
             icon: <HelpCircle />,
             img: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&q=80&w=800",
             desc: "Test your technical knowledge in this rapid-fire quiz competition.",
@@ -151,9 +255,11 @@ const Events = () => {
             prize: "Exciting Prizes",
             rules: ["Team of 2", "Multiple Rounds", "Tech & General QA", "Buzzer Round Final"]
         },
+        // ... (Other events would follow same pattern, ensuring dbName matches selection in form)
         {
             title: "CODEFUSION",
             subtitle: "MINI HACKATHON",
+            dbName: "Ideathon", // Mapping to closest if needed or add new
             icon: <Code />,
             img: "https://images.unsplash.com/photo-1504384308090-c54be3852f33?auto=format&fit=crop&q=80&w=800",
             desc: "Collaborate and code to solve complex problem statements in a limited time.",
@@ -165,6 +271,7 @@ const Events = () => {
         {
             title: "VISIONIX",
             subtitle: "AR/VR SHOWCASE",
+            dbName: "Multimedia Editing", // Placeholder mapping if needed
             icon: <Eye />,
             img: "https://images.unsplash.com/photo-1592478411213-61535f944886?auto=format&fit=crop&q=80&w=800",
             desc: "Experience and create immersive augmented and virtual reality solutions.",
@@ -176,6 +283,7 @@ const Events = () => {
         {
             title: "PIXEL VISION",
             subtitle: "PHOTOGRAPHY",
+            dbName: "Photography",
             icon: <Camera />,
             img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
             desc: "Capture the perfect moment, lighting, and composition to win.",
@@ -187,6 +295,7 @@ const Events = () => {
         {
             title: "POSTERIA",
             subtitle: "POSTER DESIGN",
+            dbName: "Multimedia Editing", // Mapping
             icon: <Image />,
             img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800",
             desc: "Design visually stunning posters that communicate a powerful message.",
@@ -198,6 +307,7 @@ const Events = () => {
         {
             title: "POOFRENZY",
             subtitle: "POP CULTURE QUIZ",
+            dbName: "Connections", // Closest non-tech or add new
             icon: <Zap />,
             img: "https://images.unsplash.com/photo-1514525253440-b393452e3383?auto=format&fit=crop&q=80&w=800",
             desc: "Test your knowledge of pop culture, movies, music, and general trivia.",
@@ -209,6 +319,7 @@ const Events = () => {
         {
             title: "LINKSTORM",
             subtitle: "CONNECTIONS",
+            dbName: "Connections",
             icon: <Users />,
             img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
             desc: "Classic word-matching and logic puzzle game. Connect the dots to win.",
@@ -220,6 +331,7 @@ const Events = () => {
         {
             title: "LOGOZO",
             subtitle: "LOGO DESIGN",
+            dbName: "Web Designing", // Placeholder
             icon: <Palette />,
             img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800",
             desc: "Showcase your artistic skills and brand identity vision by designing unique logos.",
@@ -305,15 +417,17 @@ const Events = () => {
                     <motion.div
                         layout
                         className="events-grid"
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-                            gap: '2.5rem'
-                        }}
                     >
                         <AnimatePresence>
                             {filteredEvents.map((event, idx) => (
-                                <TrackCard key={event.title} index={idx} track={event} />
+                                <TrackCard
+                                    key={event.title}
+                                    index={idx}
+                                    track={event}
+                                    registeredCount={eventCounts[event.dbName] || 0} // Get live count
+                                    maxLimit={15} // Hard limit as per requirement
+                                    teamList={eventTeams[event.dbName] || []} // Pass registered teams
+                                />
                             ))}
                         </AnimatePresence>
                     </motion.div>

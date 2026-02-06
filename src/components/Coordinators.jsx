@@ -102,26 +102,30 @@ const CoordinatorCard = ({ person, isFaculty, isHOD }) => (
 );
 
 const Coordinators = () => {
-    const hod = {
-        name: "Dr. L. S. Sindhuja",
-        role: "HOD / Dept of CSE",
-        type: "SYSTEM_COMMANDER",
-        img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400"
-    };
 
     const facultyCoords = [
         {
+            name: "Dr. M. Ramesh Kumar",
+            role: "PROF / Dept of CSE",
+            type: "FACULTY_COORD",
+            img: null
+        },
+        {
             name: "Mr. M. Bharathiraja",
             role: "AP / Dept of CSE",
-            type: "ROOT_ADMIN",
+            type: "FACULTY_COORD",
             img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400"
         }
     ];
 
     const studentCoords = [
-        { name: "Mr. S. Pream Kumar", role: "IV - CSE", type: "SYSTEM_NODE" },
+        { name: "Mr. S. Prem Kumar", role: "IV - CSE", type: "SYSTEM_NODE" },
         { name: "Mr. P. Babu Prasanth", role: "IV - CSE", type: "SYSTEM_NODE" },
-        { name: "Mr. V. Sridhar", role: "IV - CSE", type: "SYSTEM_NODE" }
+        { name: "Mr. V. Sridhar", role: "IV - CSE", type: "SYSTEM_NODE" },
+        { name: "Mr. S. Diva", role: "III - CSE", type: "SYSTEM_NODE" },
+        { name: "Mr. S. Subasanjeev", role: "III - CSE", type: "SYSTEM_NODE" },
+        { name: "Mr. A. Abish", role: "III - CSE", type: "SYSTEM_NODE" },
+        { name: "Ms. K. Apurvasri", role: "III - CSE", type: "SYSTEM_NODE" }
     ];
 
     return (
@@ -148,9 +152,38 @@ const Coordinators = () => {
                 </div>
 
                 {/* HOD Section */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '8rem' }}>
-                    <CoordinatorCard person={hod} isHOD={true} />
-                    <div style={{ width: '2px', height: '60px', background: 'linear-gradient(to bottom, var(--primary), transparent)', marginTop: '2rem', opacity: 0.3 }} />
+                <div style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginBottom: '8rem', flexWrap: 'wrap' }}>
+                    <CoordinatorCard person={{
+                        name: "Dr. T. Kalaikumaran",
+                        role: "HOD / Dept of CSE",
+                        type: "HOD / Dept of CSE",
+                        img: "https://vsbcetc.edu.in/wp-content/uploads/2021/07/Principal-New.jpg"
+                    }} isHOD={true} />
+
+                    <CoordinatorCard person={{
+                        name: "Mrs. V. Radha",
+                        role: "HOD / Dept of CSE",
+                        type: "HOD / Dept of CSE",
+                        img: "https://vsbcetc.edu.in/wp-content/uploads/2022/11/CSE-HOD.jpg"
+                    }} isHOD={true} />
+                </div>
+                <div style={{ width: '2px', height: '60px', background: 'linear-gradient(to bottom, var(--primary), transparent)', margin: '-6rem auto 6rem', opacity: 0.3 }} />
+
+                {/* AHOD Section */}
+                <div style={{ display: 'flex', gap: '3rem', justifyContent: 'center', marginBottom: '8rem', flexWrap: 'wrap' }}>
+                    <CoordinatorCard person={{
+                        name: "Dr. S. V. Divya",
+                        role: "AHOD / Dept of CSE",
+                        type: "ASSOCIATE COMMAND",
+                        img: null
+                    }} isHOD={false} isFaculty={true} />
+
+                    <CoordinatorCard person={{
+                        name: "Mrs. S. Vigneshwari",
+                        role: "AHOD / Dept of CSE",
+                        type: "ASSOCIATE COMMAND",
+                        img: null
+                    }} isHOD={false} isFaculty={true} />
                 </div>
 
                 {/* Grid Layout for Others */}
@@ -181,46 +214,91 @@ const Coordinators = () => {
                     </div>
                 </div>
 
-                {/* Contact Matrix */}
+                {/* Contact Matrix Redesigned to Data Grid */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     style={{
                         marginTop: '12rem',
-                        padding: '4rem',
-                        background: 'rgba(15, 17, 26, 0.6)',
-                        backdropFilter: 'blur(20px)',
-                        borderRadius: '24px',
-                        border: '1px solid rgba(56, 234, 140, 0.1)',
-                        textAlign: 'center'
+                        maxWidth: '900px',
+                        marginLeft: 'auto',
+                        marginRight: 'auto',
                     }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '3rem' }}>
-                        <Zap size={24} className="text-[#38EA8C] animate-pulse" />
-                        <h3 style={{ fontSize: '1.4rem', letterSpacing: '2px', margin: 0, fontFamily: 'Orbitron' }}>SUPPORT_MATRIX.XLSX</h3>
-                    </div>
-
                     <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                        gap: '3rem',
-                        alignItems: 'start'
+                        background: 'rgba(11, 15, 26, 0.8)',
+                        border: '1px solid var(--primary)',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        boxShadow: '0 0 40px rgba(56, 234, 140, 0.1)'
                     }}>
-                        <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
-                            <Smartphone size={20} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
-                            <span style={{ display: 'block', fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Direct Uplink</span>
-                            <span style={{ fontSize: '1.2rem', color: '#fff', fontWeight: '900' }}>80726 52321</span>
+                        {/* Header */}
+                        <div style={{
+                            background: 'rgba(56, 234, 140, 0.1)',
+                            padding: '1rem 2rem',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            borderBottom: '1px solid var(--primary)'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <Terminal size={18} className="text-[#38EA8C]" />
+                                <span style={{ fontFamily: 'Share Tech Mono', color: 'var(--primary)', letterSpacing: '1px' }}>COMMUNICATION_CHANNELS</span>
+                            </div>
+                            <div style={{ display: 'flex', gap: '5px' }}>
+                                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#FF5F56' }}></div>
+                                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#FFBD2E' }}></div>
+                                <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#27C93F' }}></div>
+                            </div>
                         </div>
-                        <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
-                            <AtSign size={20} style={{ color: '#3B82F6', marginBottom: '1rem' }} />
-                            <span style={{ display: 'block', fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Network Address</span>
-                            <span style={{ fontSize: '1.2rem', color: '#fff', fontWeight: '900' }}>infiqcsesymposium@gmail.com</span>
-                        </div>
-                        <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.02)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
-                            <Terminal size={20} style={{ color: 'var(--primary)', marginBottom: '1rem' }} />
-                            <span style={{ display: 'block', fontSize: '0.6rem', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Root Admin</span>
-                            <span style={{ fontSize: '1.2rem', color: '#fff', fontWeight: '900' }}>97876 68997</span>
+
+                        {/* List Items */}
+                        <div style={{ padding: '0' }}>
+                            {[
+                                { label: 'PRIMARY_UPLINK', value: '+91 80726 52321', icon: <Smartphone size={18} />, status: 'ACTIVE' },
+                                { label: 'SECURE_MAIL', value: 'infiqcsesymposium@gmail.com', icon: <AtSign size={18} />, status: 'ONLINE' },
+                                { label: 'ADMIN_LINE', value: '+91 97876 68997', icon: <ShieldCheck size={18} />, status: 'STANDBY' }
+                            ].map((item, idx) => (
+                                <div key={idx} style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    padding: '1.5rem 2rem',
+                                    borderBottom: idx !== 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                                    gap: '1rem',
+                                    flexWrap: 'wrap'
+                                }}>
+                                    <div style={{
+                                        width: '40px',
+                                        height: '40px',
+                                        background: 'rgba(255,255,255,0.03)',
+                                        borderRadius: '8px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'var(--text-muted)'
+                                    }}>
+                                        {item.icon}
+                                    </div>
+
+                                    <div style={{ flex: 1, minWidth: '200px' }}>
+                                        <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'Share Tech Mono', marginBottom: '2px' }}>{item.label}</span>
+                                        <span style={{ fontSize: '1.1rem', color: '#fff', fontWeight: '600', letterSpacing: '0.5px' }}>{item.value}</span>
+                                    </div>
+
+                                    <div style={{
+                                        padding: '5px 12px',
+                                        background: item.status === 'ACTIVE' ? 'rgba(56, 234, 140, 0.1)' : item.status === 'ONLINE' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                                        border: `1px solid ${item.status === 'ACTIVE' ? 'var(--primary)' : item.status === 'ONLINE' ? 'var(--neon-blue)' : 'rgba(255,255,255,0.2)'}`,
+                                        borderRadius: '4px',
+                                        fontSize: '0.7rem',
+                                        color: item.status === 'ACTIVE' ? 'var(--primary)' : item.status === 'ONLINE' ? 'var(--neon-blue)' : 'var(--text-muted)',
+                                        fontFamily: 'Share Tech Mono'
+                                    }}>
+                                        {item.status}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </motion.div>

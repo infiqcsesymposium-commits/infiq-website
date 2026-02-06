@@ -43,7 +43,7 @@ const About = () => {
                         <span className="section-subtitle">The Mainframe</span>
                         <h2 className="section-title" style={{ marginBottom: '1.5rem' }}>Our Campus</h2>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2rem' }}>
-                            <div style={{ padding: '5px 12px', background: 'rgba(56, 234, 140, 0.1)', border: '1px solid var(--primary)', borderRadius: '4px', fontSize: '0.7rem', color: 'var(--primary)', fontWeight: '900', letterSpacing: '1px' }}>EST. 1998</div>
+                            <div style={{ padding: '5px 12px', background: 'rgba(56, 234, 140, 0.1)', border: '1px solid var(--primary)', borderRadius: '4px', fontSize: '0.7rem', color: 'var(--primary)', fontWeight: '900', letterSpacing: '1px' }}>EST. 2018</div>
                             <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Coimbatore, Tamil Nadu</span>
                         </div>
                         <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '2rem' }}>

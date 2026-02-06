@@ -3,6 +3,8 @@ import { Navigation, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 import PageTransition from '../components/PageTransition';
 import { motion } from 'framer-motion';
 
+import campusImg from '../assets/campus.png';
+
 const LocationPage = () => {
     return (
         <PageTransition>
@@ -65,7 +67,7 @@ const LocationPage = () => {
                             }}
                         >
                             {/* Animated Map Placeholder / UI */}
-                            <div style={{ position: 'absolute', inset: 0, opacity: 0.3, background: 'linear-gradient(rgba(0,0,0,0.8), transparent), url("https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1000") center/cover' }}></div>
+                            <div style={{ position: 'absolute', inset: 0, opacity: 0.5, background: `linear-gradient(rgba(0,0,0,0.6), transparent), url(${campusImg}) center/cover` }}></div>
 
                             <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', textAlign: 'center' }}>
                                 <div style={{ background: 'rgba(0, 229, 255, 0.1)', width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem', border: '1px solid var(--primary)', boxShadow: '0 0 20px var(--primary-glow)' }}>

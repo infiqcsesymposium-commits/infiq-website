@@ -6,8 +6,6 @@ import PageTransition from '../components/PageTransition';
 import {
     EventPasses,
     EventCountdown,
-    PrizeShowcase,
-    InnovationShowcase,
     CategoryExplore,
     PosterLocation
 } from '../components/HomeSections';
@@ -34,9 +32,6 @@ const HomePage = () => {
             {/* Registration / Passes */}
             <EventPasses />
 
-            {/* Prize & Innovation Highlights */}
-            <PrizeShowcase />
-            <InnovationShowcase />
 
             {/* Domains & Organization */}
             <CategoryExplore />

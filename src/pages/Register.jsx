@@ -1,11 +1,11 @@
 import React from 'react';
-import Registration from '../components/Registration';
+import RegistrationForm from '../components/RegistrationForm';
 import PageTransition from '../components/PageTransition';
 
 const RegisterPage = () => {
     return (
         <PageTransition>
-            <Registration />
+            <RegistrationForm />
         </PageTransition>
     );
 };

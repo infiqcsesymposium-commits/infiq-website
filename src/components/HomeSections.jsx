@@ -27,7 +27,7 @@ export const EventPasses = () => {
                     </motion.div>
                 </div>
 
-                <div className="events-grid" style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
+                <div className="events-grid" style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
                     {/* 1. Outer College Pass */}
                     <motion.div
@@ -111,7 +111,7 @@ export const EventPasses = () => {
 
                             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '5px', marginBottom: '2rem' }}>
                                 <span style={{ fontSize: '1rem', marginTop: '5px', color: 'var(--text-muted)' }}>₹</span>
-                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>250</span>
+                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>100</span>
                             </div>
 
                             <ul style={{ textAlign: 'left', marginBottom: '2.5rem', space: 'y-3' }}>
@@ -163,7 +163,7 @@ export const EventPasses = () => {
                                 <Ticket size={28} style={{ color: 'var(--primary)' }} />
                             </div>
 
-                            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem', fontFamily: 'Orbitron' }}>CSE / AI&DS</h3>
+                            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem', fontFamily: 'Orbitron' }}>CSE</h3>
                             <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>VSBCETC Dept Students Only</p>
 
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', height: '60px' }}>
@@ -352,7 +352,7 @@ export const EventCountdown = () => {
                 <div className="marquee-content">
                     {[1, 2, 3, 4].map((i) => (
                         <span key={i} className="marquee-item" style={{ color: 'var(--primary)' }}>
-                            TECHNICAL EVENTS <span>✦</span> NON-TECHNICAL EVENTS <span>✦</span> PROJECT EXPO <span>✦</span> WORKSHOPS <span>✦</span>
+                            Technical Events *<span>✦</span> NON-Technical Events *<span>✦</span> PROJECT EXPO <span>✦</span> WORKSHOPS <span>✦</span>
                         </span>
                     ))}
                 </div>

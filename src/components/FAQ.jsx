@@ -82,7 +82,7 @@ const FAQ = () => {
         },
         {
             question: "What is the team size for Project Expo?",
-            answer: "For Technical events like Project Expo and Hackathons, teams can consist of 2 to 4 members. Individual participation is also allowed for specific tracks."
+            answer: "For Technical Events *like Project Expo and Hackathons, teams can consist of 2 to 4 members. Individual participation is also allowed for specific tracks."
         }
     ];
 

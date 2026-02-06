@@ -1,38 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Utensils, AlertCircle, Shield, Terminal, Lock, Cpu, Server, Globe2, Building2, UserPlus } from 'lucide-react';
+import {
+    Ticket, Clock, Zap,
+    ShieldAlert, Users,
+    CheckCircle2, Globe, Lock, Cpu, Server, Terminal, Building2, Globe2
+} from 'lucide-react';
 
 const Registration = () => {
-    const portals = [
-        {
-            title: "VSB STUDENTS",
-            subtitle: "INTRA-COLLEGE PORTAL",
-            icon: <Building2 size={32} />,
-            desc: "Dedicated access node for current students of V.S.B. College of Engineering Technical Campus.",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSeH72RZBzW5kUF9lROyfOKOmHsrMppotRnjrqT5lmtWTakhvA/viewform?usp=sharing",
-            color: "var(--primary)",
-            accent: "rgba(56, 234, 140, 0.2)"
-        },
-        {
-            title: "OTHER COLLEGES",
-            subtitle: "EXTERNAL ACCESS PORTAL",
-            icon: <Globe2 size={32} />,
-            desc: "Gateway for participants from other institutions. Join the innovation network.",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSdDLs8yPYuolOBTLkc7CZF8Y_qMm-eJSqJCVaJXy7jvXMjdFA/viewform?usp=sharing",
-            color: "#00E5FF",
-            accent: "rgba(0, 229, 255, 0.2)"
-        },
-        {
-            title: "PAPER PRESENTATION",
-            subtitle: "RESEARCH SUBMISSION",
-            icon: <Server size={32} />,
-            desc: "Direct channel for paper presentation and specialized track registrations.",
-            link: "https://docs.google.com/forms/d/e/1FAIpQLSdXA74J6JASPqJwLU02CQZXxRO6oeigZzrAPDrHCG2IyvQayQ/viewform?usp=sharing",
-            color: "#FF2EDF",
-            accent: "rgba(255, 46, 223, 0.2)"
-        }
-    ];
-
     return (
         <section id="register" className="registration" style={{ padding: '120px 0', background: 'transparent', overflow: 'hidden', position: 'relative' }}>
             <div className="container">
@@ -42,119 +16,214 @@ const Registration = () => {
                     viewport={{ once: true }}
                     style={{ textAlign: 'center', marginBottom: '6rem' }}
                 >
-                    <span className="section-subtitle">Security Protocol</span>
-                    <h2 className="section-title">CHOOSE ACCESS PORTAL</h2>
-                    <p style={{ color: 'var(--text-muted)' }}>Select your origin node to initialize the correct registration sequence.</p>
+                    <span className="section-subtitle">ACCESS PROTOCOLS</span>
+                    <h2 className="section-title">SECURE ENTRY</h2>
+                    <p style={{ color: 'var(--text-muted)', maxWidth: '600px', margin: '1rem auto' }}>
+                        Select your designation to initialize the appropriate access sequence.
+                    </p>
                 </motion.div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', maxWidth: '1200px', margin: '0 auto' }}>
-                    {portals.map((portal, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: idx * 0.1 }}
-                            className="glass-card"
-                            style={{
-                                padding: '3rem',
-                                borderTop: `4px solid ${portal.color}`,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: '100%',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}
-                        >
-                            {/* Accent Background */}
-                            <div style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '200px',
-                                background: `linear-gradient(180deg, ${portal.accent} 0%, transparent 100%)`,
-                                opacity: 0.3,
-                                pointerEvents: 'none'
-                            }} />
+                <div className="events-grid" style={{ maxWidth: '1200px', margin: '0 auto' }}>
 
+                    {/* 1. Outer College Pass -> Link to Form 2 (External) */}
+                    <motion.div
+                        whileHover={{ y: -10 }}
+                        className="glass-card"
+                        style={{
+                            border: '1px solid var(--neon-blue)',
+                            background: 'linear-gradient(145deg, rgba(15, 17, 26, 0.9), rgba(0, 229, 255, 0.05))',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        <div style={{ textAlign: 'center', padding: '3rem 2rem' }}>
                             <div style={{
                                 width: '70px',
                                 height: '70px',
-                                borderRadius: '12px',
-                                background: 'rgba(255,255,255,0.05)',
+                                margin: '0 auto 1.5rem',
+                                background: 'rgba(0, 229, 255, 0.1)',
+                                borderRadius: '50%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                marginBottom: '2rem',
-                                color: portal.color,
-                                border: `1px solid ${portal.color}44`
+                                border: '1px solid var(--neon-blue)',
+                                boxShadow: '0 0 20px rgba(0, 229, 255, 0.2)'
                             }}>
-                                {portal.icon}
+                                <Globe size={28} style={{ color: 'var(--neon-blue)' }} />
                             </div>
 
-                            <span style={{ fontSize: '0.7rem', fontWeight: '800', color: portal.color, letterSpacing: '2px', marginBottom: '0.5rem' }}>
-                                {portal.subtitle}
-                            </span>
-                            <h3 style={{ fontSize: '1.8rem', color: '#fff', marginBottom: '1rem', fontFamily: 'Orbitron' }}>
-                                {portal.title}
-                            </h3>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '2.5rem', flex: 1 }}>
-                                {portal.desc}
-                            </p>
+                            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem', fontFamily: 'Orbitron' }}>OUTER COLLEGE</h3>
+                            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Students from other institutions</p>
+
+                            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '5px', marginBottom: '2rem' }}>
+                                <span style={{ fontSize: '1rem', marginTop: '5px', color: 'var(--text-muted)' }}>₹</span>
+                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>250</span>
+                            </div>
+
+                            <ul style={{ textAlign: 'left', marginBottom: '2.5rem', space: 'y-3' }}>
+                                {['Full Event Access', 'Food & Hydration', 'Certificate of Merit', 'Networking Access'].map((item, i) => (
+                                    <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', marginBottom: '10px', fontSize: '0.9rem' }}>
+                                        <CheckCircle2 size={16} style={{ color: 'var(--neon-blue)' }} />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
 
                             <a
-                                href={portal.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                href="/register"
                                 className="btn"
-                                style={{
-                                    background: 'transparent',
-                                    border: `1px solid ${portal.color}`,
-                                    color: portal.color,
-                                    textAlign: 'center',
-                                    fontWeight: '800',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '10px',
-                                    transition: '0.3s'
-                                }}
-                                onMouseOver={(e) => {
-                                    e.currentTarget.style.background = portal.color;
-                                    e.currentTarget.style.color = '#000';
-                                }}
-                                onMouseOut={(e) => {
-                                    e.currentTarget.style.background = 'transparent';
-                                    e.currentTarget.style.color = portal.color;
-                                }}
+                                style={{ width: '100%', justifyContent: 'center', border: '1px solid var(--neon-blue)', color: 'var(--neon-blue)' }}
                             >
-                                <Terminal size={16} /> INITIATE_LOGIN
+                                REGISTER NOW
                             </a>
-                        </motion.div>
-                    ))}
+                        </div>
+                    </motion.div>
+
+                    {/* 2. Other Departments Pass -> Link to Form 1 (Intra) assuming shared form or general VSB student form */}
+                    <motion.div
+                        whileHover={{ y: -10 }}
+                        className="glass-card"
+                        style={{
+                            border: '1px solid var(--neon-pink)',
+                            background: 'linear-gradient(145deg, rgba(15, 17, 26, 0.9), rgba(255, 46, 223, 0.05))',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        <div style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+                            <div style={{
+                                width: '70px',
+                                height: '70px',
+                                margin: '0 auto 1.5rem',
+                                background: 'rgba(255, 46, 223, 0.1)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                border: '1px solid var(--neon-pink)',
+                                boxShadow: '0 0 20px rgba(255, 46, 223, 0.2)'
+                            }}>
+                                <Users size={28} style={{ color: 'var(--neon-pink)' }} />
+                            </div>
+
+                            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem', fontFamily: 'Orbitron' }}>OTHER DEPTS</h3>
+                            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>VSBCETC Students (Non-CSE/AI)</p>
+
+                            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '5px', marginBottom: '2rem' }}>
+                                <span style={{ fontSize: '1rem', marginTop: '5px', color: 'var(--text-muted)' }}>₹</span>
+                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>100</span>
+                            </div>
+
+                            <ul style={{ textAlign: 'left', marginBottom: '2.5rem', space: 'y-3' }}>
+                                {['Full Event Access', 'Food & Hydration', 'Participate & Win', 'Campus Resources'].map((item, i) => (
+                                    <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', marginBottom: '10px', fontSize: '0.9rem' }}>
+                                        <CheckCircle2 size={16} style={{ color: 'var(--neon-pink)' }} />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <a
+                                href="/register"
+                                className="btn"
+                                style={{ width: '100%', justifyContent: 'center', border: '1px solid var(--neon-pink)', color: 'var(--neon-pink)' }}
+                            >
+                                REGISTER NOW
+                            </a>
+                        </div>
+                    </motion.div>
+
+                    {/* 3. CSE Intra College - Free -> Link to Form 1 (Intra) */}
+                    <motion.div
+                        whileHover={{ y: -10 }}
+                        className="glass-card"
+                        style={{
+                            border: '1px solid var(--primary)',
+                            background: 'linear-gradient(145deg, rgba(15, 17, 26, 0.9), rgba(56, 234, 140, 0.05))',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        <div style={{
+                            position: 'absolute', top: '15px', right: '-30px', transform: 'rotate(45deg)',
+                            background: 'var(--primary)', color: '#000', padding: '5px 40px', fontSize: '0.7rem', fontWeight: 'bold'
+                        }}>
+                            EXCLUSIVE
+                        </div>
+
+                        <div style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+                            <div style={{
+                                width: '70px',
+                                height: '70px',
+                                margin: '0 auto 1.5rem',
+                                background: 'rgba(56, 234, 140, 0.1)',
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                border: '1px solid var(--primary)',
+                                boxShadow: '0 0 20px rgba(56, 234, 140, 0.2)'
+                            }}>
+                                <Ticket size={28} style={{ color: 'var(--primary)' }} />
+                            </div>
+
+                            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '0.5rem', fontFamily: 'Orbitron' }}>CSE</h3>
+                            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>VSBCETC Dept Students Only</p>
+
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2rem', height: '60px' }}>
+                                <span style={{ fontSize: '2.5rem', fontWeight: '900', color: 'var(--primary)', fontFamily: 'Orbitron', letterSpacing: '2px' }}>FREE</span>
+                            </div>
+
+                            <ul style={{ textAlign: 'left', marginBottom: '2.5rem', space: 'y-3' }}>
+                                {['Full Event Access', 'Food & Hydration', 'Certificate provided', 'Host Privileges'].map((item, i) => (
+                                    <li key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', marginBottom: '10px', fontSize: '0.9rem' }}>
+                                        <CheckCircle2 size={16} style={{ color: 'var(--primary)' }} />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <a
+                                href="/register"
+                                className="btn btn-primary"
+                                style={{ width: '100%', justifyContent: 'center' }}
+                            >
+                                REGISTER FREE
+                            </a>
+                        </div>
+                    </motion.div>
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    style={{ marginTop: '5rem', maxWidth: '900px', margin: '5rem auto 0' }}
-                >
-                    <div className="glass-card" style={{ padding: '2rem', display: 'flex', alignItems: 'center', gap: '2rem', border: '1px dashed rgba(255, 68, 68, 0.3)', background: 'rgba(255, 68, 68, 0.02)' }}>
-                        <div style={{ padding: '15px', background: 'rgba(255, 68, 68, 0.1)', borderRadius: '50%', color: '#ff4444' }}>
-                            <Lock size={24} />
+                {/* Important Notices Grid */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', maxWidth: '1000px', margin: '3rem auto 0' }}>
+
+                    {/* Deadline Notice */}
+                    <div className="glass-card" style={{ padding: '2rem', display: 'flex', alignItems: 'start', gap: '1.5rem', borderLeft: '4px solid #FF2EDF' }}>
+                        <div style={{ color: '#FF2EDF', background: 'rgba(255, 46, 223, 0.1)', padding: '10px', borderRadius: '8px' }}>
+                            <Clock size={24} />
                         </div>
-                        <div style={{ flex: 1 }}>
-                            <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '0.5rem' }}>REGISTRATION RESTRICTED</h4>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', margin: 0 }}>
-                                <strong style={{ color: '#ff4444' }}>CRITICAL ALERT:</strong> On-spot registration capabilities are currently DISABLED.
-                                All personnel must secure access credentials via these portals before the deadline.
-                                Unregistered entities will be denied entry at the physical firewall.
+                        <div>
+                            <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>TIME CRITICAL</h4>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
+                                Registration portal closes on <span style={{ color: '#FF2EDF', fontWeight: 'bold' }}>13/02/2026</span>. Secure your slot before system lockdown.
                             </p>
                         </div>
                     </div>
-                </motion.div>
+
+                    {/* Special Events Notice */}
+                    <div className="glass-card" style={{ padding: '2rem', display: 'flex', alignItems: 'start', gap: '1.5rem', borderLeft: '4px solid #3B82F6' }}>
+                        <div style={{ color: '#3B82F6', background: 'rgba(59, 130, 246, 0.1)', padding: '10px', borderRadius: '8px' }}>
+                            <ShieldAlert size={24} />
+                        </div>
+                        <div>
+                            <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>PROTOCOL ALERT</h4>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
+                                <strong>Ideathon, Startup Arena & Esports:</strong><br />
+                                Abstract submission required first. Payment only after selection confirmation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Background Decor */}
