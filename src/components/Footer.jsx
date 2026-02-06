@@ -95,7 +95,7 @@ const Footer = () => {
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
-                        POWERED BY <span style={{ color: '#fff', fontWeight: '800' }}>CSE DEPARTMENT</span>
+                        POWERED BY <span style={{ color: '#fff', fontWeight: '800' }}><a href="https://averqon.in/" target="_blank" rel="noopener noreferrer">Averqon</a></span>
                     </p>
                 </div>
             </div>

@@ -80,7 +80,7 @@ const Navbar = () => {
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexShrink: 0 }} className="nav-actions">
                     <Link to="/register" className="btn btn-primary">
-                        GET ACCESS
+                        Register
                     </Link>
                     <div
                         className="mobile-menu-btn"

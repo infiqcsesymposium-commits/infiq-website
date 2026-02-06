@@ -774,3 +774,27 @@ footer {
     color: var(--accent-blue);
   }
 }
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .glass-card {
+    padding: 1.5rem !important;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
