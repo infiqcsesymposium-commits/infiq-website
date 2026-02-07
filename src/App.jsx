@@ -18,6 +18,7 @@ import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import Location from './pages/Location';
 import Admin from './pages/Admin';
+import AnnouncementsPage from './pages/AnnouncementsPage';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const AnimatedRoutes = () => {
         <Route path="/timeline" element={<Timeline />} />
         <Route path="/location" element={<Location />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/announcements" element={<AnnouncementsPage />} />
       </Routes>
     </AnimatePresence>
   );
@@ -48,6 +50,8 @@ const AnimatedRoutes = () => {
 // Actually, I can match a larger block or just add a new import line at the top.
 // For now, I will add the Route.
 
+
+import Broadcaster from './components/Broadcaster';
 
 function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -77,30 +81,36 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const location = useLocation();
+  const isCRM = location.pathname === '/admin';
+
   return (
     <div className="App">
       {isLoading && <Preloader onComplete={handlePreloaderComplete} />}
       <Pong3DBackground />
+      {!isCRM && <Broadcaster />}
       {/* Scroll Progress Bar */}
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '2px',
-          background: 'var(--primary)',
-          zIndex: 2002,
-          width: `${scrollProgress}%`,
-          transition: 'width 0.1s ease-out',
-          boxShadow: '0 0 10px var(--primary-glow)'
-        }}
-      />
+      {!isCRM && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            height: '2px',
+            background: 'var(--primary)',
+            zIndex: 2002,
+            width: `${scrollProgress}%`,
+            transition: 'width 0.1s ease-out',
+            boxShadow: '0 0 10px var(--primary-glow)'
+          }}
+        />
+      )}
 
-      <Navbar />
+      {!isCRM && <Navbar />}
       <main style={{ minHeight: '80vh' }}>
         <AnimatedRoutes />
       </main>
-      <Footer />
+      {!isCRM && <Footer />}
     </div>
   );
 }

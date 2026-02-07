@@ -163,10 +163,20 @@ const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
 const Events = () => {
     const [filter, setFilter] = useState('ALL');
     const [eventCounts, setEventCounts] = useState({});
+    const [eventLimits, setEventLimits] = useState({}); // New state for dynamic limits
 
     const [eventTeams, setEventTeams] = useState({}); // New state for team lists
 
     useEffect(() => {
+        // Fetch dynamic limits
+        const unsubscribeLimits = onSnapshot(collection(db, "event_settings"), (snapshot) => {
+            const limits = {};
+            snapshot.docs.forEach(doc => {
+                limits[doc.id] = doc.data().limit;
+            });
+            setEventLimits(limits);
+        });
+
         // Real-time listener for event counts and team details
         const unsubscribe = onSnapshot(collection(db, "registrations"), (snapshot) => {
             const counts = {};
@@ -175,7 +185,10 @@ const Events = () => {
             snapshot.docs.forEach(doc => {
                 const data = doc.data();
                 const eventName = data.eventName;
-                if (eventName) {
+                const status = data.status;
+
+                // Only count and show APPROVED registrations
+                if (eventName && status === 'APPROVED') {
                     // Update Count
                     counts[eventName] = (counts[eventName] || 0) + 1;
 
@@ -190,7 +203,10 @@ const Events = () => {
             console.error("Error fetching event data:", error);
         });
 
-        return () => unsubscribe();
+        return () => {
+            unsubscribeLimits();
+            unsubscribe();
+        };
     }, []);
 
     const allEvents = [
@@ -425,7 +441,7 @@ const Events = () => {
                                     index={idx}
                                     track={event}
                                     registeredCount={eventCounts[event.dbName] || 0} // Get live count
-                                    maxLimit={15} // Hard limit as per requirement
+                                    maxLimit={eventLimits[event.dbName] || 15} // Dynamic limit with fallback
                                     teamList={eventTeams[event.dbName] || []} // Pass registered teams
                                 />
                             ))}

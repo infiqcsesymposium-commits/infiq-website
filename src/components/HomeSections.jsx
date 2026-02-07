@@ -352,14 +352,14 @@ export const EventCountdown = () => {
                 <div className="marquee-content">
                     {[1, 2, 3, 4].map((i) => (
                         <span key={i} className="marquee-item" style={{ color: 'var(--primary)' }}>
-                            Technical Events *<span>✦</span> NON-Technical Events *<span>✦</span> PROJECT EXPO <span>✦</span> WORKSHOPS <span>✦</span>
+                            Technical Events *<span>✦</span> NON-Technical Events *<span>✦</span> PROJECT EXPO <span>✦</span>
                         </span>
                     ))}
                 </div>
             </div>
         </section>
     );
-};
+}; 
 
 /* 3. Cash Prize Events Section */
 const CountUp = ({ to, duration = 2 }) => {

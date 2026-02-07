@@ -9,12 +9,14 @@ import {
     CategoryExplore,
     PosterLocation
 } from '../components/HomeSections';
+import Announcements from '../components/Announcements';
 import Timeline from '../pages/Timeline'; // Reusing the timeline layout
 
 const HomePage = () => {
     return (
         <PageTransition>
             <Hero />
+            <Announcements />
 
             {/* About Section */}
             <div id="about-summary">

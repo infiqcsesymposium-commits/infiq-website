@@ -16,7 +16,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+let analytics;
+try {
+  // Only attempt analytics if measurementId exists and we are in a browser
+  if (firebaseConfig.measurementId && typeof window !== 'undefined') {
+    analytics = getAnalytics(app);
+  }
+} catch (error) {
+  console.warn("Firebase Analytics could not be initialized (likely blocked or offline):", error.message);
+}
+
 const db = getFirestore(app);
 const auth = getAuth(app);
 
