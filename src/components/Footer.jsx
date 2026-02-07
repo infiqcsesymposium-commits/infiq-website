@@ -2,6 +2,7 @@ import React from 'react';
 import { Instagram, Facebook, Twitter, Mail, Phone, MapPin, Calendar, Terminal, Sparkles, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Logo from './Logo';
 
 const Footer = () => {
     const quickLinks = [
@@ -74,29 +75,8 @@ const Footer = () => {
                         viewport={{ once: true }}
                     >
                         <Link to="/" style={{ textDecoration: 'none' }}>
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.75rem',
-                                marginBottom: '1.5rem'
-                            }}>
-                                <div style={{
-                                    width: '44px',
-                                    height: '44px',
-                                    background: 'rgba(56, 234, 140, 0.1)',
-                                    border: '2px solid rgba(56, 234, 140, 0.3)',
-                                    borderRadius: '12px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'var(--primary)'
-                                }}>
-                                    <Terminal size={22} strokeWidth={2.5} />
-                                </div>
-                                <div style={{ fontFamily: 'Orbitron, sans-serif' }}>
-                                    <span style={{ fontSize: '1.5rem', fontWeight: '800', color: '#fff' }}>INFIQ</span>
-                                    <span style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--primary)' }}> 2K26</span>
-                                </div>
+                            <div style={{ marginBottom: '1.5rem' }}>
+                                <Logo size={32} />
                             </div>
                         </Link>
 

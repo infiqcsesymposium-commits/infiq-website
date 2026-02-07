@@ -1,0 +1,14 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer Hexagon/Shield Shape -->
+    <path d="M32 3.2L57.6 16V48L32 60.8L6.4 48V16L32 3.2Z" stroke="#38EA8C" stroke-width="3"/>
+    
+    <!-- Inner Dotted Hexagon -->
+    <path d="M32 9.6L51.2 19.2V44.8L32 54.4L12.8 44.8V19.2L32 9.6Z" fill="rgba(56, 234, 140, 0.1)" stroke="#38EA8C" stroke-width="1" stroke-dasharray="3 3"/>
+    
+    <!-- Inner Core -->
+    <circle cx="32" cy="32" r="9.6" fill="#38EA8C"/>
+    
+    <!-- Orbiting Elements (Top and Bottom Lines) -->
+    <path d="M32 16V22.4" stroke="#38EA8C" stroke-width="3" stroke-linecap="round"/>
+    <path d="M32 41.6V48" stroke="#38EA8C" stroke-width="3" stroke-linecap="round"/>
+</svg>

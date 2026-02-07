@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Terminal, Sparkles, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import Logo from './Logo';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -49,26 +50,8 @@ const Navbar = () => {
             >
                 <div className="nav-floating-container">
                     {/* Logo */}
-                    <Link to="/" className="nav-logo-new">
-                        <motion.div
-                            className="logo-icon-wrapper"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <Terminal size={24} strokeWidth={2.5} />
-                            <motion.div
-                                className="logo-pulse"
-                                animate={{
-                                    scale: [1, 1.5, 1],
-                                    opacity: [0.8, 0.3, 0.8]
-                                }}
-                                transition={{ duration: 2, repeat: Infinity }}
-                            />
-                        </motion.div>
-                        <div className="logo-text">
-                            <span className="logo-main">INFIQ</span>
-                            <span className="logo-year">2K26</span>
-                        </div>
+                    <Link to="/" className="nav-logo-new" style={{ textDecoration: 'none' }}>
+                        <Logo size={24} />
                     </Link>
 
                     {/* Desktop Navigation Links */}
