@@ -359,7 +359,7 @@ export const EventCountdown = () => {
             </div>
         </section>
     );
-}; 
+};
 
 /* 3. Cash Prize Events Section */
 const CountUp = ({ to, duration = 2 }) => {
@@ -510,19 +510,19 @@ export const CategoryExplore = () => {
                     <h2 className="section-title">Event Categories</h2>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
+                <div className="categories-grid">
                     <motion.div
                         whileHover={{ y: -5 }}
-                        className="glass-card"
-                        style={{ padding: '4rem', display: 'flex', gap: '2rem', alignItems: 'center', borderRight: '4px solid var(--neon-blue)' }}
+                        className="glass-card category-card"
+                        style={{ borderRight: '4px solid var(--neon-blue)' }}
                     >
-                        <div style={{ background: 'rgba(0, 229, 255, 0.1)', padding: '2rem', borderRadius: '12px' }}>
-                            <Code size={48} className="text-[#00E5FF]" />
+                        <div className="category-icon-box" style={{ background: 'rgba(0, 229, 255, 0.1)' }}>
+                            <Code size={48} className="category-icon text-[#00E5FF]" />
                         </div>
-                        <div>
-                            <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Technical</h3>
+                        <div className="category-content">
+                            <h3 className="category-title">Technical</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Coding, circuits, and cutting-edge tech challenges.</p>
-                            <button style={{ background: 'none', border: 'none', color: 'var(--neon-blue)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                            <button className="category-btn" style={{ color: 'var(--neon-blue)' }}>
                                 VIEW EVENTS <ArrowRight size={16} />
                             </button>
                         </div>
@@ -530,16 +530,16 @@ export const CategoryExplore = () => {
 
                     <motion.div
                         whileHover={{ y: -5 }}
-                        className="glass-card"
-                        style={{ padding: '4rem', display: 'flex', gap: '2rem', alignItems: 'center', borderRight: '4px solid var(--neon-purple)' }}
+                        className="glass-card category-card"
+                        style={{ borderRight: '4px solid var(--neon-purple)' }}
                     >
-                        <div style={{ background: 'rgba(124, 58, 237, 0.1)', padding: '2rem', borderRadius: '12px' }}>
-                            <Cpu size={48} className="text-[#7C3AED]" />
+                        <div className="category-icon-box" style={{ background: 'rgba(124, 58, 237, 0.1)' }}>
+                            <Cpu size={48} className="category-icon text-[#7C3AED]" />
                         </div>
-                        <div>
-                            <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Non-Technical</h3>
+                        <div className="category-content">
+                            <h3 className="category-title">Non-Technical</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Art, gaming, and creative networking sessions.</p>
-                            <button style={{ background: 'none', border: 'none', color: 'var(--neon-purple)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                            <button className="category-btn" style={{ color: 'var(--neon-purple)' }}>
                                 VIEW EVENTS <ArrowRight size={16} />
                             </button>
                         </div>
