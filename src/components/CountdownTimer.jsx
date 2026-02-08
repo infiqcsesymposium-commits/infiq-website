@@ -114,7 +114,7 @@ const CountdownTimer = () => {
                         marginBottom: '1.5rem'
                     }}>
                         <div style={{ width: '6px', height: '6px', background: 'var(--primary)', borderRadius: '50%', boxShadow: '0 0 10px var(--primary)', animation: 'pulse-dot 2s infinite' }} />
-                        <span style={{ fontSize: '0.7rem', fontWeight: '900', color: 'var(--primary)', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'Orbitron' }}>Initialization Locked</span>
+                        <span style={{ fontSize: '0.7rem', fontWeight: '900', color: 'var(--primary)', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'Orbitron' }}>Access Pending</span>
                     </div>
 
                     <h1 style={{
@@ -125,24 +125,54 @@ const CountdownTimer = () => {
                         marginBottom: '1rem',
                         letterSpacing: '-1px'
                     }}>
-                        Standby for <span style={{ color: 'var(--primary)' }}>Infiq</span>
+                        INFIQ <span style={{ color: 'var(--primary)' }}>2K26</span>
                     </h1>
 
                     <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: '1.6' }}>
-                        Neural link synchronization in progress. The portal to Coimbatore's premier tech symposia initializes shortly.
+                        The portal to Coimbatore's premier tech symposia is preparing for initialization. Secure your connection for the ultimate experience.
                     </p>
                 </motion.div>
 
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gap: '1rem',
-                    marginBottom: '3.5rem'
-                }} className="timer-grid">
-                    <TimeUnit label="Days" value={timeLeft.days} />
-                    <TimeUnit label="Hours" value={timeLeft.hours} />
-                    <TimeUnit label="Mins" value={timeLeft.minutes} />
-                    <TimeUnit label="Secs" value={timeLeft.seconds} />
+                <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        style={{
+                            display: 'inline-block',
+                            padding: '2.5rem 5rem',
+                            background: 'rgba(15, 17, 26, 0.8)',
+                            borderRadius: '32px',
+                            border: '1px solid rgba(56, 234, 140, 0.3)',
+                            boxShadow: '0 0 60px rgba(56, 234, 140, 0.2)',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        {/* Animated Scanline */}
+                        <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '2px',
+                            background: 'var(--primary)',
+                            boxShadow: '0 0 15px var(--primary)',
+                            animation: 'scanline 3s linear infinite',
+                            opacity: 0.5
+                        }} />
+
+                        <h2 style={{
+                            fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
+                            fontWeight: '950',
+                            color: '#fff',
+                            fontFamily: 'Orbitron',
+                            letterSpacing: '10px',
+                            margin: 0,
+                            textShadow: '0 0 40px rgba(56, 234, 140, 0.6)'
+                        }}>
+                            COMING SOON
+                        </h2>
+                    </motion.div>
                 </div>
 
                 <motion.div

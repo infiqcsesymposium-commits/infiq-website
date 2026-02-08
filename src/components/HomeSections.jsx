@@ -267,84 +267,52 @@ export const EventCountdown = () => {
                             textShadow: '0 0 20px rgba(56, 234, 140, 0.4)',
                             fontFamily: 'Orbitron'
                         }}>
-                            SYSTEM LAUNCH IN
+                            EVENT STATUS
                         </h3>
                     </motion.div>
                 </div>
 
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '2rem',
-                    flexWrap: 'wrap',
-                    maxWidth: '900px',
-                    margin: '0 auto'
-                }}>
-                    {[
-                        { label: 'DAYS', value: timeLeft.days },
-                        { label: 'HOURS', value: timeLeft.hours },
-                        { label: 'MINUTES', value: timeLeft.minutes },
-                        { label: 'SECONDS', value: timeLeft.seconds }
-                    ].map((item, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: idx * 0.1 }}
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center'
-                            }}
-                        >
-                            <div className="glass-card" style={{
-                                width: '120px',
-                                height: '140px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                background: 'rgba(15, 17, 26, 0.8)',
-                                borderRadius: '16px',
-                                border: '1px solid rgba(56, 234, 140, 0.2)',
-                                boxShadow: '0 0 30px rgba(56, 234, 140, 0.1)',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}>
-                                {/* Animated Scanline */}
-                                <div style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '2px',
-                                    background: 'var(--primary)',
-                                    boxShadow: '0 0 10px var(--primary)',
-                                    animation: 'scanline 3s linear infinite',
-                                    opacity: 0.5
-                                }} />
+                <div style={{ textAlign: 'center' }}>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        style={{
+                            display: 'inline-block',
+                            padding: '2rem 4rem',
+                            background: 'rgba(15, 17, 26, 0.8)',
+                            borderRadius: '24px',
+                            border: '1px solid rgba(56, 234, 140, 0.3)',
+                            boxShadow: '0 0 50px rgba(56, 234, 140, 0.15)',
+                            position: 'relative',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        {/* Animated Scanline */}
+                        <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '2px',
+                            background: 'var(--primary)',
+                            boxShadow: '0 0 15px var(--primary)',
+                            animation: 'scanline 3s linear infinite',
+                            opacity: 0.5
+                        }} />
 
-                                <span style={{
-                                    fontSize: '3.5rem',
-                                    fontWeight: '900',
-                                    color: '#fff',
-                                    fontFamily: 'Orbitron',
-                                    textShadow: '0 0 15px rgba(255, 255, 255, 0.5)'
-                                }}>
-                                    {formatTime(item.value)}
-                                </span>
-                            </div>
-                            <span style={{
-                                marginTop: '1rem',
-                                color: 'var(--primary)',
-                                fontSize: '0.8rem',
-                                letterSpacing: '2px',
-                                fontWeight: '800'
-                            }}>
-                                {item.label}
-                            </span>
-                        </motion.div>
-                    ))}
+                        <h2 style={{
+                            fontSize: 'clamp(2.5rem, 8vw, 5rem)',
+                            fontWeight: '900',
+                            color: '#fff',
+                            fontFamily: 'Orbitron',
+                            letterSpacing: '8px',
+                            margin: 0,
+                            textShadow: '0 0 30px rgba(56, 234, 140, 0.5)'
+                        }}>
+                            COMING SOON
+                        </h2>
+                    </motion.div>
                 </div>
             </div>
 
