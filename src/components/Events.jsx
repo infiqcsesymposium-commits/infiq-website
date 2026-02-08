@@ -220,7 +220,7 @@ const Events = () => {
             tag: "RESEARCH",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Team size: 1-3 members", "Time limit: 10 mins", "Abstract mandatory", "Q&A session included"]
+            rules: ["Team size: Max 4 members", "Time limit: 10 mins", "Abstract mandatory", "Q&A session included"]
         },
         {
             title: "CODE SURGEON",
@@ -257,7 +257,7 @@ const Events = () => {
             tag: "DEV",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Topic on-spot", "Duration: 4 Hours", "Bring your own laptop", "Responsive UI focus"]
+            rules: ["Topic on-spot", "Duration: 4 Hours", "Bring your own laptop", "Max 4 per team"]
         },
         {
             title: "QUIZTRON",
@@ -287,14 +287,14 @@ const Events = () => {
         {
             title: "VISIONIX",
             subtitle: "AR/VR SHOWCASE",
-            dbName: "Multimedia Editing", // Placeholder mapping if needed
+            dbName: "AR/VR Showcase",
             icon: <Eye />,
             img: "https://images.unsplash.com/photo-1592478411213-61535f944886?auto=format&fit=crop&q=80&w=800",
             desc: "Experience and create immersive augmented and virtual reality solutions.",
             tag: "FUTURE",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Team or Individual", "Device provided/BYOD", "Creativity focus", "Implementation check"]
+            rules: ["Individual only (No teams)", "Additional Fee: ₹100", "Device provided/BYOD", "Implementation check"]
         },
         {
             title: "PIXEL VISION",

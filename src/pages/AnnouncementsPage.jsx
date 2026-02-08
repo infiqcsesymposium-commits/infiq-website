@@ -97,23 +97,29 @@ const AnnouncementsPage = () => {
             <div style={{ padding: '120px 0 80px', minHeight: '100vh', background: '#05060A' }}>
                 <div className="container">
                     {/* Header Section */}
-                    <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+                    <div style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 8vw, 5rem)' }}>
                         <motion.div
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             style={{
-                                width: '80px', height: '80px', borderRadius: '50%',
+                                width: 'clamp(60px, 15vw, 80px)', height: 'clamp(60px, 15vw, 80px)', borderRadius: '50%',
                                 background: 'rgba(56, 234, 140, 0.1)', border: '1px solid var(--primary)',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 margin: '0 auto 1.5rem', color: 'var(--primary)'
                             }}
                         >
-                            <Megaphone size={32} />
+                            <Megaphone size={window.innerWidth < 768 ? 24 : 32} />
                         </motion.div>
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            style={{ fontSize: '3.5rem', fontFamily: 'Share Tech Mono', color: '#fff', margin: '0 0 1rem' }}
+                            style={{
+                                fontSize: 'clamp(2rem, 8vw, 3.5rem)',
+                                fontFamily: 'Share Tech Mono',
+                                color: '#fff',
+                                margin: '0 0 1rem',
+                                letterSpacing: 'clamp(2px, 0.5vw, 5px)'
+                            }}
                         >
                             BROADCAST_LOGS
                         </motion.h1>
@@ -121,7 +127,13 @@ const AnnouncementsPage = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}
+                            style={{
+                                color: 'var(--text-muted)',
+                                fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
+                                maxWidth: '600px',
+                                margin: '0 auto',
+                                padding: '0 1rem'
+                            }}
                         >
                             Stay synced with the real-time event updates, technical logs, and critical deadlines.
                         </motion.p>
@@ -150,10 +162,10 @@ const AnnouncementsPage = () => {
                                     transition={{ delay: index * 0.1 }}
                                     className="glass-card"
                                     style={{
-                                        padding: '2.5rem',
+                                        padding: 'clamp(1.5rem, 5vw, 2.5rem)',
                                         display: 'grid',
-                                        gridTemplateColumns: 'auto 1fr auto',
-                                        gap: '2rem',
+                                        gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'auto 1fr auto',
+                                        gap: 'clamp(1rem, 3vw, 2rem)',
                                         alignItems: 'start',
                                         border: `1px solid ${ann.priority === 'URGENT' ? 'rgba(255, 95, 86, 0.3)' : 'rgba(255,255,255,0.1)'}`,
                                         position: 'relative',
@@ -169,46 +181,58 @@ const AnnouncementsPage = () => {
 
                                     {/* Icon Column */}
                                     <div style={{
-                                        width: '60px', height: '60px', borderRadius: '16px',
+                                        width: 'clamp(50px, 12vw, 60px)', height: 'clamp(50px, 12vw, 60px)', borderRadius: '16px',
                                         background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)',
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        color: getPriorityColor(ann.priority)
+                                        color: getPriorityColor(ann.priority),
+                                        flexShrink: 0
                                     }}>
-                                        {getIcon(ann.category)}
+                                        {React.cloneElement(getIcon(ann.category), { size: window.innerWidth < 768 ? 20 : 24 })}
                                     </div>
 
                                     {/* Content Column */}
                                     <div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.8rem' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(0.5rem, 2vw, 1rem)', marginBottom: '0.8rem', flexWrap: 'wrap' }}>
                                             <span style={{
-                                                padding: '4px 12px', borderRadius: '20px', fontSize: '0.7rem', fontWeight: 'bold',
+                                                padding: '4px 12px', borderRadius: '20px', fontSize: 'clamp(0.6rem, 1.5vw, 0.7rem)', fontWeight: 'bold',
                                                 background: 'rgba(56, 234, 140, 0.1)', color: 'var(--primary)', textTransform: 'uppercase'
                                             }}>
                                                 {ann.category}
                                             </span>
-                                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                                            <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-muted)', fontSize: 'clamp(0.7rem, 1.8vw, 0.8rem)' }}>
                                                 <Tag size={14} /> {ann.eventName === 'ALL' ? 'GLOBAL_EVENT' : ann.eventName}
                                             </span>
                                             {ann.priority === 'URGENT' && (
                                                 <motion.span
                                                     animate={{ opacity: [1, 0.5, 1] }}
                                                     transition={{ duration: 1, repeat: Infinity }}
-                                                    style={{ color: '#FF5F56', fontSize: '0.7rem', fontWeight: 'bold' }}
+                                                    style={{ color: '#FF5F56', fontSize: 'clamp(0.6rem, 1.5vw, 0.7rem)', fontWeight: 'bold' }}
                                                 >
                                                     🚨 SYSTEM_CRITICAL
                                                 </motion.span>
                                             )}
                                         </div>
-                                        <h3 style={{ fontSize: '1.6rem', color: '#fff', margin: '0 0 1rem' }}>{ann.title}</h3>
-                                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: '1.05rem', margin: 0 }}>
+                                        <h3 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.6rem)', color: '#fff', margin: '0 0 1rem' }}>{ann.title}</h3>
+                                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', margin: 0 }}>
                                             {ann.message}
                                         </p>
                                     </div>
 
                                     {/* Meta Column */}
-                                    <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: '150px' }}>
+                                    <div style={{
+                                        textAlign: window.innerWidth < 768 ? 'left' : 'right',
+                                        display: 'flex',
+                                        flexDirection: window.innerWidth < 768 ? 'row' : 'column',
+                                        gap: '1rem',
+                                        minWidth: window.innerWidth < 768 ? '100%' : '150px',
+                                        justifyContent: window.innerWidth < 768 ? 'space-between' : 'flex-start',
+                                        alignItems: window.innerWidth < 768 ? 'center' : 'flex-end',
+                                        marginTop: window.innerWidth < 768 ? '1rem' : 0,
+                                        borderTop: window.innerWidth < 768 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                                        paddingTop: window.innerWidth < 768 ? '1.5rem' : 0
+                                    }}>
                                         <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-end', marginBottom: '4px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: window.innerWidth < 768 ? 'flex-start' : 'flex-end', marginBottom: '4px' }}>
                                                 <Clock size={14} />
                                                 {ann.createdAt?.toDate ? ann.createdAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'NOW'}
                                             </div>

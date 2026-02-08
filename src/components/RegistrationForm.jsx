@@ -93,12 +93,13 @@ const RegistrationForm = () => {
         },
         {
             id: 7,
-            title: "Multimedia Editing",
-            category: "NON-TECHNICAL",
-            tag: "CREATIVE",
+            title: "AR/VR Showcase (Visionix)",
+            category: "TECHNICAL",
+            tag: "FUTURE",
             time: "1:00 PM - 2:00 PM",
-            venue: "Lab 3",
-            dbName: "Multimedia Editing"
+            venue: "AR/VR Lab",
+            dbName: "AR/VR Showcase",
+            isIndividual: true
         },
         {
             id: 8,
@@ -178,6 +179,14 @@ const RegistrationForm = () => {
         if (selectedEvents.includes(eventName)) {
             setSelectedEvents(prev => prev.filter(e => e !== eventName));
         } else {
+            // Check if it's AR/VR and user has teamCount > 1
+            if (eventName === "AR/VR Showcase" && teamCount > 1) {
+                showNotify("AR/VR Showcase is an INDIVIDUAL event. Please set Team Size to 1 to select this event.", "warning");
+                return;
+            }
+
+            // Check if user already has AR/VR and tries to increase teamCount (will be handled in teamCount change)
+
             if (selectedEvents.length >= 4) {
                 showNotify("You can select a maximum of 4 events.", "warning");
                 return;
@@ -243,6 +252,11 @@ const RegistrationForm = () => {
         }
 
         // 4. Team Members Validation
+        if (selectedEvents.includes("AR/VR Showcase") && teamCount > 1) {
+            showNotify("AR/VR Showcase is an individual event. Please register with Team Size: 1.", "error");
+            return;
+        }
+
         if (teamCount > 1) {
             for (let i = 0; i < teamCount - 1; i++) {
                 if (!teamMembers[i] || teamMembers[i].trim() === "") {
@@ -310,14 +324,23 @@ const RegistrationForm = () => {
         const crmCategory = categoryMap[category];
         const feeRule = feeConfigs.find(f => f.category === crmCategory && f.isActive);
 
+        let baseAmount = 0;
         if (feeRule) {
-            if (feeRule.calculationType === 'FREE') return 0;
-            return (feeRule.feePerStudent || 0) * teamCount;
+            if (feeRule.calculationType !== 'FREE') {
+                baseAmount = (feeRule.feePerStudent || 0) * teamCount;
+            }
+        } else {
+            // Fallback to legacy hardcoded logic if no dynamic rule exists
+            const legacyBase = category === "OUTER" ? 250 : category === "OTHER_DEPT" ? 100 : 0;
+            baseAmount = legacyBase * teamCount;
         }
 
-        // Fallback to legacy hardcoded logic if no dynamic rule exists
-        const baseAmount = category === "OUTER" ? 250 : category === "OTHER_DEPT" ? 100 : 0;
-        return baseAmount * teamCount;
+        // Add AR/VR surcharge (100 INR) if selected
+        if (selectedEvents.includes("AR/VR Showcase")) {
+            baseAmount += 100;
+        }
+
+        return baseAmount;
     };
 
     const totalAmount = calculateTotalAmount();
@@ -715,33 +738,47 @@ const RegistrationForm = () => {
 
                                     {/* Team Size Radio Buttons */}
                                     <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-                                        {[1, 2, 3, 4].map(size => (
-                                            <label key={size} style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '0.5rem',
-                                                padding: '0.75rem 1.25rem',
-                                                borderRadius: '8px',
-                                                background: teamCount === size ? 'rgba(124, 58, 237, 0.3)' : 'rgba(255, 255, 255, 0.05)',
-                                                border: teamCount === size ? '2px solid #A78BFA' : '1px solid rgba(255, 255, 255, 0.1)',
-                                                cursor: 'pointer',
-                                                transition: 'all 0.3s',
-                                                color: teamCount === size ? '#fff' : 'var(--text-muted)'
-                                            }}>
-                                                <input
-                                                    type="radio"
-                                                    name="teamSize"
-                                                    value={size}
-                                                    checked={teamCount === size}
-                                                    onChange={(e) => setTeamCount(parseInt(e.target.value))}
-                                                    style={{ cursor: 'pointer' }}
-                                                />
-                                                <span style={{ fontWeight: teamCount === size ? 'bold' : 'normal' }}>
-                                                    {size} {size === 1 ? 'Member' : 'Members'}
-                                                </span>
-                                            </label>
-                                        ))}
+                                        {[1, 2, 3, 4].map(size => {
+                                            const isEventRestricted = selectedEvents.includes("AR/VR Showcase") && size > 1;
+                                            return (
+                                                <label key={size} style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '0.5rem',
+                                                    padding: '0.75rem 1.25rem',
+                                                    borderRadius: '8px',
+                                                    background: teamCount === size ? 'rgba(124, 58, 237, 0.3)' : 'rgba(255, 255, 255, 0.05)',
+                                                    border: teamCount === size ? '2px solid #A78BFA' : '1px solid rgba(255, 255, 255, 0.1)',
+                                                    cursor: isEventRestricted ? 'not-allowed' : 'pointer',
+                                                    transition: 'all 0.3s',
+                                                    color: teamCount === size ? '#fff' : 'var(--text-muted)',
+                                                    opacity: isEventRestricted ? 0.3 : 1
+                                                }}>
+                                                    <input
+                                                        type="radio"
+                                                        name="teamSize"
+                                                        value={size}
+                                                        checked={teamCount === size}
+                                                        disabled={isEventRestricted}
+                                                        onChange={(e) => {
+                                                            if (!isEventRestricted) {
+                                                                setTeamCount(parseInt(e.target.value));
+                                                            }
+                                                        }}
+                                                        style={{ cursor: isEventRestricted ? 'not-allowed' : 'pointer' }}
+                                                    />
+                                                    <span style={{ fontWeight: teamCount === size ? 'bold' : 'normal' }}>
+                                                        {size} {size === 1 ? 'Member' : 'Members'}
+                                                    </span>
+                                                </label>
+                                            )
+                                        })}
                                     </div>
+                                    {selectedEvents.includes("AR/VR Showcase") && (
+                                        <div style={{ fontSize: '0.75rem', color: '#FFBD2E', marginTop: '-1rem', marginBottom: '1.5rem' }}>
+                                            * AR/VR Showcase is individual only. Select other team sizes only if AR/VR is removed.
+                                        </div>
+                                    )}
 
                                     {/* Dynamic Team Member Name Fields */}
                                     {teamCount > 1 && (
