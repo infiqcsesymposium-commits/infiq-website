@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, GraduationCap, ShieldCheck, Zap, Terminal, Smartphone, AtSign, Activity, Trophy, Users as UsersIcon, Hexagon, Fingerprint, Cpu, Search } from 'lucide-react';
-import premImg from '../assets/WhatsApp Image 2026-02-09 at 1.28.28 PM.jpeg';
-import sridharImg from '../assets/WhatsApp Image 2026-02-09 at 1.35.03 PM.jpeg';
 import radhaImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM (1).jpeg';
 import kalaiImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM.jpeg';
+import premImg from '../assets/WhatsApp Image 2026-02-09 at 1.28.28 PM.jpeg';
+import sridharImg from '../assets/WhatsApp Image 2026-02-09 at 1.35.03 PM.jpeg';
+import abishImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (1).jpeg';
+import apurvaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (2).jpeg';
+import divaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM.jpeg';
+import subaImg from '../assets/mypic.jpg.jpeg';
 const HeaderSection = () => (
     <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
         <motion.div
@@ -418,15 +422,50 @@ const Coordinators = () => {
 
                             <div style={{ margin: '8rem 0', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
 
-                            <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                            <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
                                 <h3 style={{ fontSize: '1.8rem', color: '#fff', fontFamily: 'Orbitron' }}>FIELD_OPERATIVES</h3>
                                 <div style={{ color: 'var(--primary)', letterSpacing: '4px', fontSize: '0.7rem' }}>UNDERGRADUATE_COUNCIL</div>
                             </div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', maxWidth: '1200px', margin: '0 auto' }}>
+                            {/* Strategic Council (IV Years) */}
+                            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                                <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(56, 234, 140, 0.05)', border: '1px solid rgba(56, 234, 140, 0.1)', borderRadius: '4px', color: 'var(--primary)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
+                                    STRATEGIC_COUNCIL // IV_YEAR
+                                </div>
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', maxWidth: '1000px', margin: '0 auto 8rem' }}>
                                 <CoordinatorCard index={0} person={{ name: "Mr. S. Prem Kumar", role: "Student_Lead", type: "IV YEAR - CSE", img: premImg }} />
                                 <CoordinatorCard index={1} person={{ name: "Mr. P. Babu Prasanth", role: "Student_Lead", type: "IV YEAR - CSE" }} />
                                 <CoordinatorCard index={2} person={{ name: "Mr. V. Sridhar", role: "Student_Lead", type: "IV YEAR - CSE", img: sridharImg }} />
+                            </div>
+
+                            {/* Technical & Non-Technical Split (III Years) */}
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '4rem', maxWidth: '1100px', margin: '0 auto' }}>
+                                {/* Technical Council */}
+                                <div>
+                                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                                        <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(0, 229, 255, 0.05)', border: '1px solid rgba(0, 229, 255, 0.1)', borderRadius: '4px', color: 'var(--neon-blue)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
+                                            TECHNICAL_COUNCIL // III_YEAR
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                                        <CoordinatorCard index={0} person={{ name: "Mr. S. Diva", role: "Tech_Lead", type: "III YEAR - CSE", img: divaImg }} />
+                                        <CoordinatorCard index={1} person={{ name: "Ms. K. Apurvasri", role: "Tech_Lead", type: "III YEAR - CSE", img: apurvaImg }} />
+                                    </div>
+                                </div>
+
+                                {/* Non-Technical Council */}
+                                <div>
+                                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                                        <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(124, 58, 237, 0.05)', border: '1px solid rgba(124, 58, 237, 0.1)', borderRadius: '4px', color: 'var(--accent-purple)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
+                                            NON_TECHNICAL_COUNCIL // III_YEAR
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                                        <CoordinatorCard index={2} person={{ name: "Mr. S. Subasanjeev", role: "Tactical_Lead", type: "III YEAR - CSE", img: subaImg }} />
+                                        <CoordinatorCard index={3} person={{ name: "Mr. A. Abish", role: "Tactical_Lead", type: "III YEAR - CSE", img: abishImg }} />
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     ) : (
