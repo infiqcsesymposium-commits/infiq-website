@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { User, GraduationCap, ShieldCheck, Zap, Terminal, Smartphone, AtSign, Activity, Trophy, Users as UsersIcon, Hexagon, Fingerprint, Cpu, Search } from 'lucide-react';
 import radhaImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM (1).jpeg';
 import kalaiImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM.jpeg';
@@ -9,12 +8,10 @@ import abishImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (1).jpe
 import apurvaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (2).jpeg';
 import divaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM.jpeg';
 import subaImg from '../assets/mypic.jpg.jpeg';
+
 const HeaderSection = () => (
     <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+        <div
             style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -28,43 +25,25 @@ const HeaderSection = () => (
         >
             <Fingerprint size={16} color="var(--primary)" />
             <span style={{ fontSize: '0.75rem', fontWeight: '800', letterSpacing: '2px', color: 'var(--primary)', textTransform: 'uppercase' }}>DECRYPTING_HIERARCHY</span>
-        </motion.div>
+        </div>
 
-        <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+        <h2
             className="section-title holo-text"
             style={{ marginBottom: '1rem', background: 'linear-gradient(135deg, #fff, var(--primary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontSize: 'clamp(3rem, 8vw, 5rem)' }}
         >
             COMMAND CENTER
-        </motion.h2>
+        </h2>
 
-        <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+        <p
             style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}
         >
             Accessing decentralized node network. Authorized personnel list decrypted.
-        </motion.p>
+        </p>
     </div>
 );
 
-const CoordinatorCard = ({ person, isFaculty, isHOD, index = 0 }) => (
-    <motion.div
-        layout
-        initial={{ opacity: 0, y: 60, rotateX: 15, filter: 'blur(10px)' }}
-        whileInView={{ opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{
-            duration: 0.8,
-            delay: index * 0.05,
-            ease: [0.215, 0.61, 0.355, 1]
-        }}
-        whileHover={{ y: -10, scale: 1.02 }}
+const CoordinatorCard = ({ person, isFaculty, isHOD }) => (
+    <div
         className="glass-dossier"
         style={{
             position: 'relative',
@@ -158,7 +137,7 @@ const CoordinatorCard = ({ person, isFaculty, isHOD, index = 0 }) => (
             <Terminal size={12} />
             {person.type}
         </div>
-    </motion.div>
+    </div>
 );
 
 const EventCoordinators = () => {
@@ -258,13 +237,8 @@ const EventCoordinators = () => {
         }
     ];
 
-    const EventCard = ({ ev, isTech, index }) => (
-        <motion.div
-            layout
-            initial={{ opacity: 0, y: 30, filter: 'blur(5px)' }}
-            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
+    const EventCard = ({ ev, isTech }) => (
+        <div
             className="glass-dossier"
             style={{
                 padding: '2rem',
@@ -314,7 +288,7 @@ const EventCoordinators = () => {
                     </div>
                 ))}
             </div>
-        </motion.div>
+        </div>
     );
 
     return (
@@ -348,8 +322,8 @@ const EventCoordinators = () => {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem' }}>
-                {(selectedCategory === 'TECHNICAL' ? techEvents : nonTechEvents).map((ev, idx) => (
-                    <EventCard key={ev.name} ev={ev} isTech={selectedCategory === 'TECHNICAL'} index={idx} />
+                {(selectedCategory === 'TECHNICAL' ? techEvents : nonTechEvents).map((ev) => (
+                    <EventCard key={ev.name} ev={ev} isTech={selectedCategory === 'TECHNICAL'} />
                 ))}
             </div>
         </div>
@@ -400,90 +374,79 @@ const Coordinators = () => {
                     </div>
                 </div>
 
-                <AnimatePresence mode="wait">
-                    {activeTab === 'SYSTEM' ? (
-                        <motion.div
-                            key="system"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                        >
-                            {/* Command Core */}
-                            <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap', marginBottom: '10rem' }}>
-                                <CoordinatorCard index={0} person={{ name: "Dr. T. Kalaikumaran", role: "Principal_Admin", type: "PRINCIPAL / VSBCETC", img: kalaiImg }} isHOD={true} />
-                                <CoordinatorCard index={1} person={{ name: "Mrs. V. Radha", role: "Strategic_Lead", type: "HOD / DEPT OF CSE", img: radhaImg }} isHOD={true} />
-                            </div>
+                {activeTab === 'SYSTEM' ? (
+                    <div key="system">
+                        {/* Command Core */}
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap', marginBottom: '10rem' }}>
+                            <CoordinatorCard person={{ name: "Dr. T. Kalaikumaran", role: "Principal_Admin", type: "PRINCIPAL / VSBCETC", img: kalaiImg }} isHOD={true} />
+                            <CoordinatorCard person={{ name: "Mrs. V. Radha", role: "Strategic_Lead", type: "HOD / DEPT OF CSE", img: radhaImg }} isHOD={true} />
+                        </div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', justifyContent: 'center' }}>
-                                <CoordinatorCard index={2} person={{ name: "Dr. S. V. Divya", role: "Associate_Cmd", type: "ASSOCIATE HOD", img: null }} isFaculty={true} />
-                                <CoordinatorCard index={3} person={{ name: "Mrs. S. Vigneshwari", role: "Associate_Cmd", type: "ASSOCIATE HOD", img: null }} isFaculty={true} />
-                                <CoordinatorCard index={4} person={{ name: "Mr. M. Bharathiraja", role: "Faculty_Ops", type: "ASST PROFESSOR", img: null }} isFaculty={true} />
-                            </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', justifyContent: 'center' }}>
+                            <CoordinatorCard person={{ name: "Dr. S. V. Divya", role: "Associate_Cmd", type: "ASSOCIATE HOD", img: null }} isFaculty={true} />
+                            <CoordinatorCard person={{ name: "Mrs. S. Vigneshwari", role: "Associate_Cmd", type: "ASSOCIATE HOD", img: null }} isFaculty={true} />
+                            <CoordinatorCard person={{ name: "Mr. M. Bharathiraja", role: "Faculty_Ops", type: "ASST PROFESSOR", img: null }} isFaculty={true} />
+                        </div>
 
-                            <div style={{ margin: '8rem 0', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
+                        <div style={{ margin: '8rem 0', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
 
-                            <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
-                                <h3 style={{ fontSize: '1.8rem', color: '#fff', fontFamily: 'Orbitron' }}>FIELD_OPERATIVES</h3>
-                                <div style={{ color: 'var(--primary)', letterSpacing: '4px', fontSize: '0.7rem' }}>UNDERGRADUATE_COUNCIL</div>
-                            </div>
+                        <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+                            <h3 style={{ fontSize: '1.8rem', color: '#fff', fontFamily: 'Orbitron' }}>FIELD_OPERATIVES</h3>
+                            <div style={{ color: 'var(--primary)', letterSpacing: '4px', fontSize: '0.7rem' }}>UNDERGRADUATE_COUNCIL</div>
+                        </div>
 
-                            {/* Strategic Council (IV Years) */}
-                            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                                <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(56, 234, 140, 0.05)', border: '1px solid rgba(56, 234, 140, 0.1)', borderRadius: '4px', color: 'var(--primary)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
-                                    STRATEGIC_COUNCIL // IV_YEAR
-                                </div>
+                        {/* Strategic Council (IV Years) */}
+                        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                            <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(56, 234, 140, 0.05)', border: '1px solid rgba(56, 234, 140, 0.1)', borderRadius: '4px', color: 'var(--primary)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
+                                STRATEGIC_COUNCIL // IV_YEAR
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', maxWidth: '1000px', margin: '0 auto 8rem' }}>
-                                <CoordinatorCard index={0} person={{ name: "Mr. S. Prem Kumar", role: "Student_Lead", type: "IV YEAR - CSE", img: premImg }} />
-                                <CoordinatorCard index={1} person={{ name: "Mr. P. Babu Prasanth", role: "Student_Lead", type: "IV YEAR - CSE" }} />
-                                <CoordinatorCard index={2} person={{ name: "Mr. V. Sridhar", role: "Student_Lead", type: "IV YEAR - CSE", img: sridharImg }} />
-                            </div>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', maxWidth: '1000px', margin: '0 auto 8rem' }}>
+                            <CoordinatorCard person={{ name: "Mr. S. Prem Kumar", role: "Student_Lead", type: "IV YEAR - CSE", img: premImg }} />
+                            <CoordinatorCard person={{ name: "Mr. P. Babu Prasanth", role: "Student_Lead", type: "IV YEAR - CSE" }} />
+                            <CoordinatorCard person={{ name: "Mr. V. Sridhar", role: "Student_Lead", type: "IV YEAR - CSE", img: sridharImg }} />
+                        </div>
 
-                            {/* Technical & Non-Technical Split (III Years) */}
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '4rem', maxWidth: '1100px', margin: '0 auto' }}>
-                                {/* Technical Council */}
-                                <div>
-                                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                                        <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(0, 229, 255, 0.05)', border: '1px solid rgba(0, 229, 255, 0.1)', borderRadius: '4px', color: 'var(--neon-blue)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
-                                            TECHNICAL_COUNCIL // III_YEAR
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-                                        <CoordinatorCard index={0} person={{ name: "Mr. S. Diva", role: "Tech_Lead", type: "III YEAR - CSE", img: divaImg }} />
-                                        <CoordinatorCard index={1} person={{ name: "Ms. K. Apurvasri", role: "Tech_Lead", type: "III YEAR - CSE", img: apurvaImg }} />
+                    </div>
+                ) : (
+                    <div key="events">
+                        {/* III Year Council Split */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '4rem', maxWidth: '1100px', margin: '0 auto 8rem' }}>
+                            {/* Technical Council */}
+                            <div>
+                                <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                                    <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(0, 229, 255, 0.05)', border: '1px solid rgba(0, 229, 255, 0.1)', borderRadius: '4px', color: 'var(--neon-blue)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
+                                        TECHNICAL_COUNCIL // III_YEAR
                                     </div>
                                 </div>
-
-                                {/* Non-Technical Council */}
-                                <div>
-                                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                                        <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(124, 58, 237, 0.05)', border: '1px solid rgba(124, 58, 237, 0.1)', borderRadius: '4px', color: 'var(--accent-purple)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
-                                            NON_TECHNICAL_COUNCIL // III_YEAR
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-                                        <CoordinatorCard index={2} person={{ name: "Mr. S. Subasanjeev", role: "Tactical_Lead", type: "III YEAR - CSE", img: subaImg }} />
-                                        <CoordinatorCard index={3} person={{ name: "Mr. A. Abish", role: "Tactical_Lead", type: "III YEAR - CSE", img: abishImg }} />
-                                    </div>
+                                <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                                    <CoordinatorCard person={{ name: "Mr. S. Diva", role: "Tech_Lead", type: "III YEAR - CSE", img: divaImg }} />
+                                    <CoordinatorCard person={{ name: "Ms. K. Apurvasri", role: "Tech_Lead", type: "III YEAR - CSE", img: apurvaImg }} />
                                 </div>
                             </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="events"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                        >
-                            <EventCoordinators />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+
+                            {/* Non-Technical Council */}
+                            <div>
+                                <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                                    <div style={{ display: 'inline-block', padding: '0.4rem 1.5rem', background: 'rgba(124, 58, 237, 0.05)', border: '1px solid rgba(124, 58, 237, 0.1)', borderRadius: '4px', color: 'var(--accent-purple)', fontSize: '0.65rem', fontFamily: 'Share Tech Mono', letterSpacing: '3px' }}>
+                                        NON_TECHNICAL_COUNCIL // III_YEAR
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                                    <CoordinatorCard person={{ name: "Mr. S. Subasanjeev", role: "Tactical_Lead", type: "III YEAR - CSE", img: subaImg }} />
+                                    <CoordinatorCard person={{ name: "Mr. A. Abish", role: "Tactical_Lead", type: "III YEAR - CSE", img: abishImg }} />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style={{ margin: '8rem 0', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
+
+                        <EventCoordinators />
+                    </div>
+                )}
 
                 {/* Terminal Communication Footer */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
+                <div
                     style={{ marginTop: '12rem', maxWidth: '1000px', margin: '12rem auto 0' }}
                 >
                     <div className="glass-dossier" style={{ padding: '0', overflow: 'hidden', border: '1px solid var(--primary)', background: 'rgba(8, 9, 15, 0.9)' }}>
@@ -513,9 +476,9 @@ const Coordinators = () => {
                             ))}
                         </div>
                     </div>
-                </motion.div>
+                </div>
             </div>
-        </section>
+        </section >
     );
 };
 
