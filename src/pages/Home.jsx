@@ -6,7 +6,6 @@ import About from '../components/About';
 import Events from '../components/Events';
 import PageTransition from '../components/PageTransition';
 import {
-    EventPasses,
     EventCountdown,
     CategoryExplore,
     PosterLocation
@@ -45,10 +44,6 @@ const HomePage = () => {
 
                 {/* Marquee & Countdown */}
                 <EventCountdown />
-
-                {/* Registration / Passes */}
-                <EventPasses />
-
 
                 {/* Domains & Organization */}
                 <CategoryExplore />

@@ -70,7 +70,7 @@ const FAQ = () => {
         },
         {
             question: "Is there a registration fee for the events?",
-            answer: "Yes, there is a registration fee of ₹250 which includes access to all major sessions, technical tracks, and standard perks including lunch."
+            answer: "Yes, there is a registration fee of ₹300 which includes access to all major sessions, technical tracks, and standard perks including lunch."
         },
         {
             question: "Can I participate in multiple events?",

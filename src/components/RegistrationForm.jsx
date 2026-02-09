@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, AlertCircle, Calendar, MapPin, Upload, ArrowLeft, Users } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Calendar, MapPin, Upload, ArrowLeft, Users, Smartphone, AtSign } from 'lucide-react';
 import { db } from '../firebaseConfig';
 import { collection, addDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 
@@ -225,8 +225,8 @@ const RegistrationForm = () => {
             }
             // Dept validation
             const dept = formData.department.toUpperCase();
-            if (dept === "CSE" || dept === "AI" || dept === "AI&DS") {
-                showNotify("CSE/AI students should use the 'VSBCETC - CSE / AI Only' category", "error");
+            if (dept === "CSE" || dept === "AI" || dept === "AI&DS" || dept === "AIML" || dept === "CSBS") {
+                showNotify("CSE/AI/DS/ML students should use the 'VSBCETC - CSE / AI Only' category", "error");
                 return;
             }
         } else if (category === "CSE_ONLY") {
@@ -236,8 +236,8 @@ const RegistrationForm = () => {
             }
             // Dept validation
             const dept = formData.department.toUpperCase();
-            if (dept !== "CSE" && dept !== "AI" && dept !== "AI&DS") {
-                showNotify("Only CSE / AI students allowed in this category", "error");
+            if (dept !== "CSE" && dept !== "AI" && dept !== "AI&DS" && dept !== "AIML" && dept !== "CSBS") {
+                showNotify("Only CSE / AI / DS / ML / CSBS students allowed in this category", "error");
                 return;
             }
         } else {
@@ -331,7 +331,7 @@ const RegistrationForm = () => {
             }
         } else {
             // Fallback to legacy hardcoded logic if no dynamic rule exists
-            const legacyBase = category === "OUTER" ? 250 : category === "OTHER_DEPT" ? 100 : 0;
+            const legacyBase = category === "OUTER" ? 300 : category === "OTHER_DEPT" ? 100 : 0;
             baseAmount = legacyBase * teamCount;
         }
 
@@ -620,7 +620,7 @@ const RegistrationForm = () => {
                             <div>
                                 <div style={{ color: '#FFD700', fontWeight: '900', fontSize: '0.75rem', letterSpacing: '1px', marginBottom: '4px' }}>SPECIAL EVENTS</div>
                                 <p style={{ margin: 0, color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                                    Ideathon & Startup Arena: Register here <strong>only if shortlisted</strong>.
+                                    Ideathon  : Register here <strong>only if shortlisted</strong>.
                                 </p>
                             </div>
                         </div>
@@ -712,12 +712,22 @@ const RegistrationForm = () => {
 
                                 {/* Common Fields */}
                                 <div className="form-grid">
-                                    <div><label className="form-label" style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Team Name *</label><input type="text" name="teamName" value={formData.teamName} onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} /></div>
-                                    <div><label className="form-label" style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Lead Student Name *</label><input type="text" name="studentName" value={formData.studentName} onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} /></div>
+                                    <div><label className="form-label" style={{ display: 'block', color: '#fff', marginBottom: '0.5rem', fontWeight: '500' }}>Team Name *</label><input type="text" name="teamName" value={formData.teamName} onChange={handleChange} placeholder="Cyber Squad / Null Pointers" style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} /></div>
+                                    <div><label className="form-label" style={{ display: 'block', color: '#fff', marginBottom: '0.5rem', fontWeight: '500' }}>Lead Student Name *</label><input type="text" name="studentName" value={formData.studentName} onChange={handleChange} placeholder="Enter your full name" style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} /></div>
                                 </div>
                                 <div className="form-grid">
-                                    <div><label className="form-label" style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Mobile Number *</label><input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} /></div>
-                                    <div><label className="form-label" style={{ display: 'block', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Email ID *</label><input type="email" name="email" value={formData.email} onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} /></div>
+                                    <div>
+                                        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', marginBottom: '0.5rem', fontWeight: '500' }}>
+                                            <Smartphone size={16} color="var(--primary)" /> Mobile Number *
+                                        </label>
+                                        <input type="tel" name="mobile" value={formData.mobile} onChange={handleChange} placeholder="Enter 10-digit mobile number" style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} />
+                                    </div>
+                                    <div>
+                                        <label className="form-label" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', marginBottom: '0.5rem', fontWeight: '500' }}>
+                                            <AtSign size={16} color="var(--primary)" /> Email ID *
+                                        </label>
+                                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="username@example.com" style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} />
+                                    </div>
                                 </div>
 
                                 {/* Team Size Selection */}
@@ -850,7 +860,7 @@ const RegistrationForm = () => {
                                             <h4 style={{ color: category === 'CSE_ONLY' ? 'var(--primary)' : 'var(--neon-pink)', margin: 0 }}>Internal Student Details</h4>
                                             <div><label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Register Number *</label><input type="text" name="regNo" onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }} /></div>
                                             <div className="form-grid">
-                                                <div><label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Department *</label><select name="department" onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }}><option value="">Select Dept</option>{category === 'CSE_ONLY' ? (<><option value="CSE">CSE</option><option value="AI&DS">AI & DS</option></>) : (<><option value="ECE">ECE</option><option value="EEE">EEE</option><option value="MECH">MECH</option><option value="CIVIL">CIVIL</option><option value="IT">IT</option><option value="MBA">MBA</option></>)}</select></div>
+                                                <div><label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Department *</label><select name="department" onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }}><option value="">Select Dept</option>{category === 'CSE_ONLY' ? (<><option value="CSE">CSE</option><option value="AI&DS">AI & DS</option><option value="AIML">AI & ML</option><option value="CSBS">CSBS</option></>) : (<><option value="IT">IT</option><option value="ECE">ECE</option><option value="EEE">EEE</option><option value="MECH">MECH</option><option value="CIVIL">CIVIL</option><option value="BIO-MED">Bio-Medical</option><option value="AGRI">Agriculture</option><option value="CHEMICAL">Chemical</option><option value="MBA">MBA</option></>)}</select></div>
                                                 <div><label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Year *</label><select name="year" onChange={handleChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '8px', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff' }}><option value="">Select</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
                                             </div>
                                         </motion.div>
@@ -950,16 +960,20 @@ const RegistrationForm = () => {
                                             </div>
 
                                             <div style={{
-                                                background: 'rgba(255,255,255,0.05)',
-                                                padding: '1rem',
-                                                borderRadius: '12px',
+                                                background: 'rgba(56, 234, 140, 0.08)',
+                                                padding: '1.25rem',
+                                                borderRadius: '16px',
                                                 marginTop: '2rem',
-                                                border: '1px solid rgba(255,255,255,0.1)'
+                                                border: '1px solid rgba(56, 234, 140, 0.2)',
+                                                textAlign: 'center'
                                             }}>
-                                                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '0.5rem', textTransform: 'uppercase' }}>OR PAY TO THIS UPI ID</p>
-                                                <p style={{ color: 'var(--neon-blue)', fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px' }}>
-                                                    9042561295@upi
-                                                </p>
+                                                <p style={{ color: 'var(--primary)', fontSize: '0.8rem', marginBottom: '0.5rem', fontWeight: '800', letterSpacing: '1px' }}>UPI GATEWAY ID</p>
+                                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                                                    <Smartphone size={20} color="var(--primary)" />
+                                                    <span style={{ color: '#fff', fontSize: '1.4rem', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'Share Tech Mono' }}>
+                                                        9042561295@upi
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
 

@@ -332,7 +332,7 @@ const Footer = () => {
                                         margin: 0,
                                         lineHeight: '1.5'
                                     }}>
-                                        VSBEC, Coimbatore
+                                        VSBCETC, Coimbatore
                                     </p>
                                 </div>
                             </div>
@@ -427,8 +427,8 @@ const Footer = () => {
                 position: 'absolute',
                 top: '20%',
                 right: '10%',
-                width: '250px',
-                height: '250px',
+                width: '300px',
+                height: '300px',
                 background: 'radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%)',
                 filter: 'blur(60px)',
                 zIndex: 0,

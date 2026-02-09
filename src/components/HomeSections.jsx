@@ -8,6 +8,9 @@ import {
     ShieldAlert, Search, Code, Cpu, Globe
 } from 'lucide-react';
 
+import campusImg from '../assets/campus.png';
+import posterImg from '../assets/image.png';
+
 /* 1. Event Passes Section */
 export const EventPasses = () => {
     return (
@@ -61,7 +64,7 @@ export const EventPasses = () => {
 
                             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '5px', marginBottom: '2rem' }}>
                                 <span style={{ fontSize: '1rem', marginTop: '5px', color: 'var(--text-muted)' }}>₹</span>
-                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>250</span>
+                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>300</span>
                             </div>
 
                             <ul style={{ textAlign: 'left', marginBottom: '2.5rem', space: 'y-3' }}>
@@ -197,7 +200,7 @@ export const EventPasses = () => {
                         <div>
                             <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>TIME CRITICAL</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
-                                Registration portal closes on <span style={{ color: '#FF2EDF', fontWeight: 'bold' }}>13/02/2026</span>. Secure your slot before system lockdown.
+                                Registration portal closes on <span style={{ color: '#FF2EDF', fontWeight: 'bold' }}>22/02/2026</span>. Secure your slot before system lockdown.
                             </p>
                         </div>
                     </div>
@@ -210,7 +213,7 @@ export const EventPasses = () => {
                         <div>
                             <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>PROTOCOL ALERT</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
-                                <strong>Ideathon, Startup Arena & Esports:</strong><br />
+                                <strong>Ideathon</strong><br />
                                 Abstract submission required first. Payment only after selection confirmation.
                             </p>
                         </div>
@@ -537,7 +540,7 @@ export const PosterLocation = () => {
                         className="glass-card"
                         style={{ padding: '1.5rem', background: '#000' }}
                     >
-                        <div style={{ height: '500px', background: 'url("https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?auto=format&fit=crop&q=80&w=1000") center/cover', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ height: '500px', background: `url(${posterImg}) center/cover`, border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <div style={{ background: 'rgba(0,0,0,0.6)', padding: '1rem 2rem', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(5px)' }}>
                                 <span style={{ color: '#fff', fontSize: '0.8rem', letterSpacing: '2px' }}>OFFICIAL EVENT POSTER</span>
                             </div>
@@ -547,7 +550,19 @@ export const PosterLocation = () => {
                     <div>
                         <span className="section-subtitle">Venue</span>
                         <h2 className="section-title">Mark Your Calendar</h2>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginTop: '3rem' }}>
+
+                        {/* Campus Preview */}
+                        <div style={{
+                            width: '100%',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            marginBottom: '2rem',
+                            border: '1px solid var(--glass-border)'
+                        }}>
+                            <img src={campusImg} alt="VSB Campus" style={{ width: '100%', height: 'auto', display: 'block' }} />
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', marginTop: '1rem' }}>
                             <div style={{ display: 'flex', gap: '1.5rem' }}>
                                 <div style={{ color: 'var(--primary)', flexShrink: 0 }}><Calendar size={32} /></div>
                                 <div>

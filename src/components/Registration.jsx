@@ -57,7 +57,7 @@ const Registration = () => {
 
                             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', gap: '5px', marginBottom: '2rem' }}>
                                 <span style={{ fontSize: '1rem', marginTop: '5px', color: 'var(--text-muted)' }}>₹</span>
-                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>250</span>
+                                <span style={{ fontSize: '3.5rem', fontWeight: '900', color: '#fff', fontFamily: 'Orbitron', lineHeight: 1 }}>300</span>
                             </div>
 
                             <ul style={{ textAlign: 'left', marginBottom: '2.5rem', space: 'y-3' }}>
@@ -205,7 +205,7 @@ const Registration = () => {
                         <div>
                             <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>TIME CRITICAL</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
-                                Registration portal closes on <span style={{ color: '#FF2EDF', fontWeight: 'bold' }}>13/02/2026</span>. Secure your slot before system lockdown.
+                                Registration portal closes on <span style={{ color: '#FF2EDF', fontWeight: 'bold' }}>22/02/2026</span>. Secure your slot before system lockdown.
                             </p>
                         </div>
                     </div>
@@ -218,7 +218,7 @@ const Registration = () => {
                         <div>
                             <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>PROTOCOL ALERT</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
-                                <strong>Ideathon, Startup Arena & Esports:</strong><br />
+                                <strong>Ideathon</strong><br />
                                 Abstract submission required first. Payment only after selection confirmation.
                             </p>
                         </div>

@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Binary, Cpu, Brain, Code, Globe2, Building2, Target, Compass, Sparkles, ExternalLink, GraduationCap, School } from 'lucide-react';
 
+import campusImg from '../assets/campus.png';
+
 const About = () => {
     const timelineData = [
         {
@@ -43,7 +45,7 @@ const About = () => {
                         <span className="section-subtitle">The Mainframe</span>
                         <h2 className="section-title" style={{ marginBottom: '1.5rem' }}>Our Campus</h2>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '2rem' }}>
-                            <div style={{ padding: '5px 12px', background: 'rgba(56, 234, 140, 0.1)', border: '1px solid var(--primary)', borderRadius: '4px', fontSize: '0.7rem', color: 'var(--primary)', fontWeight: '900', letterSpacing: '1px' }}>EST. 2018</div>
+                            <div style={{ padding: '5px 12px', background: 'rgba(56, 234, 140, 0.1)', border: '1px solid var(--primary)', borderRadius: '4px', fontSize: '0.7rem', color: 'var(--primary)', fontWeight: '900', letterSpacing: '1px' }}>EST. 2012</div>
                             <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Coimbatore, Tamil Nadu</span>
                         </div>
                         <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', marginBottom: '2rem' }}>
@@ -68,15 +70,15 @@ const About = () => {
                     >
                         <div style={{ borderRadius: '24px', overflow: 'hidden', border: '1px solid var(--glass-border)', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
                             <img
-                                src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&q=80&w=1000"
+                                src={campusImg}
                                 alt="Campus"
-                                style={{ width: '100%', height: '500px', objectFit: 'cover', filter: 'grayscale(0.3) brightness(0.7)' }}
+                                style={{ width: '100%', height: 'auto', maxHeight: '600px', objectFit: 'contain' }}
                             />
                             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8, 9, 15, 0.9), transparent)' }} />
                         </div>
                         <div style={{ position: 'absolute', bottom: '30px', left: '30px', borderLeft: '4px solid var(--primary)', paddingLeft: '20px' }}>
                             <span style={{ display: 'block', fontSize: '0.7rem', color: 'var(--primary)', fontWeight: '900', letterSpacing: '2px' }}>LOCATION_NODE</span>
-                            <h4 style={{ margin: 0, fontSize: '1.2rem' }}>VSB_TECHNICAL_CAMPUS.ROOT</h4>
+                            <h4 style={{ margin: 0, fontSize: '1.2rem' }}>VSB College of Engineering Technical Campus</h4>
                         </div>
                     </motion.div>
                 </div>

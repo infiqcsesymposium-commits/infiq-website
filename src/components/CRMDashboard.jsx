@@ -81,7 +81,7 @@ const CRMDashboard = () => {
     const [isFeeModalOpen, setIsFeeModalOpen] = useState(false);
     const [currentFee, setCurrentFee] = useState({
         category: "EXTERNAL_PARTICIPANT",
-        feePerStudent: 250,
+        feePerStudent: 300,
         calculationType: "PER_STUDENT",
         priorityAccess: false,
         isActive: true
@@ -428,9 +428,10 @@ const CRMDashboard = () => {
             result = result.filter(reg =>
                 reg.teamName?.toLowerCase().includes(lowerTerm) ||
                 reg.studentName?.toLowerCase().includes(lowerTerm) ||
-                reg.registerNumber?.toLowerCase().includes(lowerTerm) ||
+                reg.regNo?.toLowerCase().includes(lowerTerm) ||
                 reg.collegeName?.toLowerCase().includes(lowerTerm) ||
                 reg.email?.toLowerCase().includes(lowerTerm) ||
+                reg.mobile?.toLowerCase().includes(lowerTerm) ||
                 (reg.teamMembers && reg.teamMembers.some(m => m.toLowerCase().includes(lowerTerm)))
             );
         }
@@ -460,9 +461,9 @@ const CRMDashboard = () => {
         const worksheet = XLSX.utils.json_to_sheet(filteredRegistrations.map(reg => ({
             "Team Name": reg.teamName,
             "Lead Student": reg.studentName,
-            "Register No": reg.registerNumber,
+            "Register No": reg.regNo,
             "Email": reg.email,
-            "Phone": reg.phoneNumber,
+            "Phone": reg.mobile,
             "Event": reg.eventName,
             "Category": reg.category,
             "College": reg.collegeName,
@@ -490,9 +491,9 @@ const CRMDashboard = () => {
                     "Team": reg.teamName || 'N/A',
                     "Student Name": reg.studentName,
                     "Role": "Leader",
-                    "Reg No / College": reg.registerNumber || reg.collegeName,
+                    "Reg No / College": reg.regNo || reg.collegeName,
                     "Dept": reg.department,
-                    "Phone": reg.phoneNumber,
+                    "Phone": reg.mobile,
                     "Status": reg.status
                 });
 
@@ -531,7 +532,7 @@ const CRMDashboard = () => {
                 "College": reg.collegeName,
                 "Dept": reg.department,
                 "Role": "LEADER",
-                "Phone": reg.phoneNumber,
+                "Phone": reg.mobile,
                 "Status": reg.status
             });
 
@@ -630,7 +631,7 @@ const CRMDashboard = () => {
         } else {
             setCurrentFee({
                 category: "EXTERNAL_PARTICIPANT",
-                feePerStudent: 250,
+                feePerStudent: 300,
                 calculationType: "PER_STUDENT",
                 priorityAccess: false,
                 isActive: true
@@ -1461,7 +1462,7 @@ const CRMDashboard = () => {
                                         </div>
                                         <div>
                                             <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Register No</label>
-                                            <div style={{ color: '#fff' }}>{selectedRegistration.registerNumber}</div>
+                                            <div style={{ color: '#fff' }}>{selectedRegistration.regNo}</div>
                                         </div>
                                         <div>
                                             <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>Department</label>
@@ -1527,7 +1528,7 @@ const CRMDashboard = () => {
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
                                     <div>
                                         <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'block', marginBottom: '5px' }}>Phone</label>
-                                        <div style={{ color: '#fff' }}>{selectedRegistration.phoneNumber}</div>
+                                        <div style={{ color: '#fff' }}>{selectedRegistration.mobile}</div>
                                     </div>
                                     <div>
                                         <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'block', marginBottom: '5px' }}>Email</label>

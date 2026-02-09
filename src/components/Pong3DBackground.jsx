@@ -19,8 +19,8 @@ const Pong3DBackground = () => {
             color: 'rgba(0,200,0,.4)',
             gameColor: 'rgba(0,255,0,.8)',
             textColor: 'rgba(0,200,0,.4)',
-            depth: 250,
-            focalLength: 250,
+            depth: 300,
+            focalLength: 300,
             vanishPoint: {
                 x: w / 2,
                 y: h / 2
