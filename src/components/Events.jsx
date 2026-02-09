@@ -460,8 +460,10 @@ const Events = () => {
                                 <span style={{ fontWeight: '800', letterSpacing: '2px' }}>SYSTEM LOGS</span>
                             </div>
                             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.8' }}>
+                                * Symposium Date: FEB 24, 2026. <br />
+                                * Total Prize Pool: ₹50,000 across all events. <br />
+                                * Registration Fee: ₹300 (Lunch Included). <br />
                                 * All events are carefully scheduled to prevent major overlaps. <br />
-                                * Registrations are strictly managed through the INFIQ terminal. <br />
                                 * For technical support, contact the system administrators in the footer.
                             </p>
                         </div>

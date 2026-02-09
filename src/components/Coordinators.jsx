@@ -367,27 +367,23 @@ const Coordinators = () => {
 
     const facultyCoords = [
         {
-            name: "Mr. M. Bharathiraja",
+            name: "Mrs. S. Vigneshwari",
             role: "AP / Dept of CSE",
             type: "FACULTY_COORD",
             img: null
         },
         {
-            name: "Dr. M. Ramesh Kumar",
-            role: "PROF / Dept of CSE",
+            name: "Mr. M. Bharathiraja",
+            role: "AP / Dept of CSE",
             type: "FACULTY_COORD",
             img: null
         }
     ];
 
     const studentCoords = [
-        { name: "Mr. S. Subasanjeev", role: "III - CSE", type: "SYSTEM_NODE" },
-        { name: "Mr. S. Diva", role: "III - CSE", type: "SYSTEM_NODE" },
-        { name: "Mr. S. Prem Kumar", role: "IV - CSE", type: "SUPPORT_NODE" },
-        { name: "Mr. P. Babu Prasanth", role: "IV - CSE", type: "SUPPORT_NODE" },
-        { name: "Mr. V. Sridhar", role: "IV - CSE", type: "SUPPORT_NODE" },
-        { name: "Mr. A. Abish", role: "III - CSE", type: "SYSTEM_NODE" },
-        { name: "Ms. K. Apurvasri", role: "III - CSE", type: "SYSTEM_NODE" }
+        { name: "Mr. S. Prem Kumar", role: "IV - CSE", type: "STUDENT_COORD" },
+        { name: "Mr. P. Babu Prasanth", role: "IV - CSE", type: "STUDENT_COORD" },
+        { name: "Mr. V. Sridhar", role: "IV - CSE", type: "STUDENT_COORD" }
     ];
 
     return (
