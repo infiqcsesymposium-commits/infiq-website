@@ -8,7 +8,7 @@ import {
 import { db } from '../firebaseConfig';
 import { collection, onSnapshot } from 'firebase/firestore';
 import PageTransition from './PageTransition';
-import eventPoster from '../assets/image.png';
+import eventPoster from '../assets/cse final 09.02.2026_page-0001.jpg';
 
 const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
     const [isFlipped, setIsFlipped] = useState(false);
