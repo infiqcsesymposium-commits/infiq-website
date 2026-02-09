@@ -5,10 +5,7 @@ import premImg from '../assets/WhatsApp Image 2026-02-09 at 1.28.28 PM.jpeg';
 import sridharImg from '../assets/WhatsApp Image 2026-02-09 at 1.35.03 PM.jpeg';
 import radhaImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM (1).jpeg';
 import kalaiImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM.jpeg';
-import abishImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (1).jpeg';
 import apurvaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (2).jpeg';
-import divaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM.jpeg';
-import subaImg from '../assets/mypic.jpg.jpeg';
 
 const HeaderSection = () => (
     <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
@@ -432,10 +429,7 @@ const Coordinators = () => {
                                 <CoordinatorCard index={0} person={{ name: "Mr. S. Prem Kumar", role: "Student_Lead", type: "IV YEAR - CSE", img: premImg }} />
                                 <CoordinatorCard index={1} person={{ name: "Mr. P. Babu Prasanth", role: "Student_Lead", type: "IV YEAR - CSE" }} />
                                 <CoordinatorCard index={2} person={{ name: "Mr. V. Sridhar", role: "Student_Lead", type: "IV YEAR - CSE", img: sridharImg }} />
-                                <CoordinatorCard index={3} person={{ name: "Mr. S. Diva", role: "Student_Lead", type: "III YEAR - CSE", img: divaImg }} />
-                                <CoordinatorCard index={4} person={{ name: "Mr. S. Subasanjeev", role: "Student_Lead", type: "III YEAR - CSE", img: subaImg }} />
-                                <CoordinatorCard index={5} person={{ name: "Mr. A. Abish", role: "Student_Lead", type: "III YEAR - CSE", img: abishImg }} />
-                                <CoordinatorCard index={6} person={{ name: "Ms. K. Apurvasri", role: "Student_Lead", type: "III YEAR - CSE", img: apurvaImg }} />
+                                <CoordinatorCard index={3} person={{ name: "Ms. K. Apurvasri", role: "Student_Lead", type: "III YEAR - CSE", img: apurvaImg }} />
                             </div>
                         </motion.div>
                     ) : (
