@@ -5,7 +5,7 @@ import {
     TrendingUp, Activity, Search,
     Filter, Download, MoreHorizontal,
     CheckCircle, AlertCircle, Clock, LogOut, X, ChevronDown, Edit2, Save,
-    Plus, Trash2, Bell, Megaphone, Info, Settings, DollarSign
+    Plus, Trash2, Bell, Megaphone, Info, Settings, DollarSign, Zap
 } from 'lucide-react';
 import { db, auth } from '../firebaseConfig';
 import { collection, onSnapshot, query, orderBy, doc, updateDoc, setDoc, addDoc, deleteDoc, serverTimestamp, getDoc } from 'firebase/firestore';
@@ -839,6 +839,7 @@ const CRMDashboard = () => {
                             { id: 'slots', icon: Clock, label: 'Event Timings' },
                             { id: 'announcements', icon: Megaphone, label: 'Broadcasts' },
                             { id: 'fees', icon: Settings, label: 'Fee Config' },
+                            { id: 'automation', icon: Zap, label: 'Automation' },
                         ].map(item => (
                             <button
                                 key={item.id}
@@ -1413,6 +1414,35 @@ const CRMDashboard = () => {
                                                 )}
                                             </tbody>
                                         </table>
+                                    </div>
+                                </div>
+                            )
+                        }
+
+                        {
+                            activeTab === 'automation' && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <h2 style={{ fontSize: '2rem', color: '#fff', margin: 0 }}>Automation & Assets</h2>
+                                    </div>
+                                    <div className="glass-card" style={{ padding: '3rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+                                        <div style={{ width: '80px', height: '80px', background: 'rgba(56, 234, 140, 0.1)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--primary)', marginBottom: '1rem' }}>
+                                            <Zap size={40} color="var(--primary)" />
+                                        </div>
+                                        <h3 style={{ color: '#fff', fontSize: '1.5rem', margin: 0 }}>Cloudinary Media Library</h3>
+                                        <p style={{ color: 'var(--text-muted)', maxWidth: '500px', lineHeight: '1.6' }}>
+                                            Access the centralized media repository to manage event photos, posters, and participant uploads.
+                                            This link redirects to the secure Cloudinary console.
+                                        </p>
+                                        <a
+                                            href="https://console.cloudinary.com/app/c-77783e6765f26e0edd260f539b4270/assets/media_library/search?q=&view_mode=grid"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn btn-primary"
+                                            style={{ padding: '1rem 2.5rem', fontSize: '1rem', marginTop: '1rem', display: 'inline-flex', alignItems: 'center', gap: '10px' }}
+                                        >
+                                            Open Media Library <MoreHorizontal size={18} />
+                                        </a>
                                     </div>
                                 </div>
                             )
