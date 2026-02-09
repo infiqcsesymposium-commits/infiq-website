@@ -821,8 +821,8 @@ const CRMDashboard = () => {
                 </AnimatePresence>
 
                 {/* Sidebar Navigation */}
-                <aside className={`crm-sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
-                    <div className="glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', height: '100%', borderRadius: '0', borderTop: 'none', borderBottom: 'none', borderLeft: 'none', background: 'rgba(5, 6, 10, 0.8)' }}>
+                <aside className={`crm-sidebar ${isMobileMenuOpen ? 'open' : ''}`} style={{ overflowY: 'auto' }}>
+                    <div className="glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', minHeight: '100%', borderRadius: '0', borderTop: 'none', borderBottom: 'none', borderLeft: 'none', background: 'rgba(5, 6, 10, 0.8)' }}>
                         <div style={{ marginBottom: '2.5rem', padding: '0.5rem', borderBottom: '1px solid rgba(56, 234, 140, 0.1)' }}>
                             <div style={{ fontSize: '0.65rem', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '0.5rem', fontWeight: '800' }}>Administrative Hub</div>
                             <div style={{ color: '#fff', fontSize: '1.4rem', fontWeight: '900', letterSpacing: '-0.5px' }}>MASTER_REGISTRY</div>
@@ -854,6 +854,7 @@ const CRMDashboard = () => {
                             >
                                 <item.icon size={20} />
                                 {item.label}
+                                {item.id === 'automation' && <span style={{ marginLeft: 'auto', fontSize: '10px', background: 'var(--primary)', color: '#000', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>NEW</span>}
                             </button>
                         ))}
 
@@ -985,6 +986,68 @@ const CRMDashboard = () => {
                                         <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>Other Dept Teams</div>
                                         <div style={{ fontSize: '2rem', color: 'var(--primary)', fontWeight: 'bold' }}>{otherDeptTeamsCount}</div>
                                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Non-CSE Internal</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'automation' && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 0' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                                        <div style={{ padding: '12px', background: 'rgba(56, 234, 140, 0.1)', borderRadius: '12px', border: '1px solid var(--primary)' }}>
+                                            <Zap size={24} color="var(--primary)" />
+                                        </div>
+                                        <div>
+                                            <h2 style={{ fontSize: '2rem', color: '#fff', margin: 0, fontFamily: 'Share Tech Mono' }}>SYSTEM_AUTOMATION</h2>
+                                            <div style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '2px' }}>UPLINK_STATUS: <span style={{ color: 'var(--primary)' }}>ACTIVE</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="glass-card" style={{ padding: '4rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2.5rem', background: 'rgba(56, 234, 140, 0.03)', border: '1px solid rgba(56, 234, 140, 0.15)', borderRadius: '32px' }}>
+                                    <div style={{ position: 'relative' }}>
+                                        <div style={{ width: '120px', height: '120px', background: 'rgba(56, 234, 140, 0.05)', borderRadius: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(56, 234, 140, 0.3)', boxShadow: '0 0 40px rgba(56, 234, 140, 0.1)' }}>
+                                            <Activity size={64} color="var(--primary)" />
+                                        </div>
+                                        <motion.div
+                                            animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.6, 0.3] }}
+                                            transition={{ repeat: Infinity, duration: 3 }}
+                                            style={{ position: 'absolute', top: '-10px', right: '-10px', width: '20px', height: '20px', background: 'var(--primary)', borderRadius: '50%', filter: 'blur(8px)' }}
+                                        />
+                                    </div>
+
+                                    <div style={{ textAlign: 'center' }}>
+                                        <h3 style={{ color: '#fff', fontSize: '1.8rem', margin: '0 0 1rem 0', fontFamily: 'Orbitron', letterSpacing: '1px' }}>CLOUDINARY_MEDIA_REGISTRY</h3>
+                                        <p style={{ color: 'var(--text-muted)', maxWidth: '650px', lineHeight: '1.8', fontSize: '1.05rem', margin: '0 auto' }}>
+                                            Access the secure cloud vault for all event media assets. Verify participant transaction proofs,
+                                            manage symposium photo galleries, and retrieve official posters through this encrypted uplink.
+                                        </p>
+                                    </div>
+
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+                                        <a
+                                            href="https://console.cloudinary.com/app/c-77783e6765f26e0edd260f539b4270/assets/media_library/search?q=&view_mode=grid"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="btn btn-primary"
+                                            style={{
+                                                padding: '1.2rem 3.5rem',
+                                                fontSize: '1.1rem',
+                                                display: 'inline-flex',
+                                                alignItems: 'center',
+                                                gap: '15px',
+                                                fontWeight: 'bold',
+                                                letterSpacing: '1px',
+                                                boxShadow: '0 0 50px rgba(56, 234, 140, 0.15)'
+                                            }}
+                                        >
+                                            OPEN ASSET CONSOLE <MoreHorizontal size={20} />
+                                        </a>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.5 }}>
+                                            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)' }} />
+                                            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'Share Tech Mono' }}>REDIRECTING_TO_EXTERNAL_CLOUD_DOMAIN_PORT_443</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1418,42 +1481,13 @@ const CRMDashboard = () => {
                                 </div>
                             )
                         }
-
-                        {
-                            activeTab === 'automation' && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <h2 style={{ fontSize: '2rem', color: '#fff', margin: 0 }}>Automation & Assets</h2>
-                                    </div>
-                                    <div className="glass-card" style={{ padding: '3rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
-                                        <div style={{ width: '80px', height: '80px', background: 'rgba(56, 234, 140, 0.1)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--primary)', marginBottom: '1rem' }}>
-                                            <Zap size={40} color="var(--primary)" />
-                                        </div>
-                                        <h3 style={{ color: '#fff', fontSize: '1.5rem', margin: 0 }}>Cloudinary Media Library</h3>
-                                        <p style={{ color: 'var(--text-muted)', maxWidth: '500px', lineHeight: '1.6' }}>
-                                            Access the centralized media repository to manage event photos, posters, and participant uploads.
-                                            This link redirects to the secure Cloudinary console.
-                                        </p>
-                                        <a
-                                            href="https://console.cloudinary.com/app/c-77783e6765f26e0edd260f539b4270/assets/media_library/search?q=&view_mode=grid"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="btn btn-primary"
-                                            style={{ padding: '1rem 2.5rem', fontSize: '1rem', marginTop: '1rem', display: 'inline-flex', alignItems: 'center', gap: '10px' }}
-                                        >
-                                            Open Media Library <MoreHorizontal size={18} />
-                                        </a>
-                                    </div>
-                                </div>
-                            )
-                        }
                     </div>
                 </main>
             </div>
 
 
             {/* Registration Detail Modal */}
-            <AnimatePresence>
+            < AnimatePresence >
                 {isModalOpen && selectedRegistration && (
                     <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
                         <motion.div
@@ -1914,8 +1948,8 @@ const CRMDashboard = () => {
                         </motion.div>
                     </div>
                 )}
-            </AnimatePresence>
-        </section>
+            </AnimatePresence >
+        </section >
     );
 };
 
