@@ -57,7 +57,7 @@ const RegistrationForm = () => {
         },
         {
             id: 3,
-            title: "Code Debugging",
+            title: "Debugging Challenge",
             category: "TECHNICAL",
             tag: "CODE",
             time: "10:00 AM - 1:00 PM",
@@ -66,7 +66,7 @@ const RegistrationForm = () => {
         },
         {
             id: 4,
-            title: "Web Designing",
+            title: "Web / App Development",
             category: "TECHNICAL",
             tag: "DEV",
             time: "10:00 AM - 1:00 PM",
@@ -75,7 +75,7 @@ const RegistrationForm = () => {
         },
         {
             id: 5,
-            title: "Technical Quiz",
+            title: "Tech Quiz",
             category: "TECHNICAL",
             tag: "QUIZ",
             time: "2:00 PM - 3:00 PM",
@@ -84,7 +84,7 @@ const RegistrationForm = () => {
         },
         {
             id: 6,
-            title: "Connections", // Non-technical in some contexts, but let's stick to previous categorization or user intent. Assuming Technical based on list.
+            title: "Connections",
             category: "NON-TECHNICAL",
             tag: "FUN",
             time: "11:00 AM - 12:00 PM",
@@ -94,7 +94,7 @@ const RegistrationForm = () => {
         {
             id: 7,
             title: "AR/VR Showcase (Visionix)",
-            category: "TECHNICAL",
+            category: "NON-TECHNICAL",
             tag: "FUTURE",
             time: "1:00 PM - 2:00 PM",
             venue: "AR/VR Lab",
@@ -112,30 +112,39 @@ const RegistrationForm = () => {
         },
         {
             id: 9,
-            title: "Short Film",
+            title: "Logo Design",
             category: "NON-TECHNICAL",
-            tag: "CINEMA",
+            tag: "DESIGN",
             time: "2:00 PM",
             venue: "Auditorium",
-            dbName: "Short Film"
+            dbName: "Logo Design"
         },
         {
             id: 10,
-            title: "Esports",
+            title: "Poster Design",
             category: "NON-TECHNICAL",
-            tag: "GAMING",
+            tag: "MULTIMEDIA",
             time: "11:00 AM",
             venue: "Lab 4",
-            dbName: "Esports"
+            dbName: "Multimedia Editing"
         },
         {
             id: 11,
-            title: "Ideathon",
+            title: "Mini Hackathon",
             category: "TECHNICAL",
             tag: "HACK",
             time: "10:00 AM",
             venue: "A305",
             dbName: "Ideathon"
+        },
+        {
+            id: 12,
+            title: "Non-Tech Quiz",
+            category: "NON-TECHNICAL",
+            tag: "FUN",
+            time: "2:00 PM",
+            venue: "A105",
+            dbName: "Pop Quiz"
         }
     ];
 

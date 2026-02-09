@@ -213,14 +213,14 @@ const Events = () => {
         {
             title: "PUBLITEX",
             subtitle: "PAPER PRESENTATION",
-            dbName: "Paper Presentation", // Mapped to DB value
+            dbName: "Paper Presentation",
             icon: <FileText />,
             img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
-            desc: "Present your innovative ideas and research in the field of technology and engineering.",
-            tag: "RESEARCH",
+            desc: "Showcase original research work. Present innovative engineering ideas. Test professional delivery skills. Premier technical student forum.",
+            tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Team size: Max 4 members", "Time limit: 10 mins", "Abstract mandatory", "Q&A session included"]
+            rules: ["Strict 5 minute format.", "One to four members.", "Mandatory expert Q&A session.", "Cover abstract and results."]
         },
         {
             title: "CODE SURGEON",
@@ -228,11 +228,11 @@ const Events = () => {
             dbName: "Code Debugging",
             icon: <Bug />,
             img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=800",
-            desc: "Test your skills in finding and fixing critical bugs in complex codebases.",
-            tag: "CODE",
+            desc: "Repair complex code errors. Restore full system functionality. High-octane technical contest. Test of coding skill.",
+            tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Individual Contest", "Language: C/C++/Java/Python", "Time: 60 Minutes", "No Internet Allowed"]
+            rules: ["No internet or AI.", "Use provided IDE only.", "Pass all test cases.", "Work independently within time."]
         },
         {
             title: "INNOVEXPO",
@@ -240,24 +240,24 @@ const Events = () => {
             dbName: "Project Expo",
             icon: <Cpu />,
             img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
-            desc: "Showcase your working projects that offer practical real-world solutions.",
-            tag: "INNOVATION",
+            desc: "Exhibition of working prototypes. Demonstrates technical engineering ingenuity. Solves practical real-world problems. Bridge to industry scouts.",
+            tag: "TECHNICAL",
             category: "TECHNICAL",
             isFeatured: true,
             prize: "Exciting Prizes",
-            rules: ["Team Size: Max 4", "Working model required", "Abstract mandatory", "Judged on Innovation"]
+            rules: ["Must show functional prototype.", "Live demonstrations are required.", "Provide technical project reports.", "Follow campus safety regulations."]
         },
         {
             title: "DEVATHON",
-            subtitle: "WEB/APP DEV",
-            dbName: "Web Designing", // Assuming mapping
+            subtitle: "WEB / APP DEVELOPMENT",
+            dbName: "Web Designing",
             icon: <Globe />,
             img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800",
-            desc: "Build modern, responsive web or mobile applications with the latest tech stack.",
-            tag: "DEV",
+            desc: "Intensive fast-paced hackathon. Build functional digital solutions. Solve real-world user problems. Rapid conceptual to deployment.",
+            tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Topic on-spot", "Duration: 4 Hours", "Bring your own laptop", "Max 4 per team"]
+            rules: ["No-code builders strictly forbidden.", "Prioritize functional MVP features.", "Ensure fully responsive designs.", "Submit live hosted links."]
         },
         {
             title: "QUIZTRON",
@@ -265,36 +265,36 @@ const Events = () => {
             dbName: "Technical Quiz",
             icon: <HelpCircle />,
             img: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&q=80&w=800",
-            desc: "Test your technical knowledge in this rapid-fire quiz competition.",
-            tag: "QUIZ",
+            desc: "Tests broad technology knowledge. Covers history and breakthroughs. Includes AI, Quantum trends. Identifies ultimate 'tech-heads.'",
+            tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Team of 2", "Multiple Rounds", "Tech & General QA", "Buzzer Round Final"]
+            rules: ["Electronic gadgets strictly prohibited.", "Preliminary and final rounds.", "Buzzer rounds penalize errors.", "Quiz Master's decision final."]
         },
         // ... (Other events would follow same pattern, ensuring dbName matches selection in form)
         {
             title: "CODEFUSION",
             subtitle: "MINI HACKATHON",
-            dbName: "Ideathon", // Mapping to closest if needed or add new
+            dbName: "Ideathon",
             icon: <Code />,
             img: "https://images.unsplash.com/photo-1504384308090-c54be3852f33?auto=format&fit=crop&q=80&w=800",
-            desc: "Collaborate and code to solve complex problem statements in a limited time.",
-            tag: "HACK",
+            desc: "Intense product development sprint. Rapid prototyping focused event. Build functional technical solutions. High-speed innovation challenge.",
+            tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Team Size: 2-3", "Duration: 3 Hours", "Problem statement on-spot", "Efficiency matters"]
+            rules: ["Theme revealed at start.", "Finish within two days.", "Build entirely from scratch.", "No pre-built projects allowed."]
         },
         {
             title: "VISIONIX",
-            subtitle: "AR/VR SHOWCASE",
+            subtitle: "AR/VR",
             dbName: "AR/VR Showcase",
             icon: <Eye />,
             img: "https://images.unsplash.com/photo-1592478411213-61535f944886?auto=format&fit=crop&q=80&w=800",
-            desc: "Experience and create immersive augmented and virtual reality solutions.",
-            tag: "FUTURE",
-            category: "TECHNICAL",
+            desc: "Future of interactive entertainment. High-fidelity virtual world battle. Physical movements drive action. Pulse-pounding timed VR simulation.",
+            tag: "GAMING",
+            category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Individual only (No teams)", "Additional Fee: ₹100", "Device provided/BYOD", "Implementation check"]
+            rules: ["100 Rupee entry fee.", "Strict 10-minute total session.", "Stay within marked zone.", "No rough equipment handling."]
         },
         {
             title: "PIXEL VISION",
@@ -302,35 +302,35 @@ const Events = () => {
             dbName: "Photography",
             icon: <Camera />,
             img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
-            desc: "Capture the perfect moment, lighting, and composition to win.",
+            desc: "Capture university life essence. Real-time on-campus creative challenge. Align with specific themes. Find hidden campus stories.",
             tag: "CREATIVE",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Theme-based", "Mobile/DSLR allowed", "Editing restricted", "On-campus shots only"]
+            rules: ["Stay within campus boundaries.", "Metadata verifies time taken.", "No gallery images allowed.", "Respect campus privacy rules."]
         },
         {
             title: "POSTERIA",
             subtitle: "POSTER DESIGN",
-            dbName: "Multimedia Editing", // Mapping
+            dbName: "Multimedia Editing",
             icon: <Image />,
             img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800",
-            desc: "Design visually stunning posters that communicate a powerful message.",
-            tag: "DESIGN",
+            desc: "High-impact visual communication challenge. Blend graphics and typography. Translate themes into messages. Balance aesthetics with clarity.",
+            tag: "CREATIVE",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Digital/Handmade", "Theme on-spot", "Originality key", "Presentation matters"]
+            rules: ["Use professional design tools.", "Ensure high-resolution print quality.", "Work within campus laboratory.", "All elements must be original."]
         },
         {
             title: "POOFRENZY",
-            subtitle: "POP CULTURE QUIZ",
-            dbName: "Connections", // Closest non-tech or add new
+            subtitle: "NON-TECH QUIZ",
+            dbName: "Pop Quiz",
             icon: <Zap />,
             img: "https://images.unsplash.com/photo-1514525253440-b393452e3383?auto=format&fit=crop&q=80&w=800",
-            desc: "Test your knowledge of pop culture, movies, music, and general trivia.",
-            tag: "FUN",
+            desc: "Battle of trivia wits. Covers pop culture history. Celebrates general daily knowledge. Written round to finals.",
+            tag: "GAMING",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Team of 2", "Rapid fire rounds", "Movies/Music/Series", "Buzzer round"]
+            rules: ["No smartphones or smartwatches.", "Incorrect buzzer guesses penalize.", "Quiz Master ruling final.", "Elimination round starts event."]
         },
         {
             title: "LINKSTORM",
@@ -338,23 +338,23 @@ const Events = () => {
             dbName: "Connections",
             icon: <Users />,
             img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
-            desc: "Classic word-matching and logic puzzle game. Connect the dots to win.",
-            tag: "GAME",
+            desc: "Identify hidden link patterns. Logic and lateral thinking. Interactive non-technical clue game. Enjoyable for all participants.",
+            tag: "GAMING",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Team of 2", "Visual clues", "Time limits", "Lateral thinking"]
+            rules: ["No mobile phone usage.", "Thirty-sixty second time limits.", "Team representative must respond.", "Pre-register before event start."]
         },
         {
             title: "LOGOZO",
             subtitle: "LOGO DESIGN",
-            dbName: "Web Designing", // Placeholder
+            dbName: "Logo Design",
             icon: <Palette />,
             img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800",
-            desc: "Showcase your artistic skills and brand identity vision by designing unique logos.",
-            tag: "DESIGN",
+            desc: "Battle of creative aesthetics. Define unique brand identity. Communicate messages through shapes. Platform for visual conceptualization.",
+            tag: "CREATIVE",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Theme on-spot", "Software/Paper", "Explain concept", "No plagiarism"]
+            rules: ["Sixty-minute strict time limit.", "No AI-generated imagery.", "Submit source file explanation.", "Theme revealed at start."]
         }
     ];
 
