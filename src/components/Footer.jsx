@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Facebook, Twitter, Mail, Phone, MapPin, Calendar, Terminal, Sparkles, ExternalLink } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Mail, Phone, MapPin, Calendar, Terminal, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Logo from './Logo';
@@ -379,7 +379,7 @@ const Footer = () => {
 
                     {/* Powered By */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <Sparkles size={14} color="var(--primary)" />
+                        <Terminal size={14} color="var(--primary)" />
                         <p style={{
                             fontSize: '0.75rem',
                             color: 'var(--text-muted)',

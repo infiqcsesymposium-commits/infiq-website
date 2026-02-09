@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, Sparkles } from 'lucide-react';
+import { X, Calendar, Clock, Terminal, ShieldCheck, ArrowRight, Activity, Cpu } from 'lucide-react';
 
 const RegistrationPopup = ({ onClose }) => {
     const [show, setShow] = useState(false);
@@ -10,9 +10,7 @@ const RegistrationPopup = ({ onClose }) => {
         const releaseDate = new Date('2026-02-09T00:00:00');
         const currentDate = new Date();
 
-        // Show popup only if current date is on or after release date
         if (currentDate >= releaseDate) {
-            // Check if user has already dismissed the popup in this session
             const hasSeenPopup = sessionStorage.getItem('regPopupSeen');
             if (!hasSeenPopup) {
                 setShow(true);
@@ -36,205 +34,180 @@ const RegistrationPopup = ({ onClose }) => {
                 exit={{ opacity: 0 }}
                 style={{
                     position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'rgba(0, 0, 0, 0.85)',
-                    backdropFilter: 'blur(10px)',
+                    inset: 0,
+                    background: 'radial-gradient(circle at center, rgba(10, 15, 30, 0.95), #05060A)',
+                    backdropFilter: 'blur(15px)',
                     zIndex: 9999,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '1rem'
+                    padding: '1.5rem',
+                    overflow: 'hidden'
                 }}
             >
+                {/* Background Decorations */}
+                <div style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none' }}>
+                    <div style={{ position: 'absolute', top: '10%', left: '10%', width: '300px', height: '300px', background: 'var(--primary)', filter: 'blur(150px)', opacity: 0.1 }} />
+                    <div style={{ position: 'absolute', bottom: '10%', right: '10%', width: '300px', height: '300px', background: 'var(--neon-blue)', filter: 'blur(150px)', opacity: 0.1 }} />
+                </div>
+
                 <motion.div
-                    initial={{ scale: 0.5, opacity: 0, y: 50 }}
+                    initial={{ scale: 0.9, opacity: 0, y: 30 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.5, opacity: 0, y: 50 }}
-                    transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                    exit={{ scale: 0.9, opacity: 0, y: 30 }}
+                    transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                     style={{
-                        background: 'linear-gradient(135deg, rgba(10, 10, 30, 0.95) 0%, rgba(20, 20, 50, 0.95) 100%)',
-                        borderRadius: '24px',
-                        padding: '3rem',
-                        maxWidth: '600px',
+                        background: 'rgba(15, 17, 26, 0.7)',
+                        borderRadius: '32px',
+                        maxWidth: '850px',
                         width: '100%',
                         position: 'relative',
-                        border: '2px solid var(--primary)',
-                        boxShadow: '0 0 60px rgba(56, 234, 140, 0.3), inset 0 0 60px rgba(56, 234, 140, 0.05)',
-                        textAlign: 'center'
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        boxShadow: '0 40px 100px rgba(0,0,0,0.8), inset 0 0 80px rgba(255,255,255,0.02)',
+                        overflow: 'hidden',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))'
                     }}
                 >
-                    {/* Close Button */}
+                    {/* Visual Side */}
+                    <div style={{
+                        padding: '3.5rem',
+                        background: 'linear-gradient(135deg, rgba(8, 9, 15, 0.8), transparent)',
+                        position: 'relative',
+                        borderRight: '1px solid rgba(255,255,255,0.05)'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '2rem' }}>
+                            <div style={{ padding: '8px', background: 'rgba(56, 234, 140, 0.1)', borderRadius: '10px' }}>
+                                <Activity size={20} color="var(--primary)" />
+                            </div>
+                            <span style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '4px', fontWeight: '900', fontFamily: 'Orbitron' }}>SYSTEM_LAUNCH</span>
+                        </div>
+
+                        <h2 style={{
+                            fontSize: '3.5rem',
+                            fontWeight: '950',
+                            color: '#fff',
+                            lineHeight: '1',
+                            marginBottom: '1.5rem',
+                            letterSpacing: '-2px',
+                            fontFamily: 'Orbitron'
+                        }}>
+                            GATEWAY <br /><span style={{ color: 'var(--primary)' }}>INITIALIZED</span>
+                        </h2>
+
+                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: '3rem', lineHeight: '1.6' }}>
+                            The portal to INFIQ 2K26 is now active. Secure your node in the network to access the ultimate tech symposium.
+                        </p>
+
+                        <div style={{ display: 'grid', gap: '1.5rem' }}>
+                            {[
+                                { icon: <Calendar size={18} />, label: 'DATE_NODE', value: 'FEB 24, 2026' },
+                                { icon: <ShieldCheck size={18} />, label: 'SECURITY', value: 'ENCRYPTED_ACCESS' },
+                                { icon: <Clock size={18} />, label: 'STATUS', value: 'LIVE_PENDING' }
+                            ].map((item, i) => (
+                                <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                    <div style={{ color: 'rgba(255,255,255,0.3)' }}>{item.icon}</div>
+                                    <div>
+                                        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '2px', fontWeight: '700' }}>{item.label}</div>
+                                        <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.9rem' }}>{item.value}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Action Side */}
+                    <div style={{ padding: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'rgba(0,0,0,0.2)' }}>
+                        <div style={{ marginBottom: '3rem' }}>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--primary)', fontWeight: 'bold', marginBottom: '0.5rem' }}>PROTOCOL_REG01</div>
+                            <h3 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: '800' }}>Registration Sequence</h3>
+                        </div>
+
+                        <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 3rem 0', display: 'grid', gap: '1.5rem' }}>
+                            {[
+                                { title: 'Core Validation', desc: 'Verify institution credentials' },
+                                { title: 'Node Assignment', desc: 'Select technical or non-tech domains' },
+                                { title: 'Final Sync', desc: 'Secure payment and slot locking' }
+                            ].map((step, i) => (
+                                <li key={i} style={{ display: 'flex', gap: '1.2rem' }}>
+                                    <div style={{ width: '28px', height: '28px', background: 'rgba(255,255,255,0.05)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', color: 'var(--primary)', border: '1px solid rgba(56, 234, 140, 0.2)', fontWeight: 'bold' }}>
+                                        {i + 1}
+                                    </div>
+                                    <div>
+                                        <div style={{ color: '#fff', fontWeight: '700', fontSize: '0.9rem' }}>{step.title}</div>
+                                        <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{step.desc}</div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <motion.button
+                            onClick={handleClose}
+                            whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(56, 234, 140, 0.3)' }}
+                            whileTap={{ scale: 0.98 }}
+                            style={{
+                                width: '100%',
+                                padding: '1.25rem',
+                                background: 'var(--primary)',
+                                border: 'none',
+                                borderRadius: '16px',
+                                color: '#000',
+                                fontWeight: '900',
+                                fontSize: '1rem',
+                                letterSpacing: '2px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '12px',
+                                marginBottom: '1.5rem'
+                            }}
+                        >
+                            INITIALIZE_SYSTEM <ArrowRight size={20} />
+                        </motion.button>
+
+                        <button
+                            onClick={handleClose}
+                            style={{
+                                padding: '1rem',
+                                background: 'transparent',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '16px',
+                                color: 'rgba(255,255,255,0.5)',
+                                fontSize: '0.8rem',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'}
+                            onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'}
+                        >
+                            CLOSE_SESSION
+                        </button>
+                    </div>
+
+                    {/* Exit Button */}
                     <button
                         onClick={handleClose}
                         style={{
                             position: 'absolute',
-                            top: '1.5rem',
-                            right: '1.5rem',
-                            background: 'rgba(255, 255, 255, 0.1)',
-                            border: 'none',
+                            top: '20px',
+                            right: '20px',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
                             borderRadius: '50%',
-                            width: '40px',
-                            height: '40px',
+                            width: '44px',
+                            height: '44px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s',
-                            color: '#fff'
-                        }}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                            e.currentTarget.style.transform = 'rotate(90deg)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                            e.currentTarget.style.transform = 'rotate(0deg)';
-                        }}
-                    >
-                        <X size={24} />
-                    </button>
-
-                    {/* Sparkles Icon with Animation */}
-                    <motion.div
-                        animate={{
-                            rotate: [0, 360],
-                            scale: [1, 1.2, 1]
-                        }}
-                        transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: 'easeInOut'
-                        }}
-                        style={{
-                            display: 'inline-flex',
-                            padding: '1.5rem',
-                            background: 'rgba(56, 234, 140, 0.15)',
-                            borderRadius: '50%',
-                            marginBottom: '2rem',
-                            border: '2px solid var(--primary)'
-                        }}
-                    >
-                        <Sparkles size={60} color="var(--primary)" />
-                    </motion.div>
-
-                    {/* Title */}
-                    <h1
-                        style={{
-                            fontSize: '2.5rem',
-                            fontWeight: '900',
-                            marginBottom: '1rem',
-                            background: 'linear-gradient(135deg, var(--primary) 0%, var(--neon-blue) 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            textShadow: '0 0 30px rgba(56, 234, 140, 0.5)',
-                            lineHeight: '1.2'
-                        }}
-                    >
-                        Registrations Now Open! 🎉
-                    </h1>
-
-                    {/* Subtitle */}
-                    <p
-                        style={{
-                            fontSize: '1.2rem',
                             color: '#fff',
-                            marginBottom: '2rem',
-                            lineHeight: '1.6'
-                        }}
-                    >
-                        Join us for <strong style={{ color: 'var(--primary)' }}>INFIQ 2K26</strong> - The Ultimate Tech Symposium!
-                    </p>
-
-                    {/* Event Details */}
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            gap: '2rem',
-                            marginBottom: '2.5rem',
-                            flexWrap: 'wrap'
-                        }}
-                    >
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem',
-                                background: 'rgba(56, 234, 140, 0.1)',
-                                padding: '0.75rem 1.25rem',
-                                borderRadius: '12px',
-                                border: '1px solid rgba(56, 234, 140, 0.2)'
-                            }}
-                        >
-                            <Calendar size={20} color="var(--primary)" />
-                            <span style={{ color: '#fff', fontWeight: '600' }}>Feb 9, 2026</span>
-                        </div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem',
-                                background: 'rgba(0, 229, 255, 0.1)',
-                                padding: '0.75rem 1.25rem',
-                                borderRadius: '12px',
-                                border: '1px solid rgba(0, 229, 255, 0.2)'
-                            }}
-                        >
-                            <Clock size={20} color="var(--neon-blue)" />
-                            <span style={{ color: '#fff', fontWeight: '600' }}>Limited Slots</span>
-                        </div>
-                    </div>
-
-                    {/* Description */}
-                    <p
-                        style={{
-                            fontSize: '1rem',
-                            color: 'var(--text-muted)',
-                            marginBottom: '2.5rem',
-                            lineHeight: '1.7'
-                        }}
-                    >
-                        Explore cutting-edge technology, compete in exciting events, and connect with innovators. Register now to secure your spot!
-                    </p>
-
-                    {/* CTA Button */}
-                    <motion.button
-                        onClick={handleClose}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="btn btn-primary"
-                        style={{
-                            width: '100%',
-                            padding: '1.2rem 2rem',
-                            fontSize: '1.2rem',
-                            fontWeight: 'bold',
-                            borderRadius: '12px',
-                            background: 'linear-gradient(135deg, var(--primary) 0%, #2dd4bf 100%)',
-                            border: 'none',
-                            color: '#000',
                             cursor: 'pointer',
-                            boxShadow: '0 10px 30px rgba(56, 234, 140, 0.4)',
-                            transition: 'all 0.3s'
+                            zIndex: 10
                         }}
                     >
-                        Start Registration →
-                    </motion.button>
-
-                    {/* Bottom Note */}
-                    <p
-                        style={{
-                            fontSize: '0.85rem',
-                            color: 'var(--text-muted)',
-                            marginTop: '1.5rem',
-                            opacity: 0.7
-                        }}
-                    >
-                        This popup will only appear once per session
-                    </p>
+                        <X size={20} />
+                    </button>
                 </motion.div>
             </motion.div>
         </AnimatePresence>

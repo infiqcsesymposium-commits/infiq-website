@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Binary, Cpu, Brain, Code, Globe2, Building2, Target, Compass, Sparkles, ExternalLink, GraduationCap, School } from 'lucide-react';
+import { Binary, Cpu, Brain, Code, Globe2, Building2, Target, Compass, ExternalLink, GraduationCap, School } from 'lucide-react';
 
 import campusImg from '../assets/campus.png';
 
@@ -179,7 +179,7 @@ const About = () => {
                             <GraduationCap size={20} className="text-[#38EA8C]" /> Mentorship Driven
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#fff', fontSize: '0.9rem' }}>
-                            <Sparkles size={20} className="text-[#38EA8C]" /> Innovation Hub
+                            <Cpu size={20} className="text-[#38EA8C]" /> Innovation Hub
                         </div>
                     </div>
                 </motion.div>

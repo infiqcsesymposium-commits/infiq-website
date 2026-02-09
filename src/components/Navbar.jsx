@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Terminal, Sparkles, ChevronRight } from 'lucide-react';
+import { Menu, X, Terminal, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
@@ -90,7 +90,6 @@ const Navbar = () => {
                     {/* Action Buttons */}
                     <div className="nav-actions-new">
                         <Link to="/register" className="nav-register-btn">
-                            <Sparkles size={16} strokeWidth={2.5} />
                             <span>Register</span>
                             <ChevronRight size={16} strokeWidth={2.5} />
                         </Link>
@@ -179,7 +178,6 @@ const Navbar = () => {
                                     className="mobile-register-btn"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    <Sparkles size={18} />
                                     <span>Register Now</span>
                                 </Link>
 

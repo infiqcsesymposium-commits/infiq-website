@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PageTransition from '../components/PageTransition';
-import { Clock, MapPin, Coffee, Trophy, Stars, Zap, Play, Terminal } from 'lucide-react';
+import { Clock, MapPin, Coffee, Trophy, Activity, Zap, Play, Terminal } from 'lucide-react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 
 const TimelinePage = () => {
@@ -21,7 +21,7 @@ const TimelinePage = () => {
         { time: "10:00 AM", title: "Main Process Start", desc: "Grand Inauguration. Initializing the day with visionaries.", icon: <Play size={20} /> },
         { time: "11:00 AM", title: "Parallel Execution", desc: "Technical & Non-Technical tracks start simultaneously across nodes.", icon: <Zap size={20} /> },
         { time: "01:00 PM", title: "Resource Recharge", desc: "Power lunch and networking at the main server hall (Food Court).", icon: <Coffee size={20} /> },
-        { time: "02:00 PM", title: "Overflow Check", desc: "Final rounds and showdowns for the elite innovators.", icon: <Stars size={20} /> },
+        { time: "02:00 PM", title: "Overflow Check", desc: "Final rounds and showdowns for the elite innovators.", icon: <Activity size={20} /> },
         { time: "04:30 PM", title: "System Shutdown", desc: "Valedictory ceremony & awards. Finalizing all processes.", icon: <Trophy size={20} /> }
     ];
 

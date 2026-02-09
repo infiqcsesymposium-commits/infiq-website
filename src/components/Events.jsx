@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Cpu, Gamepad2, FileText, Bug,
     Globe, HelpCircle, Code, Palette, Eye,
-    Camera, Image, Users, Sparkles, ChevronRight, Terminal, Zap
+    Camera, Image, Users, ChevronRight, Terminal, Zap
 } from 'lucide-react';
 import { db } from '../firebaseConfig';
 import { collection, onSnapshot } from 'firebase/firestore';

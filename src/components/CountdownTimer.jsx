@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Calendar, Sparkles, ShieldCheck, Zap } from 'lucide-react';
+import { Clock, Calendar, ShieldCheck, Zap } from 'lucide-react';
 
 const CountdownTimer = () => {
     const releaseDate = new Date('2026-02-09T00:00:00');

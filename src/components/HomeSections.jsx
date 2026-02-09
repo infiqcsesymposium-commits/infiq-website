@@ -323,7 +323,7 @@ export const EventCountdown = () => {
                 <div className="marquee-content">
                     {[1, 2, 3, 4].map((i) => (
                         <span key={i} className="marquee-item" style={{ color: 'var(--primary)' }}>
-                            Technical Events *<span>✦</span> NON-Technical Events *<span>✦</span> PROJECT EXPO <span>✦</span>
+                            Technical Events | <span>SECURE</span> NON-Technical Events | <span>SECURE</span> PROJECT EXPO <span>SECURE</span>
                         </span>
                     ))}
                 </div>
