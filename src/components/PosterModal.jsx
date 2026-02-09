@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, Share2, Image as ImageIcon } from 'lucide-react';
-import eventPoster from '../assets/cse final 09.02.2026_page-0001.jpg';
+import eventPoster from '../assets/infiqWEBSITE .png';
 
 const PosterModal = ({ isOpen, onClose }) => {
     // Close on 'Escape' key press
@@ -210,7 +210,14 @@ const PosterModal = ({ isOpen, onClose }) => {
 
                             {/* Poster Image */}
                             <div className="poster-modal-image-container" style={{
-                                background: 'rgba(0, 0, 0, 0.2)'
+                                background: 'rgba(0, 0, 0, 0.4)',
+                                flex: 1,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                overflow: 'hidden',
+                                padding: 'clamp(0.5rem, 2vw, 1.5rem)',
+                                position: 'relative'
                             }}>
                                 <motion.img
                                     initial={{ opacity: 0, scale: 0.95 }}
@@ -225,9 +232,9 @@ const PosterModal = ({ isOpen, onClose }) => {
                                         width: 'auto',
                                         height: 'auto',
                                         objectFit: 'contain',
-                                        borderRadius: 'clamp(8px, 2vw, 12px)',
-                                        border: '1px solid rgba(255, 255, 255, 0.05)',
-                                        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)'
+                                        borderRadius: 'clamp(4px, 1vw, 8px)',
+                                        boxShadow: '0 0 40px rgba(0, 0, 0, 0.5)',
+                                        zIndex: 1
                                     }}
                                 />
                             </div>

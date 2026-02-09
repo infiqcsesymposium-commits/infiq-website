@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
+import { initializeFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
@@ -27,7 +27,10 @@ try {
   console.warn("Firebase Analytics could not be initialized (likely blocked or offline):", error.message);
 }
 
-const db = getFirestore(app);
+// Force Firestore to use Long Polling to resolve QUIC protocol errors (ERR_QUIC_PROTOCOL_ERROR)
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+});
 const auth = getAuth(app);
 
 export { app, analytics, db, auth };

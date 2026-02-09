@@ -540,7 +540,15 @@ export const PosterLocation = () => {
                         className="glass-card"
                         style={{ padding: '1.5rem', background: '#000' }}
                     >
-                        <div style={{ height: '500px', background: `url(${posterImg}) center/cover`, border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{
+                            height: '500px',
+                            background: `url(${posterImg}) center/contain no-repeat`,
+                            backgroundColor: '#000',
+                            border: '1px solid var(--glass-border)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
                             <div style={{ background: 'rgba(0,0,0,0.6)', padding: '1rem 2rem', border: '1px solid rgba(255,255,255,0.2)', backdropFilter: 'blur(5px)' }}>
                                 <span style={{ color: '#fff', fontSize: '0.8rem', letterSpacing: '2px' }}>OFFICIAL EVENT POSTER</span>
                             </div>

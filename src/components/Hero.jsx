@@ -260,7 +260,7 @@ const Hero = () => {
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <span style={{ fontSize: '1.5rem' }}>🎯</span>
-                                    <span style={{ fontWeight: '600', letterSpacing: '1px' }}>12 Events</span>
+                                    <span style={{ fontWeight: '600', letterSpacing: '1px' }}>11 Events</span>
                                 </div>
                             </motion.div>
 

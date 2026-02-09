@@ -271,10 +271,9 @@ const Events = () => {
             prize: "Exciting Prizes",
             rules: ["Electronic gadgets strictly prohibited.", "Preliminary and final rounds.", "Buzzer rounds penalize errors.", "Quiz Master's decision final."]
         },
-        // ... (Other events would follow same pattern, ensuring dbName matches selection in form)
         {
             title: "CODEFUSION",
-            subtitle: "MINI HACKATHON",
+            subtitle: "HACKATHON",
             dbName: "Ideathon",
             icon: <Code />,
             img: "https://images.unsplash.com/photo-1504384308090-c54be3852f33?auto=format&fit=crop&q=80&w=800",
@@ -285,20 +284,8 @@ const Events = () => {
             rules: ["Theme revealed at start.", "Finish within two days.", "Build entirely from scratch.", "No pre-built projects allowed."]
         },
         {
-            title: "VISIONIX",
-            subtitle: "AR/VR",
-            dbName: "AR/VR Showcase",
-            icon: <Eye />,
-            img: "https://images.unsplash.com/photo-1592478411213-61535f944886?auto=format&fit=crop&q=80&w=800",
-            desc: "Future of interactive entertainment. High-fidelity virtual world battle. Physical movements drive action. Pulse-pounding timed VR simulation.",
-            tag: "GAMING",
-            category: "NON-TECHNICAL",
-            prize: "Exciting Prizes",
-            rules: ["100 Rupee entry fee.", "Strict 10-minute total session.", "Stay within marked zone.", "No rough equipment handling."]
-        },
-        {
             title: "PIXEL VISION",
-            subtitle: "PHOTOGRAPHY",
+            subtitle: "PHOTOGRAPHY CONTEST",
             dbName: "Photography",
             icon: <Camera />,
             img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
@@ -321,8 +308,8 @@ const Events = () => {
             rules: ["Use professional design tools.", "Ensure high-resolution print quality.", "Work within campus laboratory.", "All elements must be original."]
         },
         {
-            title: "POOFRENZY",
-            subtitle: "NON-TECH QUIZ",
+            title: "POPFRENZY",
+            subtitle: "(NON-TECH / POP CULTURE) QUIZ",
             dbName: "Pop Quiz",
             icon: <Zap />,
             img: "https://images.unsplash.com/photo-1514525253440-b393452e3383?auto=format&fit=crop&q=80&w=800",
