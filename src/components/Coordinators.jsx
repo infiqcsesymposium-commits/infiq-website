@@ -382,13 +382,22 @@ const Coordinators = () => {
                 {activeTab === 'SYSTEM' ? (
                     <div key="system">
                         {/* Command Core */}
-                        <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap', marginBottom: '10rem' }}>
-                            <CoordinatorCard person={{ name: "Dr. T. Kalaikumaran", role: "Principal_Admin", type: "PRINCIPAL / VSBCETC", img: kalaiImg }} isHOD={true} />
-                            <CoordinatorCard person={{ name: "Mrs. V. Radha", role: "Strategic_Lead", type: "HOD / DEPT OF CSE", img: radhaImg }} isHOD={true} />
+                         <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+                            <h3 style={{ fontSize: '1.8rem', color: '#fff', fontFamily: 'Orbitron' }}>HEAD OF DEPARTMENT</h3>
+                            <div style={{ color: 'var(--primary)', letterSpacing: '4px', fontSize: '0.7rem' }}>COMPUTER SCIENCE AND ENGINEERING</div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', justifyContent: 'center' }}>
-                            <CoordinatorCard person={{ name: "Dr. S. V. Divya", role: "Associate_Cmd", type: "ASSOCIATE HOD", img: null }} isFaculty={true} />
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap', marginBottom: '10rem' }}>
+                            <CoordinatorCard person={{ name: "Dr. T. Kalaikumaran", role: " HOD", type: "HOD / DEPT OF CSE", img: kalaiImg }} isHOD={true} />
+                            <CoordinatorCard person={{ name: "Mrs. V. Radha", role: "Strategic_Lead", type: "HOD / DEPT OF CSE", img: radhaImg }} isHOD={true} />
+                        </div>
+                         <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+                            <h3 style={{ fontSize: '1.8rem', color: '#fff', fontFamily: 'Orbitron' }}>FACULTY COORDINATORS</h3>
+                            <div style={{ color: 'var(--primary)', letterSpacing: '4px', fontSize: '0.7rem' }}>COMPUTER SCIENCE AND ENGINEERING</div>
+                        </div>
+
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 0fr))', gap: '3rem', justifyContent: 'center' }}>
                             <CoordinatorCard person={{ name: "Mrs. S. Vigneshwari", role: "Associate_Cmd", type: "ASSOCIATE HOD", img: null }} isFaculty={true} />
                             <CoordinatorCard person={{ name: "Mr. M. Bharathiraja", role: "Faculty_Ops", type: "ASST PROFESSOR", img: null }} isFaculty={true} />
                         </div>
@@ -396,7 +405,7 @@ const Coordinators = () => {
                         <div style={{ margin: '8rem 0', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
 
                         <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
-                            <h3 style={{ fontSize: '1.8rem', color: '#fff', fontFamily: 'Orbitron' }}>FIELD_OPERATIVES</h3>
+                            <h3 style={{ fontSize: '1.8rem', color: '#fff', fontFamily: 'Orbitron' }}>STUDENT COORDINATORS</h3>
                             <div style={{ color: 'var(--primary)', letterSpacing: '4px', fontSize: '0.7rem' }}>UNDERGRADUATE_COUNCIL</div>
                         </div>
 
