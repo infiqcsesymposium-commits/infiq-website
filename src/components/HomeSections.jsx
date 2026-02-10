@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 import campusImg from '../assets/campus.png';
-import posterImg from '../assets/cse final 09.02.2026_page-0001.jpg';
+import posterImg from '../assets/event_poster_main.jpg';
 
 /* 1. Event Passes Section */
 export const EventPasses = () => {
@@ -205,19 +205,6 @@ export const EventPasses = () => {
                         </div>
                     </div>
 
-                    {/* Special Events Notice */}
-                    <div className="glass-card" style={{ padding: '2rem', display: 'flex', alignItems: 'start', gap: '1.5rem', borderLeft: '4px solid #3B82F6' }}>
-                        <div style={{ color: '#3B82F6', background: 'rgba(59, 130, 246, 0.1)', padding: '10px', borderRadius: '8px' }}>
-                            <ShieldAlert size={24} />
-                        </div>
-                        <div>
-                            <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>PROTOCOL ALERT</h4>
-                            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
-                                <strong>Ideathon</strong><br />
-                                Abstract submission required first. Payment only after selection confirmation.
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -270,25 +257,28 @@ export const EventCountdown = () => {
                             textShadow: '0 0 20px rgba(56, 234, 140, 0.4)',
                             fontFamily: 'Orbitron'
                         }}>
-                            EVENT STATUS
+                            EVENT STARTS ON 24 FEB 2026
                         </h3>
                     </motion.div>
                 </div>
 
                 <div style={{ textAlign: 'center' }}>
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         style={{
-                            display: 'inline-block',
-                            padding: '2rem 4rem',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            gap: 'clamp(1rem, 4vw, 3rem)',
                             background: 'rgba(15, 17, 26, 0.8)',
-                            borderRadius: '24px',
+                            padding: 'clamp(1.5rem, 5vw, 3rem)',
+                            borderRadius: '32px',
                             border: '1px solid rgba(56, 234, 140, 0.3)',
                             boxShadow: '0 0 50px rgba(56, 234, 140, 0.15)',
                             position: 'relative',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            flexWrap: 'wrap'
                         }}
                     >
                         {/* Animated Scanline */}
@@ -304,17 +294,40 @@ export const EventCountdown = () => {
                             opacity: 0.5
                         }} />
 
-                        <h2 style={{
-                            fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-                            fontWeight: '900',
-                            color: '#fff',
-                            fontFamily: 'Orbitron',
-                            letterSpacing: '8px',
-                            margin: 0,
-                            textShadow: '0 0 30px rgba(56, 234, 140, 0.5)'
-                        }}>
-                            COMING SOON
-                        </h2>
+                        {[
+                            { label: 'DAYS', value: timeLeft.days },
+                            { label: 'HOURS', value: timeLeft.hours },
+                            { label: 'MINUTES', value: timeLeft.minutes },
+                            { label: 'SECONDS', value: timeLeft.seconds }
+                        ].map((item, idx) => (
+                            <div key={idx} style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                minWidth: '80px'
+                            }}>
+                                <div style={{
+                                    fontSize: 'clamp(2rem, 6vw, 4.5rem)',
+                                    fontWeight: '900',
+                                    color: '#fff',
+                                    fontFamily: 'Orbitron',
+                                    textShadow: '0 0 20px rgba(56, 234, 140, 0.5)',
+                                    lineHeight: 1
+                                }}>
+                                    {formatTime(item.value)}
+                                </div>
+                                <div style={{
+                                    fontSize: '0.65rem',
+                                    color: 'var(--primary)',
+                                    letterSpacing: '2px',
+                                    fontWeight: '800',
+                                    marginTop: '0.5rem',
+                                    opacity: 0.8
+                                }}>
+                                    {item.label}
+                                </div>
+                            </div>
+                        ))}
                     </motion.div>
                 </div>
             </div>

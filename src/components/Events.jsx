@@ -8,7 +8,7 @@ import {
 import { db } from '../firebaseConfig';
 import { collection, onSnapshot } from 'firebase/firestore';
 import PageTransition from './PageTransition';
-import eventPoster from '../assets/cse final 09.02.2026_page-0001.jpg';
+import eventPoster from '../assets/event_poster_main.jpg';
 
 const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
     const [isFlipped, setIsFlipped] = useState(false);
@@ -40,6 +40,11 @@ const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
                             alt={track.title}
                             className="card-img"
                             style={{ filter: 'grayscale(0.5) contrast(1.2)' }}
+                            loading="lazy"
+                            onError={(e) => {
+                                e.target.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800';
+                                e.target.onerror = null;
+                            }}
                         />
                         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8, 9, 15, 0.8), transparent)' }}></div>
                     </div>
@@ -215,7 +220,7 @@ const Events = () => {
             subtitle: "PAPER PRESENTATION",
             dbName: "Paper Presentation",
             icon: <FileText />,
-            img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1454165833767-027fffd99c17?auto=format&fit=crop&q=80&w=800",
             desc: "Showcase original research work. Present innovative engineering ideas. Test professional delivery skills. Premier technical student forum.",
             tag: "TECHNICAL",
             category: "TECHNICAL",
@@ -227,7 +232,7 @@ const Events = () => {
             subtitle: "DEBUGGING CHALLENGE",
             dbName: "Code Debugging",
             icon: <Bug />,
-            img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800",
             desc: "Repair complex code errors. Restore full system functionality. High-octane technical contest. Test of coding skill.",
             tag: "TECHNICAL",
             category: "TECHNICAL",
@@ -239,7 +244,7 @@ const Events = () => {
             subtitle: "PROJECT EXPO",
             dbName: "Project Expo",
             icon: <Cpu />,
-            img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1558494949-ef01091590f4?auto=format&fit=crop&q=80&w=800",
             desc: "Exhibition of working prototypes. Demonstrates technical engineering ingenuity. Solves practical real-world problems. Bridge to industry scouts.",
             tag: "TECHNICAL",
             category: "TECHNICAL",
@@ -252,7 +257,7 @@ const Events = () => {
             subtitle: "WEB / APP DEVELOPMENT",
             dbName: "Web Designing",
             icon: <Globe />,
-            img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80&w=800",
             desc: "Intensive fast-paced hackathon. Build functional digital solutions. Solve real-world user problems. Rapid conceptual to deployment.",
             tag: "TECHNICAL",
             category: "TECHNICAL",
@@ -264,7 +269,7 @@ const Events = () => {
             subtitle: "TECH QUIZ",
             dbName: "Technical Quiz",
             icon: <HelpCircle />,
-            img: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80&w=800",
             desc: "Tests broad technology knowledge. Covers history and breakthroughs. Includes AI, Quantum trends. Identifies ultimate 'tech-heads.'",
             tag: "TECHNICAL",
             category: "TECHNICAL",
@@ -276,7 +281,7 @@ const Events = () => {
             subtitle: "HACKATHON",
             dbName: "Ideathon",
             icon: <Code />,
-            img: "https://images.unsplash.com/photo-1504384308090-c54be3852f33?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800",
             desc: "Intense product development sprint. Rapid prototyping focused event. Build functional technical solutions. High-speed innovation challenge.",
             tag: "TECHNICAL",
             category: "TECHNICAL",
@@ -288,7 +293,7 @@ const Events = () => {
             subtitle: "PHOTOGRAPHY CONTEST",
             dbName: "Photography",
             icon: <Camera />,
-            img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1452784444945-3f422708fe5e?auto=format&fit=crop&q=80&w=800",
             desc: "Capture university life essence. Real-time on-campus creative challenge. Align with specific themes. Find hidden campus stories.",
             tag: "CREATIVE",
             category: "NON-TECHNICAL",
@@ -300,7 +305,7 @@ const Events = () => {
             subtitle: "POSTER DESIGN",
             dbName: "Multimedia Editing",
             icon: <Image />,
-            img: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800",
             desc: "High-impact visual communication challenge. Blend graphics and typography. Translate themes into messages. Balance aesthetics with clarity.",
             tag: "CREATIVE",
             category: "NON-TECHNICAL",
@@ -312,7 +317,7 @@ const Events = () => {
             subtitle: "(NON-TECH / POP CULTURE) QUIZ",
             dbName: "Pop Quiz",
             icon: <Zap />,
-            img: "https://images.unsplash.com/photo-1514525253440-b393452e3383?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1516062423079-7ca13cdc7f5a?auto=format&fit=crop&q=80&w=800",
             desc: "Battle of trivia wits. Covers pop culture history. Celebrates general daily knowledge. Written round to finals.",
             tag: "GAMING",
             category: "NON-TECHNICAL",
@@ -324,7 +329,7 @@ const Events = () => {
             subtitle: "CONNECTIONS",
             dbName: "Connections",
             icon: <Users />,
-            img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
             desc: "Identify hidden link patterns. Logic and lateral thinking. Interactive non-technical clue game. Enjoyable for all participants.",
             tag: "GAMING",
             category: "NON-TECHNICAL",
@@ -336,7 +341,7 @@ const Events = () => {
             subtitle: "LOGO DESIGN",
             dbName: "Logo Design",
             icon: <Palette />,
-            img: "https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80&w=800",
+            img: "https://images.unsplash.com/photo-1626785774625-ddc7c82a173d?auto=format&fit=crop&q=80&w=800",
             desc: "Battle of creative aesthetics. Define unique brand identity. Communicate messages through shapes. Platform for visual conceptualization.",
             tag: "CREATIVE",
             category: "NON-TECHNICAL",

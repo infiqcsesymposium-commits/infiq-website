@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { User, GraduationCap, ShieldCheck, Zap, Terminal, Smartphone, AtSign, Activity, Trophy, Users as UsersIcon, Hexagon, Fingerprint, Cpu, Search } from 'lucide-react';
-import radhaImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM (1).jpeg';
-import kalaiImg from '../assets/WhatsApp Image 2026-02-09 at 11.51.24 AM.jpeg';
-import premImg from '../assets/WhatsApp Image 2026-02-09 at 1.28.28 PM.jpeg';
-import sridharImg from '../assets/WhatsApp Image 2026-02-09 at 1.35.03 PM.jpeg';
-import abishImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (1).jpeg';
-import apurvaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM (2).jpeg';
-import divaImg from '../assets/WhatsApp Image 2026-02-09 at 11.48.24 AM.jpeg';
+import radhaImg from '../assets/coord_radha.jpg';
+import kalaiImg from '../assets/coord_kalai.jpg';
+import premImg from '../assets/coord_prem.jpg';
+import sridharImg from '../assets/coord_sridhar.jpg';
+import abishImg from '../assets/coord_abish.jpg';
+import apurvaImg from '../assets/coord_apurva.jpg';
+import divaImg from '../assets/coord_diva.jpg';
 import subaImg from '../assets/mypic.jpg.jpeg';
 
 const HeaderSection = () => (
@@ -42,103 +42,108 @@ const HeaderSection = () => (
     </div>
 );
 
-const CoordinatorCard = ({ person, isFaculty, isHOD }) => (
-    <div
-        className="glass-dossier"
-        style={{
-            position: 'relative',
-            width: isHOD ? '360px' : '300px',
-            padding: '2.5rem 1.5rem',
-            borderRadius: '24px',
-            textAlign: 'center',
-            zIndex: 1
-        }}
-    >
-        {/* Holographic Mesh Background */}
-        <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'radial-gradient(circle at 50% 0%, rgba(56, 234, 140, 0.1), transparent 70%)',
-            pointerEvents: 'none',
-            borderRadius: 'inherit'
-        }} />
+const CoordinatorCard = ({ person, isFaculty, isHOD }) => {
+    const [imgError, setImgError] = useState(false);
 
-        {/* Tech Corner Accents */}
-        <div style={{ position: 'absolute', top: '15px', right: '15px', opacity: 0.3 }}>
-            <Hexagon size={16} color="var(--primary)" />
-        </div>
-
-        <div className="coord-img-wrapper" style={{ width: '120px', height: '120px', margin: '0 auto 2rem' }}>
-            <div style={{
-                width: '100%',
-                height: '100%',
-                background: '#08090F',
-                borderRadius: 'inherit',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden',
-                border: '1px solid rgba(255,255,255,0.1)'
-            }}>
-                {person.img ? (
-                    <img
-                        src={person.img}
-                        alt={person.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                ) : (
-                    <div style={{ color: 'var(--primary)', opacity: 0.5 }}>
-                        {isFaculty ? <ShieldCheck size={48} /> : <User size={48} />}
-                    </div>
-                )}
-            </div>
-
-            {/* Online Pulse */}
+    return (
+        <div
+            className="glass-dossier"
+            style={{
+                position: 'relative',
+                width: isHOD ? '360px' : '300px',
+                padding: '2.5rem 1.5rem',
+                borderRadius: '24px',
+                textAlign: 'center',
+                zIndex: 1
+            }}
+        >
+            {/* Holographic Mesh Background */}
             <div style={{
                 position: 'absolute',
-                bottom: '8%',
-                right: '8%',
-                width: '14px',
-                height: '14px',
-                background: 'var(--primary)',
-                borderRadius: '50%',
-                border: '3px solid #0F111A',
-                boxShadow: '0 0 10px var(--primary)'
+                inset: 0,
+                background: 'radial-gradient(circle at 50% 0%, rgba(56, 234, 140, 0.1), transparent 70%)',
+                pointerEvents: 'none',
+                borderRadius: 'inherit'
             }} />
-        </div>
 
-        <h3 style={{ fontSize: '1.4rem', fontWeight: '900', color: '#fff', marginBottom: '0.5rem', fontFamily: 'Orbitron' }}>
-            {person.name}
-        </h3>
+            {/* Tech Corner Accents */}
+            <div style={{ position: 'absolute', top: '15px', right: '15px', opacity: 0.3 }}>
+                <Hexagon size={16} color="var(--primary)" />
+            </div>
 
-        <div style={{
-            color: isHOD ? 'var(--primary)' : 'var(--neon-blue)',
-            fontSize: '0.75rem',
-            fontWeight: '800',
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-            marginBottom: '1.5rem'
-        }}>
-            {person.role}
-        </div>
+            <div className="coord-img-wrapper" style={{ width: '120px', height: '120px', margin: '0 auto 2rem' }}>
+                <div style={{
+                    width: '100%',
+                    height: '100%',
+                    background: '#08090F',
+                    borderRadius: 'inherit',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    border: '1px solid rgba(255,255,255,0.1)'
+                }}>
+                    {person.img && !imgError ? (
+                        <img
+                            src={person.img}
+                            alt={person.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            onError={() => setImgError(true)}
+                        />
+                    ) : (
+                        <div style={{ color: 'var(--primary)', opacity: 0.5 }}>
+                            {isFaculty ? <ShieldCheck size={48} /> : <User size={48} />}
+                        </div>
+                    )}
+                </div>
 
-        <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '0.5rem 1.25rem',
-            background: 'rgba(255, 255, 255, 0.03)',
-            borderRadius: '100px',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            fontSize: '0.65rem',
-            color: 'var(--text-muted)',
-            fontFamily: 'Share Tech Mono'
-        }}>
-            <Terminal size={12} />
-            {person.type}
+                {/* Online Pulse */}
+                <div style={{
+                    position: 'absolute',
+                    bottom: '8%',
+                    right: '8%',
+                    width: '14px',
+                    height: '14px',
+                    background: 'var(--primary)',
+                    borderRadius: '50%',
+                    border: '3px solid #0F111A',
+                    boxShadow: '0 0 10px var(--primary)'
+                }} />
+            </div>
+
+            <h3 style={{ fontSize: '1.4rem', fontWeight: '900', color: '#fff', marginBottom: '0.5rem', fontFamily: 'Orbitron' }}>
+                {person.name}
+            </h3>
+
+            <div style={{
+                color: isHOD ? 'var(--primary)' : 'var(--neon-blue)',
+                fontSize: '0.75rem',
+                fontWeight: '800',
+                letterSpacing: '3px',
+                textTransform: 'uppercase',
+                marginBottom: '1.5rem'
+            }}>
+                {person.role}
+            </div>
+
+            <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '0.5rem 1.25rem',
+                background: 'rgba(255, 255, 255, 0.03)',
+                borderRadius: '100px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                fontSize: '0.65rem',
+                color: 'var(--text-muted)',
+                fontFamily: 'Share Tech Mono'
+            }}>
+                <Terminal size={12} />
+                {person.type}
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const EventCoordinators = () => {
     const [selectedCategory, setSelectedCategory] = useState('TECHNICAL');
