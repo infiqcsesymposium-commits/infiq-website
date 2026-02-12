@@ -5,7 +5,8 @@ import {
     TrendingUp, Activity, Search,
     Filter, Download, MoreHorizontal,
     CheckCircle, AlertCircle, Clock, LogOut, X, ChevronDown, Edit2, Save,
-    Plus, Trash2, Bell, Megaphone, Info, Settings, DollarSign, Zap
+    Plus, Trash2, Bell, Megaphone, Info, Settings, DollarSign, Zap,
+    Shield, UserPlus, Key, ShieldAlert
 } from 'lucide-react';
 import { db, auth } from '../firebaseConfig';
 import { collection, onSnapshot, query, orderBy, doc, updateDoc, setDoc, addDoc, deleteDoc, serverTimestamp, getDoc } from 'firebase/firestore';
@@ -87,6 +88,14 @@ const CRMDashboard = () => {
         isActive: true
     });
     const [isEditingFee, setIsEditingFee] = useState(false);
+    const [allAdmins, setAllAdmins] = useState([]);
+    const [isAccessModalOpen, setIsAccessModalOpen] = useState(false);
+    const [currentAccess, setCurrentAccess] = useState({
+        uid: "",
+        email: "",
+        role: "VOLUNTEER"
+    });
+    const [isEditingAccess, setIsEditingAccess] = useState(false);
 
     // Events definition with classification
     const [events, setEvents] = useState([
@@ -123,6 +132,17 @@ const CRMDashboard = () => {
             unsubscribeFees();
         };
     }, []);
+
+    // Fetch All Admins (Only for ADMIN)
+    useEffect(() => {
+        if (userRole === 'ADMIN') {
+            const unsubscribe = onSnapshot(collection(db, "admins"), (snapshot) => {
+                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setAllAdmins(data);
+            });
+            return () => unsubscribe();
+        }
+    }, [userRole]);
 
     useEffect(() => {
         // Subscribe to registrations
@@ -641,6 +661,41 @@ const CRMDashboard = () => {
         setSelectedRegistration(null);
     };
 
+    // Access Handlers
+    const openAccessModal = (access = null) => {
+        if (access) {
+            setCurrentAccess(access);
+            setIsEditingAccess(true);
+        } else {
+            setCurrentAccess({ uid: "", email: "", role: "VOLUNTEER" });
+            setIsEditingAccess(false);
+        }
+        setIsAccessModalOpen(true);
+    };
+
+    const handleAccessSave = async (e) => {
+        e.preventDefault();
+        if (!currentAccess.uid) return alert("UID is required.");
+        try {
+            await setDoc(doc(db, "admins", currentAccess.uid), {
+                email: currentAccess.email,
+                role: currentAccess.role,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+            setIsAccessModalOpen(false);
+        } catch (error) {
+            console.error("Error saving access:", error);
+            alert("Failed to save access rule.");
+        }
+    };
+
+    const handleDeleteAccess = async (id) => {
+        if (id === auth.currentUser.uid) return alert("You cannot remove your own access.");
+        if (window.confirm("Revoke access for this user?")) {
+            await deleteDoc(doc(db, "admins", id));
+        }
+    };
+
     // Fee Handlers
     const openFeeModal = (fee = null) => {
         if (fee) {
@@ -842,9 +897,11 @@ const CRMDashboard = () => {
                 <aside className={`crm-sidebar ${isMobileMenuOpen ? 'open' : ''}`} style={{ overflowY: 'auto' }}>
                     <div className="glass-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', minHeight: '100%', borderRadius: '0', borderTop: 'none', borderBottom: 'none', borderLeft: 'none', background: 'rgba(5, 6, 10, 0.8)' }}>
                         <div style={{ marginBottom: '2.5rem', padding: '0.5rem', borderBottom: '1px solid rgba(56, 234, 140, 0.1)' }}>
-                            <div style={{ fontSize: '0.65rem', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '3px', marginBottom: '0.5rem', fontWeight: '800' }}>Administrative Hub</div>
-                            <div style={{ color: '#fff', fontSize: '1.4rem', fontWeight: '900', letterSpacing: '-0.5px' }}>MASTER_REGISTRY</div>
-                            <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', fontFamily: 'Share Tech Mono', marginTop: '4px' }}>ACCESS_LEVEL: {userRole}</div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--primary)', textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '0.5rem', fontWeight: '800' }}>INFIQ_MAINFRAME</div>
+                            <div style={{ color: '#fff', fontSize: '1rem', fontWeight: '900', letterSpacing: '-0.5px', lineHeight: '1.2', borderLeft: '3px solid var(--primary)', paddingLeft: '10px' }}>PENETRATE THE INFIQ 2K26 MAINFRAME.</div>
+                            <div style={{ fontSize: '10px', color: 'rgba(56, 234, 140, 0.5)', fontFamily: 'Share Tech Mono', marginTop: '10px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <Shield size={10} /> ACCESS_LEVEL: {userRole}
+                            </div>
                         </div>
 
                         {[
@@ -857,6 +914,7 @@ const CRMDashboard = () => {
                             { id: 'slots', icon: Clock, label: 'Event Timings' },
                             { id: 'announcements', icon: Megaphone, label: 'Broadcasts' },
                             { id: 'fees', icon: Settings, label: 'Fee Config' },
+                            { id: 'mainframe_access', icon: Key, label: 'Access Control' },
                             { id: 'automation', icon: Zap, label: 'Automation' },
                         ].map(item => (
                             <button
@@ -1580,6 +1638,70 @@ const CRMDashboard = () => {
                                 </div>
                             )
                         }
+
+                        {
+                            activeTab === 'mainframe_access' && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div>
+                                            <h2 style={{ fontSize: '2rem', color: '#fff', margin: 0 }}>Mainframe Access Control</h2>
+                                            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.5rem' }}>Modify, add and edit access levels for the system.</p>
+                                        </div>
+                                        {userRole === 'ADMIN' && (
+                                            <button onClick={() => openAccessModal()} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                <UserPlus size={18} /> Provision Access
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <div className="glass-card" style={{ padding: '0', overflowX: 'auto' }}>
+                                        <table style={{ width: '100%', borderCollapse: 'collapse', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                                            <thead>
+                                                <tr style={{ textAlign: 'left', borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(56,234,140,0.02)' }}>
+                                                    <th style={{ padding: '1.2rem', color: '#fff' }}>Personnel / UID</th>
+                                                    <th style={{ padding: '1.2rem', color: '#fff' }}>Email Identity</th>
+                                                    <th style={{ padding: '1.2rem', color: '#fff' }}>Access Level</th>
+                                                    <th style={{ padding: '1.2rem', color: '#fff', textAlign: 'center' }}>Status</th>
+                                                    <th style={{ padding: '1.2rem', color: '#fff', textAlign: 'center' }}>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {allAdmins.map(adm => (
+                                                    <tr key={adm.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                                                        <td style={{ padding: '1rem' }}>
+                                                            <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.8rem', fontFamily: 'Share Tech Mono' }}>{adm.id}</div>
+                                                        </td>
+                                                        <td style={{ padding: '1rem' }}>{adm.email || 'N/A'}</td>
+                                                        <td style={{ padding: '1rem' }}>
+                                                            <span style={{
+                                                                padding: '4px 12px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold',
+                                                                background: adm.role === 'ADMIN' ? 'rgba(56, 234, 140, 0.1)' : 'rgba(255,255,255,0.05)',
+                                                                color: adm.role === 'ADMIN' ? 'var(--primary)' : 'var(--text-muted)',
+                                                                border: `1px solid ${adm.role === 'ADMIN' ? 'rgba(56, 234, 140, 0.2)' : 'rgba(255,255,255,0.1)'}`
+                                                            }}>
+                                                                {adm.role}
+                                                            </span>
+                                                        </td>
+                                                        <td style={{ padding: '1rem', textAlign: 'center' }}>
+                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', color: 'var(--primary)', fontSize: '0.7rem' }}>
+                                                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }}></div>
+                                                                AUTHORIZED
+                                                            </div>
+                                                        </td>
+                                                        <td style={{ padding: '1rem', textAlign: 'center' }}>
+                                                            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                                                                <button onClick={() => openAccessModal({ ...adm, uid: adm.id })} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}><Edit2 size={16} /></button>
+                                                                <button onClick={() => handleDeleteAccess(adm.id)} style={{ background: 'none', border: 'none', color: '#FF5F56', cursor: 'pointer' }}><Trash2 size={16} /></button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            )
+                        }
                     </div>
                 </main>
             </div>
@@ -2072,6 +2194,73 @@ const CRMDashboard = () => {
                     </div>
                 )}
             </AnimatePresence >
+            {/* Access Modal */}
+            <AnimatePresence>
+                {isAccessModalOpen && (
+                    <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+                        <motion.div
+                            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                            onClick={() => setIsAccessModalOpen(false)}
+                            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)' }}
+                        />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            style={{
+                                position: 'relative', width: '100%', maxWidth: '500px',
+                                background: '#0F111A', border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '24px', padding: '2.5rem', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', zIndex: 1001
+                            }}
+                        >
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                                <h3 style={{ fontSize: '1.5rem', color: '#fff', margin: 0 }}>{isEditingAccess ? "Update Personnel Access" : "Provision New Access"}</h3>
+                                <button onClick={() => setIsAccessModalOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}><X size={24} /></button>
+                            </div>
+
+                            <form onSubmit={handleAccessSave} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                                <div style={{ background: 'rgba(56, 234, 140, 0.05)', padding: '1rem', borderRadius: '8px', border: '1px solid rgba(56, 234, 140, 0.1)', marginBottom: '0.5rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                                        <Info size={14} /> SECURITY PROTOCOL
+                                    </div>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '5px' }}>Access is granted via unique Firebase ID (UID). Ensure the identity is verified.</p>
+                                </div>
+
+                                <div>
+                                    <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'block', marginBottom: '8px' }}>Firebase UID *</label>
+                                    <input
+                                        type="text" required placeholder="User UID" disabled={isEditingAccess}
+                                        value={currentAccess.uid} onChange={(e) => setCurrentAccess({ ...currentAccess, uid: e.target.value })}
+                                        style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none', fontFamily: 'Share Tech Mono' }}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'block', marginBottom: '8px' }}>Email Alias</label>
+                                    <input
+                                        type="email" placeholder="personnel@infiq.com"
+                                        value={currentAccess.email} onChange={(e) => setCurrentAccess({ ...currentAccess, email: e.target.value })}
+                                        style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none' }}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'block', marginBottom: '8px' }}>Security Clearance *</label>
+                                    <select
+                                        value={currentAccess.role} onChange={(e) => setCurrentAccess({ ...currentAccess, role: e.target.value })}
+                                        style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none' }}
+                                    >
+                                        <option value="VOLUNTEER">VOLUNTEER (Read Only + Check-in)</option>
+                                        <option value="ADMIN">ADMIN (Full Access / Mainframe Access)</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" className="btn btn-primary" style={{ marginTop: '1rem' }}>
+                                    {isEditingAccess ? "Synchronize Access" : "Establish Access"}
+                                </button>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </section >
     );
 };
