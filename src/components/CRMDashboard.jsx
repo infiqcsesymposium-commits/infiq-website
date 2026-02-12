@@ -224,13 +224,17 @@ const CRMDashboard = () => {
     useEffect(() => {
         const fetchRole = async () => {
             if (auth.currentUser) {
-                const userDoc = await getDoc(doc(db, "admins", auth.currentUser.uid));
-                if (userDoc.exists()) {
-                    setUserRole(userDoc.data().role || 'VOLUNTEER');
-                } else {
-                    // Fallback for demo or if doc doesn't exist (e.g. initial set up)
-                    // If you want everyone who can log in to be admin initially:
-                    setUserRole('ADMIN');
+                try {
+                    const userDoc = await getDoc(doc(db, "admins", auth.currentUser.uid));
+                    if (userDoc.exists()) {
+                        setUserRole(userDoc.data().role || 'VOLUNTEER');
+                    } else {
+                        // Default to VOLUNTEER if not found in specific admin list
+                        setUserRole('VOLUNTEER');
+                    }
+                } catch (error) {
+                    console.error("Error fetching role:", error);
+                    setUserRole('VOLUNTEER');
                 }
             }
         };
@@ -712,12 +716,12 @@ const CRMDashboard = () => {
     };
 
     // Access Handlers
-    const openAccessModal = (access = null) => {
+    const openAccessModal = (access = null, defaultRole = 'VOLUNTEER') => {
         if (access) {
             setCurrentAccess(access);
             setIsEditingAccess(true);
         } else {
-            setCurrentAccess({ uid: "", email: "", role: "VOLUNTEER" });
+            setCurrentAccess({ uid: "", email: "", role: defaultRole });
             setIsEditingAccess(false);
         }
         setIsAccessModalOpen(true);
@@ -730,7 +734,9 @@ const CRMDashboard = () => {
             await setDoc(doc(db, "admins", currentAccess.uid), {
                 email: currentAccess.email,
                 role: currentAccess.role,
-                updatedAt: serverTimestamp()
+                updatedAt: serverTimestamp(),
+                createdBy: auth.currentUser ? auth.currentUser.uid : 'SYSTEM',
+                createdByEmail: auth.currentUser ? auth.currentUser.email : 'SYSTEM'
             }, { merge: true });
             setIsAccessModalOpen(false);
         } catch (error) {
@@ -1485,7 +1491,6 @@ const CRMDashboard = () => {
                             )
                         }
 
-                        {/* Reports & Export */}
                         {
                             activeTab === 'reports' && (
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -1760,9 +1765,14 @@ const CRMDashboard = () => {
                                             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.5rem' }}>Modify, add and edit access levels for the system.</p>
                                         </div>
                                         {userRole === 'ADMIN' && (
-                                            <button onClick={() => openAccessModal()} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                                <UserPlus size={18} /> Provision Access
-                                            </button>
+                                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                                <button onClick={() => openAccessModal(null, 'VOLUNTEER')} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderColor: 'var(--primary)', color: 'var(--primary)' }}>
+                                                    <UserPlus size={18} /> Add Volunteer
+                                                </button>
+                                                <button onClick={() => openAccessModal(null, 'ADMIN')} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                    <Shield size={18} /> Provision Admin
+                                                </button>
+                                            </div>
                                         )}
                                     </div>
 
@@ -1968,52 +1978,58 @@ const CRMDashboard = () => {
                                 <div style={{ paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                                     <label style={{ color: '#fff', marginBottom: '1rem', display: 'block' }}>Approval Status</label>
                                     <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-                                        <button
-                                            onClick={() => handleStatusUpdate('APPROVED')}
-                                            style={{
-                                                flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-                                                background: selectedRegistration.status === 'APPROVED' ? 'var(--primary)' : 'rgba(56, 234, 140, 0.1)',
-                                                color: selectedRegistration.status === 'APPROVED' ? '#000' : 'var(--primary)',
-                                                fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
-                                            }}
-                                        >
-                                            <CheckCircle size={18} /> Approve
-                                        </button>
-                                        <button
-                                            onClick={() => handleStatusUpdate('REJECTED')}
-                                            style={{
-                                                flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-                                                background: selectedRegistration.status === 'REJECTED' ? '#FF5F56' : 'rgba(255, 95, 86, 0.1)',
-                                                color: selectedRegistration.status === 'REJECTED' ? '#fff' : '#FF5F56',
-                                                fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
-                                            }}
-                                        >
-                                            <AlertCircle size={18} /> Reject
-                                        </button>
-                                        <button
-                                            onClick={() => handleStatusUpdate('PENDING')}
-                                            style={{
-                                                flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
-                                                background: (!selectedRegistration.status || selectedRegistration.status === 'PENDING') ? '#FFBD2E' : 'rgba(255, 189, 46, 0.1)',
-                                                color: (!selectedRegistration.status || selectedRegistration.status === 'PENDING') ? '#000' : '#FFBD2E',
-                                                fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
-                                            }}
-                                        >
-                                            <Clock size={18} /> Pending
-                                        </button>
-                                        {userRole === 'ADMIN' && (
-                                            <button
-                                                onClick={() => handleDeleteRegistration(selectedRegistration.id)}
-                                                style={{
-                                                    flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid rgba(255, 95, 86, 0.3)', cursor: 'pointer',
-                                                    background: 'rgba(255, 95, 86, 0.05)',
-                                                    color: '#FF5F56',
-                                                    fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center'
-                                                }}
-                                                title="Delete Record"
-                                            >
-                                                <Trash2 size={18} />
-                                            </button>
+                                        {userRole === 'ADMIN' ? (
+                                            <>
+                                                <button
+                                                    onClick={() => handleStatusUpdate('APPROVED')}
+                                                    style={{
+                                                        flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                                                        background: selectedRegistration.status === 'APPROVED' ? 'var(--primary)' : 'rgba(56, 234, 140, 0.1)',
+                                                        color: selectedRegistration.status === 'APPROVED' ? '#000' : 'var(--primary)',
+                                                        fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                                                    }}
+                                                >
+                                                    <CheckCircle size={18} /> Approve
+                                                </button>
+                                                <button
+                                                    onClick={() => handleStatusUpdate('REJECTED')}
+                                                    style={{
+                                                        flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                                                        background: selectedRegistration.status === 'REJECTED' ? '#FF5F56' : 'rgba(255, 95, 86, 0.1)',
+                                                        color: selectedRegistration.status === 'REJECTED' ? '#fff' : '#FF5F56',
+                                                        fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                                                    }}
+                                                >
+                                                    <AlertCircle size={18} /> Reject
+                                                </button>
+                                                <button
+                                                    onClick={() => handleStatusUpdate('PENDING')}
+                                                    style={{
+                                                        flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                                                        background: (!selectedRegistration.status || selectedRegistration.status === 'PENDING') ? '#FFBD2E' : 'rgba(255, 189, 46, 0.1)',
+                                                        color: (!selectedRegistration.status || selectedRegistration.status === 'PENDING') ? '#000' : '#FFBD2E',
+                                                        fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                                                    }}
+                                                >
+                                                    <Clock size={18} /> Pending
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteRegistration(selectedRegistration.id)}
+                                                    style={{
+                                                        flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid rgba(255, 95, 86, 0.3)', cursor: 'pointer',
+                                                        background: 'rgba(255, 95, 86, 0.05)',
+                                                        color: '#FF5F56',
+                                                        fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                                    }}
+                                                    title="Delete Record"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontStyle: 'italic', width: '100%', textAlign: 'center' }}>
+                                                Read-only access. Contact Administrator for changes.
+                                            </div>
                                         )}
                                     </div>
                                 </div>

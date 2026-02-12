@@ -300,11 +300,17 @@ const RegistrationForm = () => {
     };
 
     const handleFinalSubmit = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
+
+        const amount = calculateTotalAmount();
+
+        if (amount > 0 && !formData.paymentScreenshot) {
+            alert("Please upload the payment screenshot before completing registration.");
+            return;
+        }
 
         // Final check on payment ID (if paying)
-        const totalAmount = calculateTotalAmount();
-        if (totalAmount > 0 && !formData.paymentId) {
+        if (amount > 0 && !formData.paymentId) {
             showNotify("Please enter the Transaction ID / Reference Number.", "error");
             return;
         }
@@ -1023,7 +1029,7 @@ const RegistrationForm = () => {
                                         <form onSubmit={handleFinalSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
                                             <div>
-                                                <label className="form-label" style={{ display: 'block', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>Upload Payment Screenshot</label>
+                                                <label className="form-label" style={{ display: 'block', color: '#fff', marginBottom: '1rem', textAlign: 'center' }}>Upload Payment Screenshot *</label>
                                                 <div
                                                     style={{
                                                         border: '2px dashed rgba(255,255,255,0.2)',
