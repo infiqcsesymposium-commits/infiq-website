@@ -249,9 +249,21 @@ const CRMDashboard = () => {
                     }
 
                     // 2. Fetch Role
-                    // Hardcoded admin access for specific email
-                    if (auth.currentUser.email === 'vsbcse@gmail.com') {
+                    // Hardcoded admin access for specific emails
+                    const adminEmails = [
+                        'muneeswaran@averqon.com',
+                        'diva.con4338@gmail.com',
+                        'abishstk@gmail.com'
+                    ];
+
+                    if (adminEmails.includes(auth.currentUser.email)) {
                         setUserRole('ADMIN');
+                        return;
+                    }
+
+                    // Hardcoded VOLUNTEER access
+                    if (auth.currentUser.email === 'vsbcse@gmail.com') {
+                        setUserRole('VOLUNTEER');
                         return;
                     }
 
@@ -790,6 +802,25 @@ const CRMDashboard = () => {
         if (id === auth.currentUser.uid) return alert("You cannot remove your own access.");
         if (window.confirm("Revoke access for this user?")) {
             await deleteDoc(doc(db, "admins", id));
+        }
+    };
+
+    const handleDeleteAdmin = async (id) => {
+        if (userRole !== 'ADMIN') {
+            alert("Insufficient permissions. Only Admins can delete admin users.");
+            return;
+        }
+        if (id === auth.currentUser.uid) {
+            alert("You cannot remove your own access.");
+            return;
+        }
+        if (window.confirm("Are you sure you want to revoke access for this user?")) {
+            try {
+                await deleteDoc(doc(db, "admins", id));
+            } catch (error) {
+                console.error("Error deleting admin:", error);
+                alert("Failed to delete admin user.");
+            }
         }
     };
 
