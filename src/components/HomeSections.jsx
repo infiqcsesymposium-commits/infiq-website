@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 import campusImg from '../assets/campus.png';
-import posterImg from '../assets/image.png';
+import posterImg from '../assets/poster.jpeg';
 
 /* 1. Event Passes Section */
 export const EventPasses = () => {

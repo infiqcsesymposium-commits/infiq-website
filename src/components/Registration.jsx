@@ -218,8 +218,8 @@ const Registration = () => {
                         <div>
                             <h4 style={{ color: '#fff', fontSize: '1rem', marginBottom: '0.5rem' }}>PROTOCOL ALERT</h4>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: 0 }}>
-                                <strong>Ideathon</strong><br />
-                                Abstract submission required first. Payment only after selection confirmation.
+                                <strong> AR/VR :</strong><br />
+                               Spot registration ₹100 / head
                             </p>
                         </div>
                     </div>

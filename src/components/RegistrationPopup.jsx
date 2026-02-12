@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, Terminal, ShieldCheck, ArrowRight, Activity, Cpu } from 'lucide-react';
-import popupImg from '../assets/image.png';
+import popupImg from '../assets/poster.jpeg';
 
 const RegistrationPopup = ({ onClose }) => {
     const [show, setShow] = useState(false);

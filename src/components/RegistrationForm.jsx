@@ -625,7 +625,7 @@ const RegistrationForm = () => {
                             <div>
                                 <div style={{ color: '#FFD700', fontWeight: '900', fontSize: '0.75rem', letterSpacing: '1px', marginBottom: '4px' }}>SPECIAL EVENTS</div>
                                 <p style={{ margin: 0, color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                                    Ideathon  : Register here <strong>only if shortlisted</strong>.
+                                   AR/VR : Spot registration ₹100 / head
                                 </p>
                             </div>
                         </div>
