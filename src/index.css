@@ -44,6 +44,50 @@
   animation: pulse-dot 2s infinite;
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+.shimmer-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(56, 234, 140, 0.1), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes glow-pulse {
+  0% {
+    box-shadow: 0 0 5px rgba(56, 234, 140, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(56, 234, 140, 0.4);
+  }
+
+  100% {
+    box-shadow: 0 0 5px rgba(56, 234, 140, 0.2);
+  }
+}
+
+.glow-interactive:hover {
+  animation: glow-pulse 1.5s infinite;
+}
+
 * {
   margin: 0;
   padding: 0;

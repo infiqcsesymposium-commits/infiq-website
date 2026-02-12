@@ -45,7 +45,9 @@ const Announcements = () => {
             const slots = {};
             snapshot.docs.forEach(doc => {
                 const data = doc.data();
-                slots[data.eventName] = data;
+                if (data.eventName) {
+                    slots[data.eventName.trim()] = data;
+                }
             });
             setEventSlots(slots);
         });
@@ -131,7 +133,7 @@ const Announcements = () => {
                                     </div>
                                     <div>
                                         <div style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '4px', textTransform: 'uppercase' }}>
-                                            {ann.category} • {ann.eventName === 'ALL' ? 'General' : ann.eventName}
+                                            {ann.category} • {(!ann.eventName || ann.eventName === 'ALL') ? 'General' : ann.eventName}
                                         </div>
                                         <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: 0 }}>{ann.title}</h3>
                                     </div>
@@ -142,7 +144,7 @@ const Announcements = () => {
                                 </p>
 
                                 {/* Event Time Injection */}
-                                {ann.eventName !== 'ALL' && eventSlots[ann.eventName] && (
+                                {ann.eventName && ann.eventName !== 'ALL' && eventSlots[ann.eventName.trim()] && (
                                     <div style={{
                                         marginBottom: '1.5rem', padding: '0.8rem',
                                         background: 'rgba(56, 234, 140, 0.05)', borderRadius: '8px',

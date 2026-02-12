@@ -56,7 +56,9 @@ const AnnouncementsPage = () => {
             const slots = {};
             snapshot.docs.forEach(doc => {
                 const data = doc.data();
-                slots[data.eventName] = data;
+                if (data.eventName) {
+                    slots[data.eventName.trim()] = data;
+                }
             });
             setEventSlots(slots);
         });
@@ -212,7 +214,7 @@ const AnnouncementsPage = () => {
                                                 {ann.category}
                                             </span>
                                             <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-muted)', fontSize: 'clamp(0.7rem, 1.8vw, 0.8rem)' }}>
-                                                <Tag size={14} /> {ann.eventName === 'ALL' ? 'GLOBAL_EVENT' : ann.eventName}
+                                                <Tag size={14} /> {(!ann.eventName || ann.eventName === 'ALL') ? 'GLOBAL_BROADCAST' : ann.eventName}
                                             </span>
                                             {ann.priority === 'URGENT' && (
                                                 <motion.span
@@ -230,7 +232,7 @@ const AnnouncementsPage = () => {
                                         </p>
 
                                         {/* Event Time Detail Injection */}
-                                        {ann.eventName !== 'ALL' && eventSlots[ann.eventName] && (
+                                        {ann.eventName && ann.eventName !== 'ALL' && eventSlots[ann.eventName.trim()] && (
                                             <div style={{
                                                 display: 'flex', gap: '1.5rem', flexWrap: 'wrap',
                                                 padding: '1rem', background: 'rgba(56, 234, 140, 0.05)',

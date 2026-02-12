@@ -16,9 +16,9 @@ import FAQ from './pages/FAQ';
 import Brochure from './pages/Brochure';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
-import Location from './pages/Location';
 import Admin from './pages/Admin';
 import AnnouncementsPage from './pages/AnnouncementsPage';
+import EventSchedule from './pages/EventSchedule';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -38,6 +38,7 @@ const AnimatedRoutes = () => {
         <Route path="/location" element={<Location />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
+        <Route path="/schedule" element={<EventSchedule />} />
       </Routes>
     </AnimatePresence>
   );
