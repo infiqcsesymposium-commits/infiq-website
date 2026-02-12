@@ -47,10 +47,7 @@ const RegisterPage = () => {
 
     return (
         <PageTransition>
-            <>
-                <RegistrationPopup />
-                <RegistrationForm />
-            </>
+            <RegistrationForm />
         </PageTransition>
     );
 };
