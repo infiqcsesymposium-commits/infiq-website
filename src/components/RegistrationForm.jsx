@@ -19,7 +19,8 @@ const RegistrationForm = () => {
         year: "",
         city: "",
         regNo: "",
-        paymentId: "" // Added transaction ID
+        paymentId: "", // Added transaction ID
+        lunchType: "VEG" // Default to VEG
     });
     const [selectedEvents, setSelectedEvents] = useState([]);
     const [status, setStatus] = useState("idle");
@@ -625,7 +626,7 @@ const RegistrationForm = () => {
                             <div>
                                 <div style={{ color: '#FFD700', fontWeight: '900', fontSize: '0.75rem', letterSpacing: '1px', marginBottom: '4px' }}>SPECIAL EVENTS</div>
                                 <p style={{ margin: 0, color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                                   AR/VR : Spot registration ₹100 / head
+                                    AR/VR : Spot registration ₹100 / head
                                 </p>
                             </div>
                         </div>
@@ -700,19 +701,34 @@ const RegistrationForm = () => {
                             <form onSubmit={handleContinueToPayment} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
                                 {/* 1. Category Selection */}
-                                <div className="form-group">
-                                    <label style={{ display: 'block', color: 'var(--primary)', marginBottom: '0.8rem', fontWeight: 'bold' }}>Registration Category *</label>
-                                    <select
-                                        value={category}
-                                        onChange={(e) => setCategory(e.target.value)}
-                                        className="form-input"
-                                        style={{ width: '100%', padding: '1rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff', outline: 'none' }}
-                                    >
-                                        <option value="" style={{ color: '#000' }}>-- Select Category --</option>
-                                        <option value="OUTER" style={{ color: '#000' }}>Outer College (Other Institutions)</option>
-                                        <option value="OTHER_DEPT" style={{ color: '#000' }}>VSBCETC - Other Departments</option>
-                                        <option value="CSE_ONLY" style={{ color: '#000' }}>VSBCETC - CSE / AI Only</option>
-                                    </select>
+                                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem', alignItems: 'flex-end' }}>
+                                    <div className="form-group">
+                                        <label style={{ display: 'block', color: 'var(--primary)', marginBottom: '0.8rem', fontWeight: 'bold' }}>Registration Category *</label>
+                                        <select
+                                            value={category}
+                                            onChange={(e) => setCategory(e.target.value)}
+                                            className="form-input"
+                                            style={{ width: '100%', padding: '1rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff', outline: 'none' }}
+                                        >
+                                            <option value="" style={{ color: '#000' }}>-- Select Category --</option>
+                                            <option value="OUTER" style={{ color: '#000' }}>Outer College (Other Institutions)</option>
+                                            <option value="OTHER_DEPT" style={{ color: '#000' }}>VSBCETC - Other Departments</option>
+                                            <option value="CSE_ONLY" style={{ color: '#000' }}>VSBCETC - CSE / AI Only</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label style={{ display: 'block', color: 'var(--primary)', marginBottom: '0.8rem', fontWeight: 'bold' }}>Lunch Preference *</label>
+                                        <select
+                                            name="lunchType"
+                                            value={formData.lunchType}
+                                            onChange={handleChange}
+                                            className="form-input"
+                                            style={{ width: '100%', padding: '1rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff', outline: 'none' }}
+                                        >
+                                            <option value="VEG" style={{ color: '#000' }}>VEG</option>
+                                            <option value="NON-VEG" style={{ color: '#000' }}>NON-VEG</option>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 {/* Common Fields */}

@@ -1653,6 +1653,16 @@ const CRMDashboard = () => {
                                     }}>
                                         {selectedRegistration.teamCount || 1} {(selectedRegistration.teamCount || 1) === 1 ? 'Member' : 'Members'}
                                     </span>
+
+                                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Lunch:</span>
+                                        <span style={{
+                                            padding: '8px 16px', borderRadius: '10px', fontSize: '0.9rem', fontWeight: '900',
+                                            background: selectedRegistration.lunchType === 'NON-VEG' ? 'rgba(255, 95, 86, 0.1)' : 'rgba(56, 234, 140, 0.1)',
+                                            color: selectedRegistration.lunchType === 'NON-VEG' ? '#FF5F56' : 'var(--primary)',
+                                            border: `1px solid ${selectedRegistration.lunchType === 'NON-VEG' ? 'rgba(255, 95, 86, 0.2)' : 'rgba(56, 234, 140, 0.2)'}`
+                                        }}>{selectedRegistration.lunchType || 'VEG'}</span>
+                                    </div>
                                 </div>
 
                                 {/* Team Members Table */}

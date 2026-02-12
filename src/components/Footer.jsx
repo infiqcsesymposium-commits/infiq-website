@@ -22,7 +22,6 @@ const Footer = () => {
     ];
 
     const contactInfo = [
-        { name: 'Subasanjeev S', phone: '+91 9787668997', Icon: Phone },
         { name: 'Diva S', phone: '+91 8072652321', Icon: Phone },
     ];
 

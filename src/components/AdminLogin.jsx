@@ -43,7 +43,7 @@ const AdminLogin = () => {
                         <Lock size={24} color="var(--primary)" />
                     </div>
                     <h2 style={{ fontSize: '1.5rem', color: '#fff', marginBottom: '0.5rem' }}>SYSTEM ENTRY</h2>
-                    <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Restricted Access. Authorization Required.</p>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', lineHeight: '1.4' }}>Select your access level to penetrate the INFIQ 2K26 mainframe.</p>
                 </div>
 
                 {error && (
