@@ -188,8 +188,8 @@ const RegistrationForm = () => {
             // Check if user already has a solo event and is trying to select a team event while teamCount is still 1? 
             // Actually, the main constraint is teamCount.
 
-            if (selectedEvents.length >= 4) {
-                showNotify("You can select a maximum of 4 events.", "warning");
+            if (selectedEvents.length >= 3) {
+                showNotify("You can select a maximum of 3 events.", "warning");
                 return;
             }
             setSelectedEvents(prev => [...prev, eventName]);
@@ -854,7 +854,7 @@ const RegistrationForm = () => {
                                 {/* Event Selection */}
                                 <div>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                                        <label style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Select Events (max 4) <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginLeft: '10px' }}>{selectedEvents.length}/4 selected</span></label>
+                                        <label style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Select Events (max 3) <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginLeft: '10px' }}>{selectedEvents.length}/3 selected</span></label>
                                     </div>
                                     <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', flexWrap: 'wrap' }}>
                                         {['ALL', 'TECHNICAL', 'NON-TECHNICAL', 'INDIVIDUAL'].map(tab => (
