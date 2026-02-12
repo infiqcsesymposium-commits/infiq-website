@@ -119,7 +119,7 @@ const RegistrationForm = () => {
             venue: "Auditorium",
             dbName: "Logo Design"
         },
-     
+
         {
             id: 11,
             title: "Quiz (Non-Tech / Pop Culture)",
@@ -167,23 +167,33 @@ const RegistrationForm = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const isEventFull = (eventName) => {
+        const count = eventCounts[eventName] || 0;
+        const limit = eventLimits[eventName] !== undefined ? eventLimits[eventName] : 15; // Default limit 15 for new events
+        return count >= limit;
+    };
+
+    const soloEvents = ["Code Debugging", "Web Designing", "Logo Design", "Multimedia Editing", "Photography"];
+
     const toggleEvent = (eventName) => {
         if (selectedEvents.includes(eventName)) {
             setSelectedEvents(prev => prev.filter(e => e !== eventName));
         } else {
-            // Check if it's AR/VR and user has teamCount > 1
+            // Check if it's a solo event and teamCount > 1
+            if (soloEvents.includes(eventName) && teamCount > 1) {
+                showNotify(`${eventName} is a solo event. Please set Team Size to 1 to select this.`, "warning");
+                return;
+            }
+
+            // Check if user already has a solo event and is trying to select a team event while teamCount is still 1? 
+            // Actually, the main constraint is teamCount.
+
             if (selectedEvents.length >= 4) {
                 showNotify("You can select a maximum of 4 events.", "warning");
                 return;
             }
             setSelectedEvents(prev => [...prev, eventName]);
         }
-    };
-
-    const isEventFull = (eventName) => {
-        const count = eventCounts[eventName] || 0;
-        const limit = eventLimits[eventName] !== undefined ? eventLimits[eventName] : 15; // Default limit 15 for new events
-        return count >= limit;
     };
 
     // --- Validation and Navigation ---
@@ -722,32 +732,46 @@ const RegistrationForm = () => {
 
                                     {/* Team Size Radio Buttons */}
                                     <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-                                        {[1, 2, 3, 4].map(size => (
-                                            <label key={size} style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: '0.5rem',
-                                                padding: '0.75rem 1.25rem',
-                                                borderRadius: '8px',
-                                                background: teamCount === size ? 'rgba(124, 58, 237, 0.3)' : 'rgba(255, 255, 255, 0.05)',
-                                                border: teamCount === size ? '2px solid #A78BFA' : '1px solid rgba(255, 255, 255, 0.1)',
-                                                cursor: 'pointer',
-                                                transition: 'all 0.3s',
-                                                color: teamCount === size ? '#fff' : 'var(--text-muted)'
-                                            }}>
-                                                <input
-                                                    type="radio"
-                                                    name="teamSize"
-                                                    value={size}
-                                                    checked={teamCount === size}
-                                                    onChange={(e) => setTeamCount(parseInt(e.target.value))}
-                                                />
-                                                <span style={{ fontWeight: teamCount === size ? 'bold' : 'normal' }}>
-                                                    {size} {size === 1 ? 'Member' : 'Members'}
-                                                </span>
-                                            </label>
-                                        ))}
+                                        {[1, 2, 3, 4].map(size => {
+                                            const hasSoloEvent = selectedEvents.some(e => soloEvents.includes(e));
+                                            const isForbidden = size > 1 && hasSoloEvent;
+
+                                            return (
+                                                <label key={size} style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '0.5rem',
+                                                    padding: '0.75rem 1.25rem',
+                                                    borderRadius: '8px',
+                                                    background: teamCount === size ? 'rgba(124, 58, 237, 0.3)' : 'rgba(255, 255, 255, 0.05)',
+                                                    border: teamCount === size ? '2px solid #A78BFA' : '1px solid rgba(255, 255, 255, 0.1)',
+                                                    cursor: isForbidden ? 'not-allowed' : 'pointer',
+                                                    transition: 'all 0.3s',
+                                                    color: teamCount === size ? '#fff' : 'var(--text-muted)',
+                                                    opacity: isForbidden ? 0.3 : 1
+                                                }}>
+                                                    <input
+                                                        type="radio"
+                                                        name="teamSize"
+                                                        value={size}
+                                                        disabled={isForbidden}
+                                                        checked={teamCount === size}
+                                                        onChange={(e) => {
+                                                            if (!isForbidden) setTeamCount(parseInt(e.target.value));
+                                                        }}
+                                                    />
+                                                    <span style={{ fontWeight: teamCount === size ? 'bold' : 'normal' }}>
+                                                        {size} {size === 1 ? 'Member' : 'Members'}
+                                                    </span>
+                                                </label>
+                                            );
+                                        })}
                                     </div>
+                                    {selectedEvents.some(e => soloEvents.includes(e)) && (
+                                        <div style={{ fontSize: '0.75rem', color: '#FFBD2E', marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                            <AlertCircle size={14} /> Team size fixed to 1 because solo events are selected.
+                                        </div>
+                                    )}
 
                                     {/* Dynamic Team Member Name Fields */}
                                     {teamCount > 1 && (
