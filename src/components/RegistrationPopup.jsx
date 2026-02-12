@@ -13,7 +13,8 @@ const RegistrationPopup = ({ onClose }) => {
 
         if (currentDate >= releaseDate) {
             const hasSeenPopup = sessionStorage.getItem('regPopupSeen');
-            if (!hasSeenPopup) {
+            const isMobile = window.innerWidth <= 768; // Check for mobile width
+            if (!hasSeenPopup && !isMobile) {
                 setShow(true);
             }
         }

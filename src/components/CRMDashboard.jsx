@@ -49,6 +49,7 @@ const CRMDashboard = () => {
     const [isEditingAnn, setIsEditingAnn] = useState(false);
     const [userRole, setUserRole] = useState('VOLUNTEER'); // Default low access
     const [activeTab, setActiveTab] = useState('dashboard');
+
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     // Event Slots State
@@ -220,16 +221,44 @@ const CRMDashboard = () => {
         };
     }, []);
 
-    // Fetch User Role
+    // Security State
+    const [systemPasscode, setSystemPasscode] = useState(null); // The actual code from DB
+    const [accessInput, setAccessInput] = useState("");
+    const [isSystemLocked, setIsSystemLocked] = useState(true);
+    const [authError, setAuthError] = useState("");
+
+    // Fetch User Role & System Security
     useEffect(() => {
-        const fetchRole = async () => {
+        const fetchRoleAndSecurity = async () => {
             if (auth.currentUser) {
                 try {
+                    // 1. Fetch Security Settings
+                    const securityDoc = await getDoc(doc(db, "system_settings", "security"));
+                    let activePasscode = null;
+                    if (securityDoc.exists()) {
+                        activePasscode = securityDoc.data().mainframe_passcode;
+                        setSystemPasscode(activePasscode);
+                    }
+
+                    // Check session storage for existing access
+                    const hasSessionAccess = sessionStorage.getItem('mainframe_session_valid');
+
+                    // If no passcode exists or session valid, unlock immediately
+                    if (!activePasscode || hasSessionAccess === 'true') {
+                        setIsSystemLocked(false);
+                    }
+
+                    // 2. Fetch Role
+                    // Hardcoded admin access for specific email
+                    if (auth.currentUser.email === 'vsbcse@gmail.com') {
+                        setUserRole('ADMIN');
+                        return;
+                    }
+
                     const userDoc = await getDoc(doc(db, "admins", auth.currentUser.uid));
                     if (userDoc.exists()) {
                         setUserRole(userDoc.data().role || 'VOLUNTEER');
                     } else {
-                        // Default to VOLUNTEER if not found in specific admin list
                         setUserRole('VOLUNTEER');
                     }
                 } catch (error) {
@@ -238,8 +267,20 @@ const CRMDashboard = () => {
                 }
             }
         };
-        fetchRole();
+        fetchRoleAndSecurity();
     }, []);
+
+    const handleUnlock = (e) => {
+        e.preventDefault();
+        if (accessInput === systemPasscode) {
+            setIsSystemLocked(false);
+            setAuthError("");
+            sessionStorage.setItem('mainframe_session_valid', 'true');
+        } else {
+            setAuthError("ACCESS DENIED: Invalid Passcode");
+            setAccessInput("");
+        }
+    };
 
     // Fetch announcements
     useEffect(() => {
@@ -886,13 +927,6 @@ const CRMDashboard = () => {
                     .mobile-toggle { display: flex !important; }
                     .crm-main-scroll { padding: 1.5rem !important; }
                 }
-
-                .crm-sidebar { 
-                    height: 100vh; 
-                    position: sticky; 
-                    top: 0; 
-                    border-right: 1px solid rgba(255,255,255,0.05);
-                }
             `}</style>
 
             {/* Connectivity Banner */}
@@ -908,6 +942,8 @@ const CRMDashboard = () => {
                     </motion.div>
                 )}
             </AnimatePresence>
+
+
 
             {/* Floating Mobile Toggle Button */}
             <button
@@ -935,6 +971,8 @@ const CRMDashboard = () => {
             </button>
 
             <div className="crm-layout" style={{ display: 'grid', gridTemplateColumns: '280px 1fr', maxWidth: '100%', minHeight: '100vh', background: 'rgba(255,255,255,0.01)' }}>
+
+
 
                 {/* Sidebar Overlay */}
                 <AnimatePresence>
@@ -1792,6 +1830,7 @@ const CRMDashboard = () => {
                                                     <tr key={adm.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                                                         <td style={{ padding: '1rem' }}>
                                                             <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.8rem', fontFamily: 'Share Tech Mono' }}>{adm.id}</div>
+                                                            {adm.createdBy && <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)' }}>By: {adm.createdByEmail}</div>}
                                                         </td>
                                                         <td style={{ padding: '1rem' }}>{adm.email || 'N/A'}</td>
                                                         <td style={{ padding: '1rem' }}>
@@ -1805,15 +1844,15 @@ const CRMDashboard = () => {
                                                             </span>
                                                         </td>
                                                         <td style={{ padding: '1rem', textAlign: 'center' }}>
-                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px', color: 'var(--primary)', fontSize: '0.7rem' }}>
-                                                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 10px var(--primary)' }}></div>
-                                                                AUTHORIZED
+                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+                                                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 5px var(--primary)' }}></div>
+                                                                <span style={{ fontSize: '0.75rem' }}>Active</span>
                                                             </div>
                                                         </td>
                                                         <td style={{ padding: '1rem', textAlign: 'center' }}>
                                                             <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-                                                                <button onClick={() => openAccessModal({ ...adm, uid: adm.id })} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}><Edit2 size={16} /></button>
-                                                                <button onClick={() => handleDeleteAccess(adm.id)} style={{ background: 'none', border: 'none', color: '#FF5F56', cursor: 'pointer' }}><Trash2 size={16} /></button>
+                                                                {userRole === 'ADMIN' && <button onClick={() => openAccessModal(adm)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}><Edit2 size={16} /></button>}
+                                                                {userRole === 'ADMIN' && <button onClick={() => handleDeleteAdmin(adm.id)} style={{ background: 'none', border: 'none', color: '#FF5F56', cursor: 'pointer' }}><Trash2 size={16} /></button>}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -1821,6 +1860,64 @@ const CRMDashboard = () => {
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    {/* System Passcode Config */}
+                                    {userRole === 'ADMIN' && (
+                                        <div className="glass-card" style={{ padding: '2rem', border: '1px solid rgba(255, 95, 86, 0.2)' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                                                <div style={{ padding: '0.8rem', background: 'rgba(255, 95, 86, 0.1)', borderRadius: '12px', color: '#FF5F56' }}>
+                                                    <Key size={24} />
+                                                </div>
+                                                <div>
+                                                    <h3 style={{ color: '#fff', margin: 0 }}>System Access Passcode</h3>
+                                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', margin: '4px 0 0' }}>Set a universal passcode required for all personnel to access the CRM.</p>
+                                                </div>
+                                            </div>
+
+                                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
+                                                <div style={{ flex: 1 }}>
+                                                    <label style={{ display: 'block', color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '8px' }}>Active Passcode</label>
+                                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                                        <input
+                                                            type="text"
+                                                            placeholder="No active passcode set"
+                                                            value={systemPasscode || ''}
+                                                            readOnly
+                                                            style={{
+                                                                flex: 1, padding: '0.8rem', background: 'rgba(0,0,0,0.3)',
+                                                                border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px',
+                                                                color: systemPasscode ? 'var(--primary)' : 'rgba(255,255,255,0.3)',
+                                                                fontFamily: 'monospace', letterSpacing: '2px'
+                                                            }}
+                                                        />
+                                                        <button
+                                                            onClick={async () => {
+                                                                const newCode = prompt("Enter new Mainframe Passcode (Leave empty to disable):");
+                                                                if (newCode !== null) {
+                                                                    try {
+                                                                        await setDoc(doc(db, "system_settings", "security"), {
+                                                                            mainframe_passcode: newCode,
+                                                                            updatedBy: auth.currentUser.email,
+                                                                            updatedAt: serverTimestamp()
+                                                                        }, { merge: true });
+                                                                        setSystemPasscode(newCode); // Optimistic update
+                                                                        alert("Passcode updated successfully.");
+                                                                    } catch (err) {
+                                                                        console.error(err);
+                                                                        alert("Failed to update passcode.");
+                                                                    }
+                                                                }
+                                                            }}
+                                                            className="btn btn-primary"
+                                                            style={{ whiteSpace: 'nowrap' }}
+                                                        >
+                                                            Update Passcode
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )
                         }

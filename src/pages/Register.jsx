@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RegistrationForm from '../components/RegistrationForm';
 import PageTransition from '../components/PageTransition';
-import RegistrationPopup from '../components/RegistrationPopup';
 import CountdownTimer from '../components/CountdownTimer';
 import useRegistrationStatus from '../hooks/useRegistrationStatus';
 
