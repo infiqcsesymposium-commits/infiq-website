@@ -95,11 +95,12 @@ const CRMDashboard = () => {
         { id: 3, name: "Code Debugging", type: "TECHNICAL", tag: "CODE", registered: 0, limit: 15, status: "OPEN" },
         { id: 4, name: "Web Designing", type: "TECHNICAL", tag: "DEV", registered: 0, limit: 15, status: "OPEN" },
         { id: 5, name: "Technical Quiz", type: "TECHNICAL", tag: "QUIZ", registered: 0, limit: 15, status: "OPEN" },
-        { id: 6, name: "Esports", type: "NON-TECHNICAL", tag: "GAMING", registered: 0, limit: 15, status: "OPEN" },
+        { id: 6, name: "Ideathon", type: "TECHNICAL", tag: "HACK", registered: 0, limit: 15, status: "OPEN" },
         { id: 7, name: "Connections", type: "NON-TECHNICAL", tag: "FUN", registered: 0, limit: 15, status: "OPEN" },
-        { id: 9, name: "Photography", type: "NON-TECHNICAL", tag: "ART", registered: 0, limit: 15, status: "OPEN" },
-        { id: 10, name: "Short Film", type: "NON-TECHNICAL", tag: "CINEMA", registered: 0, limit: 15, status: "OPEN" },
-        { id: 11, name: "Ideathon", type: "TECHNICAL", tag: "HACK", registered: 0, limit: 15, status: "OPEN" }
+        { id: 8, name: "Photography", type: "NON-TECHNICAL", tag: "ART", registered: 0, limit: 15, status: "OPEN" },
+        { id: 9, name: "Logo Design", type: "NON-TECHNICAL", tag: "DESIGN", registered: 0, limit: 15, status: "OPEN" },
+        { id: 10, name: "Multimedia Editing", type: "NON-TECHNICAL", tag: "DESIGN", registered: 0, limit: 15, status: "OPEN" },
+        { id: 11, name: "Pop Quiz", type: "NON-TECHNICAL", tag: "FUN", registered: 0, limit: 15, status: "OPEN" }
     ]);
 
     // Fetch limits from event_settings collection
