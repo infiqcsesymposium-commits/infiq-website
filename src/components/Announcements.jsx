@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Megaphone, Bell, Calendar, Info, AlertTriangle, X, ChevronRight, Pin, Clock } from 'lucide-react';
+import { Megaphone, Bell, Calendar, Info, AlertTriangle, X, ChevronRight, Pin, Clock, MapPin } from 'lucide-react';
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
@@ -153,8 +153,16 @@ const Announcements = () => {
                                             <Calendar size={12} /> {eventSlots[ann.eventName].date}
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--primary)', fontSize: '0.75rem' }}>
-                                            <Clock size={12} /> {eventSlots[ann.eventName].startTime}
+                                            <Clock size={12} /> {eventSlots[ann.eventName].startTime} - {eventSlots[ann.eventName].endTime}
                                         </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#FFBD2E', fontSize: '0.7rem', fontStyle: 'italic' }}>
+                                            Report: {eventSlots[ann.eventName].reportTime}
+                                        </div>
+                                        {eventSlots[ann.eventName].venue && (
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--primary)', fontSize: '0.75rem' }}>
+                                                <MapPin size={12} /> {eventSlots[ann.eventName].venue}
+                                            </div>
+                                        )}
                                     </div>
                                 )}
 

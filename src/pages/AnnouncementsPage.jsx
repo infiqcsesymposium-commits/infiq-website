@@ -240,7 +240,10 @@ const AnnouncementsPage = () => {
                                                     <Calendar size={14} /> {eventSlots[ann.eventName].date}
                                                 </div>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.85rem' }}>
-                                                    <Clock size={14} /> {eventSlots[ann.eventName].startTime}
+                                                    <Clock size={14} /> {eventSlots[ann.eventName].startTime} - {eventSlots[ann.eventName].endTime}
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#FFBD2E', fontSize: '0.8rem', fontStyle: 'italic' }}>
+                                                    Report: {eventSlots[ann.eventName].reportTime}
                                                 </div>
                                                 {eventSlots[ann.eventName].venue && (
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.85rem' }}>
