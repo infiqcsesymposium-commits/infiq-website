@@ -57,7 +57,7 @@ const About = () => {
                                 With accreditation from top bodies and a sprawling green campus, VSB offers a vibrant ecosystem for holistic development and innovation.
                             </p>
                         </div>
-                        <a href="https://www.vsbcetc.com/" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ marginTop: '2.5rem', gap: '10px', fontSize: '0.8rem' }}>
+                        <a href="https://www.vsbcetc.edu.in/" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ marginTop: '2.5rem', gap: '10px', fontSize: '0.8rem' }}>
                             Visit Official Website <ExternalLink size={14} />
                         </a>
                     </motion.div>

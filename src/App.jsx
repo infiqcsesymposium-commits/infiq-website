@@ -19,6 +19,7 @@ import Timeline from './pages/Timeline';
 import Admin from './pages/Admin';
 import AnnouncementsPage from './pages/AnnouncementsPage';
 import EventSchedule from './pages/EventSchedule';
+import LocationPage from './pages/Location';
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -35,7 +36,7 @@ const AnimatedRoutes = () => {
 
         <Route path="/register" element={<Register />} />
         <Route path="/timeline" element={<Timeline />} />
-        <Route path="/location" element={<Location />} />
+        <Route path="/location" element={<LocationPage />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/announcements" element={<AnnouncementsPage />} />
         <Route path="/schedule" element={<EventSchedule />} />

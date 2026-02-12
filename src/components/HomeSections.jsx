@@ -378,7 +378,7 @@ export const PrizeShowcase = () => {
             color: "#FF2EDF"
         },
         {
-            title: "IDEATHON",
+            title: "Hackathon",
             category: "INNOVATION",
             icon: <Lightbulb size={32} />,
             desc: "Pitch technology-driven solutions to real-world problems and win massive rewards.",
@@ -443,7 +443,7 @@ export const PrizeShowcase = () => {
 /* 4. Pre-registration Events Section */
 export const InnovationShowcase = () => {
     const preEvents = [
-        { title: "IDEATHON", icon: <Lightbulb size={40} />, desc: "Submit abstract for tech solutions to real problems.", color: "var(--neon-blue)" },
+        { title: "Hackathon", icon: <Lightbulb size={40} />, desc: "Submit abstract for tech solutions to real problems.", color: "var(--neon-blue)" },
         { title: "ESPORTS", icon: <Gamepad2 size={40} />, desc: "Competitive Free Fire tournament with pre-selection.", color: "var(--neon-pink)" },
         { title: "STARTUP ARENA", icon: <Rocket size={40} />, desc: "Entrepreneurial pitch for business innovations.", color: "var(--neon-purple)" }
     ];

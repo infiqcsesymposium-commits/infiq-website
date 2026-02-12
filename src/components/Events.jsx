@@ -10,10 +10,11 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import PageTransition from './PageTransition';
 import eventPoster from '../assets/event_poster_main.jpg';
 
-const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
+const TrackCard = ({ track, index, registeredCount, maxLimit, teamList, isManuallyClosed }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [viewMode, setViewMode] = useState('RULES'); // RULES or TEAMS
     const isFull = registeredCount >= maxLimit;
+    const isClosed = isFull || isManuallyClosed;
     const progress = Math.min((registeredCount / maxLimit) * 100, 100);
 
     return (
@@ -63,13 +64,15 @@ const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
                         <div style={{ width: '100%', marginBottom: '1rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '4px', color: 'var(--text-muted)' }}>
                                 <span>Slots Status</span>
-                                <span style={{ color: isFull ? '#FF5F56' : 'var(--primary)' }}>{registeredCount} / {maxLimit}</span>
+                                <span style={{ color: isClosed ? '#FF5F56' : 'var(--primary)' }}>
+                                    {isManuallyClosed ? "CLOSED" : `${registeredCount} / ${maxLimit}`}
+                                </span>
                             </div>
                             <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', overflow: 'hidden' }}>
                                 <div style={{
-                                    width: `${progress}%`,
+                                    width: isManuallyClosed ? '100%' : `${progress}%`,
                                     height: '100%',
-                                    background: isFull ? '#FF5F56' : 'var(--primary)',
+                                    background: isClosed ? '#FF5F56' : 'var(--primary)',
                                     transition: 'width 0.5s ease-out'
                                 }} />
                             </div>
@@ -81,8 +84,8 @@ const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
                             <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', display: 'block', fontWeight: '800' }}>PRIZES</span>
                             <span className="card-price" style={{ color: 'var(--primary)', fontWeight: '900', fontSize: '1.1rem' }}>{track.prize}</span>
                         </div>
-                        <button disabled={isFull} className={`btn ${isFull ? 'btn-disabled' : 'btn-outline'}`} style={{ padding: '0.5rem 1rem', fontSize: '0.7rem', border: isFull ? '1px solid #FF5F56' : '1px solid rgba(56, 234, 140, 0.3)', color: isFull ? '#FF5F56' : '' }}>
-                            {isFull ? 'CLOSED' : 'EXECUTE'} <ChevronRight size={14} style={{ marginLeft: '4px' }} />
+                        <button disabled={isClosed} className={`btn ${isClosed ? 'btn-disabled' : 'btn-outline'}`} style={{ padding: '0.5rem 1rem', fontSize: '0.7rem', border: isClosed ? '1px solid #FF5F56' : '1px solid rgba(56, 234, 140, 0.3)', color: isClosed ? '#FF5F56' : '' }}>
+                            {isManuallyClosed ? 'CLOSED' : isFull ? 'FULL' : 'EXECUTE'} <ChevronRight size={14} style={{ marginLeft: '4px' }} />
                         </button>
                     </div>
                 </div>
@@ -151,11 +154,11 @@ const TrackCard = ({ track, index, registeredCount, maxLimit, teamList }) => {
                         <div className="back-footer">
                             <button
                                 onClick={(e) => { e.stopPropagation(); window.location.href = '/register'; }}
-                                disabled={isFull}
+                                disabled={isClosed}
                                 className="btn btn-primary"
-                                style={{ width: '100%', fontSize: '0.8rem', fontWeight: '800', opacity: isFull ? 0.5 : 1, cursor: isFull ? 'not-allowed' : 'pointer' }}
+                                style={{ width: '100%', fontSize: '0.8rem', fontWeight: '800', opacity: isClosed ? 0.5 : 1, cursor: isClosed ? 'not-allowed' : 'pointer' }}
                             >
-                                {isFull ? 'REGISTRATION CLOSED' : 'INITIALIZE REGISTRATION'}
+                                {isManuallyClosed ? 'REGISTRATION CLOSED' : isFull ? 'SLOTS FULL' : 'INITIALIZE REGISTRATION'}
                             </button>
                         </div>
                     </div>
@@ -169,6 +172,7 @@ const Events = () => {
     const [filter, setFilter] = useState('ALL');
     const [eventCounts, setEventCounts] = useState({});
     const [eventLimits, setEventLimits] = useState({}); // New state for dynamic limits
+    const [eventManualClosures, setEventManualClosures] = useState({});
 
     const [eventTeams, setEventTeams] = useState({}); // New state for team lists
 
@@ -176,10 +180,14 @@ const Events = () => {
         // Fetch dynamic limits
         const unsubscribeLimits = onSnapshot(collection(db, "event_settings"), (snapshot) => {
             const limits = {};
+            const closures = {};
             snapshot.docs.forEach(doc => {
-                limits[doc.id] = doc.data().limit;
+                const data = doc.data();
+                limits[doc.id] = data.limit;
+                closures[doc.id] = data.isManuallyClosed;
             });
             setEventLimits(limits);
+            setEventManualClosures(closures);
         });
 
         // Real-time listener for event counts and team details
@@ -225,7 +233,7 @@ const Events = () => {
             tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Strict 5 minute format.", "One to four members.", "Mandatory expert Q&A session.", "Cover abstract and results."]
+            rules: ["8+2 MINS", "TEAM: MIN OF 1 MAX OF 4", "6 SLIDE 6 POINT FORMAT", "OPEN TOPICS"]
         },
         {
             title: "CODE SURGEON",
@@ -237,7 +245,7 @@ const Events = () => {
             tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["No internet or AI.", "Use provided IDE only.", "Pass all test cases.", "Work independently within time."]
+            rules: ["ONE MAN SHOW", "NO GADGETS PERMITTED", "PEN AND PAPER", "NO DISCUSS WITH OTHER TEAMS"]
         },
         {
             title: "INNOVEXPO",
@@ -250,7 +258,7 @@ const Events = () => {
             category: "TECHNICAL",
             isFeatured: true,
             prize: "Exciting Prizes",
-            rules: ["Must show functional prototype.", "Live demonstrations are required.", "Provide technical project reports.", "Follow campus safety regulations."]
+            rules: ["TEAM PARTICIPATION", "CLEAR EXPLANATION OF PROJECT", "OWN PROJECT", "PROTOTYPE MANDATORY"]
         },
         {
             title: "DEVATHON",
@@ -262,7 +270,7 @@ const Events = () => {
             tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["No-code builders strictly forbidden.", "Prioritize functional MVP features.", "Ensure fully responsive designs.", "Submit live hosted links."]
+            rules: ["ONE MAN SHOW", "NO PREDEFINED FORMATS", "SPOT THEME", "NEED TO DEVELOP WITHIN TIMELIMIT"]
         },
         {
             title: "QUIZTRON",
@@ -274,19 +282,19 @@ const Events = () => {
             tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Electronic gadgets strictly prohibited.", "Preliminary and final rounds.", "Buzzer rounds penalize errors.", "Quiz Master's decision final."]
+            rules: ["3 ROUNDS PER SLOT", "NO GADGETS PERMITTED", "PEN AND PAPER", "NO DISCUSS WITH OTHER TEAMS"]
         },
         {
             title: "CODEFUSION",
             subtitle: "HACKATHON",
-            dbName: "Ideathon",
+            dbName: "Hackathon",
             icon: <Code />,
             img: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800",
             desc: "Intense product development sprint. Rapid prototyping focused event. Build functional technical solutions. High-speed innovation challenge.",
             tag: "TECHNICAL",
             category: "TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Theme revealed at start.", "Finish within two days.", "Build entirely from scratch.", "No pre-built projects allowed."]
+            rules: ["PROBLEM STATEMENT WILL BE RELEASED 2 DAYS BEFORE EVENT", "FORMAT & RULES: AS SAME AS SIH"]
         },
         {
             title: "PIXEL VISION",
@@ -298,7 +306,7 @@ const Events = () => {
             tag: "CREATIVE",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Stay within campus boundaries.", "Metadata verifies time taken.", "No gallery images allowed.", "Respect campus privacy rules."]
+            rules: ["ONE MAN SHOW", "SHOOT INSIDE THE CAMPUS", "NO EDITING ALLOWED", "THEME BASED"]
         },
         {
             title: "POSTERIA",
@@ -310,7 +318,7 @@ const Events = () => {
             tag: "CREATIVE",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Use professional design tools.", "Ensure high-resolution print quality.", "Work within campus laboratory.", "All elements must be original."]
+            rules: ["ONE MAN SHOW", "NO PREDEFINED POSTER", "SPOT THEME"]
         },
         {
             title: "POPFRENZY",
@@ -322,7 +330,7 @@ const Events = () => {
             tag: "GAMING",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["No smartphones or smartwatches.", "Incorrect buzzer guesses penalize.", "Quiz Master ruling final.", "Elimination round starts event."]
+            rules: ["3 ROUNDS PER SLOT", "NO GADGETS PERMITTED", "PEN AND PAPER", "NO DISCUSS WITH OTHER TEAMS"]
         },
         {
             title: "LINKSTORM",
@@ -334,7 +342,7 @@ const Events = () => {
             tag: "GAMING",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["No mobile phone usage.", "Thirty-sixty second time limits.", "Team representative must respond.", "Pre-register before event start."]
+            rules: ["TEAM PARTICIPATION", "NO GADGETS PERMITTED", "CHANCE BASED", "NO DISCUSS WITH OTHER TEAMS"]
         },
         {
             title: "LOGOZO",
@@ -346,7 +354,7 @@ const Events = () => {
             tag: "CREATIVE",
             category: "NON-TECHNICAL",
             prize: "Exciting Prizes",
-            rules: ["Sixty-minute strict time limit.", "No AI-generated imagery.", "Submit source file explanation.", "Theme revealed at start."]
+            rules: ["ONE MAN SHOW", "NO PREDEFINED LOGO", "SPOT THEME"]
         }
     ];
 
@@ -435,6 +443,7 @@ const Events = () => {
                                     registeredCount={eventCounts[event.dbName] || 0} // Get live count
                                     maxLimit={eventLimits[event.dbName] || 15} // Dynamic limit with fallback
                                     teamList={eventTeams[event.dbName] || []} // Pass registered teams
+                                    isManuallyClosed={eventManualClosures[event.dbName]}
                                 />
                             ))}
                         </AnimatePresence>

@@ -6,7 +6,7 @@ import {
     Filter, Download, MoreHorizontal,
     CheckCircle, AlertCircle, Clock, LogOut, X, ChevronDown, Edit2, Save,
     Plus, Trash2, Bell, Megaphone, Info, Settings, DollarSign, Zap,
-    Shield, UserPlus, Key, ShieldAlert
+    Shield, UserPlus, Key, ShieldAlert, Ticket, Globe
 } from 'lucide-react';
 import { db, auth } from '../firebaseConfig';
 import { collection, onSnapshot, query, orderBy, doc, updateDoc, setDoc, addDoc, deleteDoc, serverTimestamp, getDoc } from 'firebase/firestore';
@@ -32,6 +32,7 @@ const CRMDashboard = () => {
     const [editingEvent, setEditingEvent] = useState(null);
     const [newLimit, setNewLimit] = useState("");
     const [eventLimits, setEventLimits] = useState({});
+    const [eventManualClosures, setEventManualClosures] = useState({});
 
     // Announcement states
     const [announcements, setAnnouncements] = useState([]);
@@ -88,14 +89,21 @@ const CRMDashboard = () => {
         isActive: true
     });
     const [isEditingFee, setIsEditingFee] = useState(false);
-    const [allAdmins, setAllAdmins] = useState([]);
+    const [isEditingAccess, setIsEditingAccess] = useState(false);
     const [isAccessModalOpen, setIsAccessModalOpen] = useState(false);
+    const [allAdmins, setAllAdmins] = useState([]);
     const [currentAccess, setCurrentAccess] = useState({
         uid: "",
         email: "",
         role: "VOLUNTEER"
     });
-    const [isEditingAccess, setIsEditingAccess] = useState(false);
+
+    // System Access Control State
+    const [systemAccess, setSystemAccess] = useState({
+        otherDepts: true,
+        cseDept: true,
+        outerCollege: true
+    });
 
     // Events definition with classification
     const [events, setEvents] = useState([
@@ -104,7 +112,7 @@ const CRMDashboard = () => {
         { id: 3, name: "Code Debugging", type: "TECHNICAL", tag: "CODE", registered: 0, limit: 15, status: "OPEN" },
         { id: 4, name: "Web Designing", type: "TECHNICAL", tag: "DEV", registered: 0, limit: 15, status: "OPEN" },
         { id: 5, name: "Technical Quiz", type: "TECHNICAL", tag: "QUIZ", registered: 0, limit: 15, status: "OPEN" },
-        { id: 6, name: "Ideathon", type: "TECHNICAL", tag: "HACK", registered: 0, limit: 15, status: "OPEN" },
+        { id: 6, name: "Hackathon", type: "TECHNICAL", tag: "HACK", registered: 0, limit: 15, status: "OPEN" },
         { id: 7, name: "Connections", type: "NON-TECHNICAL", tag: "FUN", registered: 0, limit: 15, status: "OPEN" },
         { id: 8, name: "Photography", type: "NON-TECHNICAL", tag: "ART", registered: 0, limit: 15, status: "OPEN" },
         { id: 9, name: "Logo Design", type: "NON-TECHNICAL", tag: "DESIGN", registered: 0, limit: 15, status: "OPEN" },
@@ -112,14 +120,18 @@ const CRMDashboard = () => {
         { id: 11, name: "Pop Quiz", type: "NON-TECHNICAL", tag: "FUN", registered: 0, limit: 15, status: "OPEN" }
     ]);
 
-    // Fetch limits from event_settings collection
+    // Fetch limits and manual closures from event_settings collection
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "event_settings"), (snapshot) => {
             const limits = {};
+            const closures = {};
             snapshot.docs.forEach(doc => {
-                limits[doc.id] = doc.data().limit;
+                const data = doc.data();
+                limits[doc.id] = data.limit;
+                closures[doc.id] = data.isManuallyClosed;
             });
             setEventLimits(limits);
+            setEventManualClosures(closures);
         });
 
         const unsubscribeFees = onSnapshot(collection(db, "fee_config"), (snapshot) => {
@@ -140,7 +152,18 @@ const CRMDashboard = () => {
                 const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setAllAdmins(data);
             });
-            return () => unsubscribe();
+
+            // Fetch System Access Settings
+            const unsubscribeAccess = onSnapshot(doc(db, "system_settings", "registration_access"), (docSnap) => {
+                if (docSnap.exists()) {
+                    setSystemAccess(docSnap.data());
+                }
+            });
+
+            return () => {
+                unsubscribe();
+                unsubscribeAccess();
+            };
         }
     }, [userRole]);
 
@@ -168,12 +191,14 @@ const CRMDashboard = () => {
                 // Use dynamic limit if available, else default to 15
                 // Note: We use eventLimits from the closure, but also rely on the dependency to re-run
                 const currentLimit = eventLimits[ev.name] !== undefined ? eventLimits[ev.name] : 15;
+                const isManuallyClosed = eventManualClosures[ev.name] || false;
 
                 let status = "OPEN";
-                if (count >= currentLimit) status = "CLOSED";
+                if (isManuallyClosed) status = "CLOSED (ADMIN)";
+                else if (count >= currentLimit) status = "CLOSED";
                 else if (count >= currentLimit * 0.8) status = "FILLING FAST";
 
-                return { ...ev, registered: count, limit: currentLimit, status };
+                return { ...ev, registered: count, limit: currentLimit, status, isManuallyClosed };
             }));
 
             setLoading(false);
@@ -183,7 +208,7 @@ const CRMDashboard = () => {
         });
 
         return () => unsubscribe();
-    }, [eventLimits]); // Re-run when limits change
+    }, [eventLimits, eventManualClosures]); // Re-run when limits or closures change
 
     useEffect(() => {
         const handleStatusChange = () => setIsOnline(navigator.onLine);
@@ -436,6 +461,8 @@ const CRMDashboard = () => {
         });
     };
 
+
+
     // Filter logic helper
     const getEvType = (name) => events.find(e => e.name === name)?.type || 'TECHNICAL';
 
@@ -474,6 +501,17 @@ const CRMDashboard = () => {
             await signOut(auth);
         } catch (error) {
             console.error("Error signing out:", error);
+        }
+    };
+
+    const toggleAccess = async (key) => {
+        if (userRole !== 'ADMIN') return;
+        const newAccess = { ...systemAccess, [key]: !systemAccess[key] };
+        try {
+            await setDoc(doc(db, "system_settings", "registration_access"), newAccess);
+        } catch (error) {
+            console.error("Error updating access:", error);
+            alert("Failed to update access protocol.");
         }
     };
 
@@ -648,6 +686,18 @@ const CRMDashboard = () => {
         } catch (error) {
             console.error("Error updating limit:", error);
             alert("Failed to update limit");
+        }
+    };
+
+    const toggleEventStatus = async (ev) => {
+        const newStatus = !ev.isManuallyClosed;
+        try {
+            await setDoc(doc(db, "event_settings", ev.name), {
+                isManuallyClosed: newStatus
+            }, { merge: true });
+        } catch (error) {
+            console.error("Error updating event status:", error);
+            alert("Failed to update event status");
         }
     };
 
@@ -986,6 +1036,53 @@ const CRMDashboard = () => {
                         )}
                         {activeTab === 'dashboard' && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                {/* SYSTEM_ACCESS_CONTROL */}
+                                {userRole === 'ADMIN' && (
+                                    <div className="glass-card" style={{ padding: '2rem', border: '1px solid rgba(56, 234, 140, 0.2)', background: 'rgba(56, 234, 140, 0.02)' }}>
+                                        <div style={{ marginBottom: '2rem' }}>
+                                            <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                                                <Shield size={20} color="var(--primary)" /> REGISTRATION_GATE_PROTOCOLS
+                                            </h3>
+                                            <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '0.5rem' }}>Global overrides for enrollment categories. Temporary standby or shutdown access.</p>
+                                        </div>
+
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                                            {[
+                                                { key: 'cseDept', label: 'VSBCETC_CSE (Internal)', color: 'var(--primary)', icon: <Ticket /> },
+                                                { key: 'otherDepts', label: 'VSBCETC_OTHER_DEPTS', color: 'var(--neon-pink)', icon: <Users /> },
+                                                { key: 'outerCollege', label: 'OUTER_COLLEGE_NODES', color: 'var(--neon-blue)', icon: <Globe /> }
+                                            ].map(item => (
+                                                <div key={item.key} style={{
+                                                    padding: '1.5rem', borderRadius: '16px', background: 'rgba(255,255,255,0.03)',
+                                                    border: `1px solid ${systemAccess[item.key] ? 'rgba(56, 234, 140, 0.2)' : 'rgba(255, 95, 86, 0.2)'}`,
+                                                    display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                                                }}>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                                        <div style={{ color: item.color }}>{item.icon}</div>
+                                                        <div>
+                                                            <div style={{ color: '#fff', fontSize: '0.85rem', fontWeight: 'bold' }}>{item.label}</div>
+                                                            <div style={{ fontSize: '0.7rem', color: systemAccess[item.key] ? 'var(--primary)' : '#FF5F56', fontFamily: 'Share Tech Mono' }}>
+                                                                STATUS: {systemAccess[item.key] ? 'ACTIVE_OPEN' : 'STANDBY_CLOSED'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => toggleAccess(item.key)}
+                                                        style={{
+                                                            padding: '8px 16px', borderRadius: '8px', cursor: 'pointer',
+                                                            background: systemAccess[item.key] ? 'rgba(255, 95, 86, 0.1)' : 'rgba(56, 234, 140, 0.1)',
+                                                            border: `1px solid ${systemAccess[item.key] ? '#FF5F56' : 'var(--primary)'}`,
+                                                            color: systemAccess[item.key] ? '#FF5F56' : 'var(--primary)',
+                                                            fontSize: '0.7rem', fontWeight: 'bold', fontFamily: 'Share Tech Mono'
+                                                        }}
+                                                    >
+                                                        {systemAccess[item.key] ? 'CLOSE_GATE' : 'OPEN_GATE'}
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <h2 style={{ fontSize: '2rem', color: '#fff', margin: 0 }}>System Overview</h2>
                                     <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Welcome back, {userRole}</div>
@@ -1077,7 +1174,7 @@ const CRMDashboard = () => {
                                         {events.map(ev => (
                                             <div key={ev.id} style={{
                                                 background: 'rgba(255,255,255,0.02)',
-                                                border: '1px solid rgba(255,255,255,0.05)',
+                                                border: `1px solid ${ev.isManuallyClosed ? '#FF5F56' : 'rgba(255,255,255,0.05)'}`,
                                                 borderRadius: '16px',
                                                 padding: '1.2rem',
                                                 display: 'flex',
@@ -1086,8 +1183,8 @@ const CRMDashboard = () => {
                                             }}>
                                                 <div>
                                                     <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.9rem' }}>{ev.name}</div>
-                                                    <div style={{ fontSize: '0.75rem', color: ev.status === 'CLOSED' ? '#FF5F56' : 'var(--primary)', marginTop: '4px' }}>
-                                                        {ev.registered} / {ev.limit} Slots Filled
+                                                    <div style={{ fontSize: '0.75rem', color: (ev.status.includes('CLOSED') || ev.isManuallyClosed) ? '#FF5F56' : 'var(--primary)', marginTop: '4px' }}>
+                                                        {ev.registered} / {ev.limit} Slots Filled • {ev.status}
                                                     </div>
                                                 </div>
                                                 {editingEvent && editingEvent.id === ev.id ? (
@@ -1101,12 +1198,27 @@ const CRMDashboard = () => {
                                                         <button onClick={saveLimit} style={{ background: 'var(--primary)', border: 'none', borderRadius: '4px', padding: '5px 10px', fontSize: '0.7rem', cursor: 'pointer', fontWeight: 'bold' }}>SAVE</button>
                                                     </div>
                                                 ) : (
-                                                    <button
-                                                        onClick={() => openEditLimit(ev)}
-                                                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '8px 12px', color: 'var(--primary)', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
-                                                    >
-                                                        <Edit2 size={12} /> Edit Slots
-                                                    </button>
+                                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                                        <button
+                                                            onClick={() => toggleEventStatus(ev)}
+                                                            title={ev.isManuallyClosed ? "Open Event" : "Close Event Manually"}
+                                                            style={{
+                                                                background: ev.isManuallyClosed ? 'rgba(56, 234, 140, 0.1)' : 'rgba(255, 95, 86, 0.1)',
+                                                                border: `1px solid ${ev.isManuallyClosed ? 'var(--primary)' : '#FF5F56'}`,
+                                                                borderRadius: '8px', padding: '8px',
+                                                                color: ev.isManuallyClosed ? 'var(--primary)' : '#FF5F56',
+                                                                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                                            }}
+                                                        >
+                                                            {ev.isManuallyClosed ? <CheckCircle size={14} /> : <ShieldAlert size={14} />}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => openEditLimit(ev)}
+                                                            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '8px 12px', color: 'var(--primary)', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
+                                                        >
+                                                            <Edit2 size={12} /> Edit Slots
+                                                        </button>
+                                                    </div>
                                                 )}
                                             </div>
                                         ))}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Calendar, MapPin, Upload, ArrowLeft, Users, Smartphone, AtSign } from 'lucide-react';
 import { db } from '../firebaseConfig';
-import { collection, addDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, onSnapshot, doc } from 'firebase/firestore';
 import paymentQR from '../assets/payment_qr.jpg';
 
 const RegistrationForm = () => {
@@ -26,6 +26,12 @@ const RegistrationForm = () => {
     const [status, setStatus] = useState("idle");
     const [eventCounts, setEventCounts] = useState({});
     const [eventLimits, setEventLimits] = useState({});
+    const [eventManualClosures, setEventManualClosures] = useState({});
+    const [systemAccess, setSystemAccess] = useState({
+        cseDept: true,
+        otherDepts: true,
+        outerCollege: true
+    });
     const [filterTab, setFilterTab] = useState("ALL");
     const [teamCount, setTeamCount] = useState(1);
     const [teamMembers, setTeamMembers] = useState(["", "", ""]);  // For members 2, 3, 4
@@ -91,7 +97,7 @@ const RegistrationForm = () => {
             tag: "HACK",
             time: "10:00 AM",
             venue: "A305",
-            dbName: "Ideathon"
+            dbName: "Hackathon"
         },
         {
             id: 7,
@@ -143,10 +149,14 @@ const RegistrationForm = () => {
     useEffect(() => {
         const unsubscribeLimits = onSnapshot(collection(db, "event_settings"), (snapshot) => {
             const limits = {};
+            const closures = {};
             snapshot.docs.forEach(doc => {
-                limits[doc.id] = doc.data().limit;
+                const data = doc.data();
+                limits[doc.id] = data.limit;
+                closures[doc.id] = data.isManuallyClosed;
             });
             setEventLimits(limits);
+            setEventManualClosures(closures);
         });
 
         const unsubscribeRegs = onSnapshot(collection(db, "registrations"), (snapshot) => {
@@ -165,10 +175,17 @@ const RegistrationForm = () => {
             setFeeConfigs(fees);
         });
 
+        const unsubscribeAccess = onSnapshot(doc(db, "system_settings", "registration_access"), (docSnap) => {
+            if (docSnap.exists()) {
+                setSystemAccess(docSnap.data());
+            }
+        });
+
         return () => {
             unsubscribeLimits();
             unsubscribeRegs();
             unsubscribeFees();
+            unsubscribeAccess();
         };
     }, []);
 
@@ -179,7 +196,8 @@ const RegistrationForm = () => {
     const isEventFull = (eventName) => {
         const count = eventCounts[eventName] || 0;
         const limit = eventLimits[eventName] !== undefined ? eventLimits[eventName] : 15; // Default limit 15 for new events
-        return count >= limit;
+        const isClosed = eventManualClosures[eventName] || false;
+        return count >= limit || isClosed;
     };
 
     const soloEvents = ["Code Debugging", "Web Designing", "Logo Design", "Multimedia Editing", "Photography"];
@@ -711,9 +729,9 @@ const RegistrationForm = () => {
                                             style={{ width: '100%', padding: '1rem', borderRadius: '8px', background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff', outline: 'none' }}
                                         >
                                             <option value="" style={{ color: '#000' }}>-- Select Category --</option>
-                                            <option value="OUTER" style={{ color: '#000' }}>Outer College (Other Institutions)</option>
-                                            <option value="OTHER_DEPT" style={{ color: '#000' }}>VSBCETC - Other Departments</option>
-                                            <option value="CSE_ONLY" style={{ color: '#000' }}>VSBCETC - CSE / AI Only</option>
+                                            {systemAccess.outerCollege && <option value="OUTER" style={{ color: '#000' }}>Outer College (Other Institutions)</option>}
+                                            {systemAccess.otherDepts && <option value="OTHER_DEPT" style={{ color: '#000' }}>VSBCETC - Other Departments</option>}
+                                            {systemAccess.cseDept && <option value="CSE_ONLY" style={{ color: '#000' }}>VSBCETC - CSE / AI Only</option>}
                                         </select>
                                     </div>
                                     <div className="form-group">
@@ -900,12 +918,16 @@ const RegistrationForm = () => {
                                     <div style={{ display: 'grid', gap: '1rem' }}>
                                         {filteredEvents.map((ev) => {
                                             const isSelected = selectedEvents.includes(ev.dbName);
-                                            const isFull = isEventFull(ev.dbName);
-                                            const disabled = isFull && !isSelected;
+                                            const count = eventCounts[ev.dbName] || 0;
+                                            const limit = eventLimits[ev.dbName] !== undefined ? eventLimits[ev.dbName] : 15;
+                                            const isManuallyClosed = eventManualClosures[ev.dbName] || false;
+                                            const isLimitReached = count >= limit;
+                                            const disabled = (isLimitReached || isManuallyClosed) && !isSelected;
+
                                             return (
                                                 <div key={ev.id} onClick={() => !disabled && toggleEvent(ev.dbName)} style={{ display: 'flex', alignItems: 'center', padding: '1rem', background: isSelected ? 'rgba(56, 234, 140, 0.1)' : 'rgba(255, 255, 255, 0.03)', border: isSelected ? '1px solid var(--primary)' : '1px solid rgba(255, 255, 255, 0.05)', borderRadius: '12px', cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? 0.6 : 1, transition: 'all 0.2s', position: 'relative' }}>
                                                     <div style={{ marginRight: '1rem', display: 'flex', alignItems: 'center' }}><div style={{ width: '20px', height: '20px', borderRadius: '4px', border: isSelected ? 'none' : '2px solid var(--text-muted)', background: isSelected ? 'var(--primary)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{isSelected && <CheckCircle2 size={14} color="#000" />}</div></div>
-                                                    <div style={{ flex: 1 }}><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}><h4 style={{ margin: 0, color: '#fff', fontSize: '1rem' }}>{ev.title}</h4>{disabled ? (<span style={{ fontSize: '0.7rem', color: '#FF5F56', border: '1px solid #FF5F56', padding: '2px 6px', borderRadius: '4px' }}>FULL</span>) : (<span style={{ fontSize: '0.7rem', padding: '2px 8px', borderRadius: '10px', background: ev.category === 'TECHNICAL' ? 'rgba(0, 229, 255, 0.2)' : 'rgba(255, 46, 223, 0.2)', color: ev.category === 'TECHNICAL' ? 'var(--neon-blue)' : 'var(--neon-pink)' }}>{ev.tag}</span>)}</div><div style={{ display: 'flex', gap: '1rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}><span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Calendar size={12} /> {ev.time}</span><span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin size={12} /> {ev.venue}</span></div></div>
+                                                    <div style={{ flex: 1 }}><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}><h4 style={{ margin: 0, color: '#fff', fontSize: '1rem' }}>{ev.title}</h4>{disabled ? (<span style={{ fontSize: '0.7rem', color: '#FF5F56', border: '1px solid #FF5F56', padding: '2px 6px', borderRadius: '4px' }}>{isManuallyClosed ? "CLOSED" : "FULL"}</span>) : (<span style={{ fontSize: '0.7rem', padding: '2px 8px', borderRadius: '10px', background: ev.category === 'TECHNICAL' ? 'rgba(0, 229, 255, 0.2)' : 'rgba(255, 46, 223, 0.2)', color: ev.category === 'TECHNICAL' ? 'var(--neon-blue)' : 'var(--neon-pink)' }}>{ev.tag}</span>)}</div><div style={{ display: 'flex', gap: '1rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}><span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><Calendar size={12} /> {ev.time}</span><span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><MapPin size={12} /> {ev.venue}</span></div></div>
                                                 </div>
                                             );
                                         })}

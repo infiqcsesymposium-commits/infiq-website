@@ -3,8 +3,10 @@ import { Menu, X, Terminal, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
+import useRegistrationStatus from '../hooks/useRegistrationStatus';
 
 const Navbar = () => {
+    const { isOpen, loading } = useRegistrationStatus();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [hoveredLink, setHoveredLink] = useState(null);
@@ -23,6 +25,7 @@ const Navbar = () => {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
+
         }
         return () => {
             document.body.style.overflow = 'unset';
@@ -90,8 +93,8 @@ const Navbar = () => {
 
                     {/* Action Buttons */}
                     <div className="nav-actions-new">
-                        <Link to="/register" className="nav-register-btn">
-                            <span>Register</span>
+                        <Link to="/register" className={`nav-register-btn ${!isOpen ? 'closed' : ''}`} style={!isOpen ? { filter: 'grayscale(1)', opacity: 0.8 } : {}}>
+                            <span>{isOpen ? 'Register' : 'Closed'}</span>
                             <ChevronRight size={16} strokeWidth={2.5} />
                         </Link>
 
@@ -178,13 +181,14 @@ const Navbar = () => {
                                     to="/register"
                                     className="mobile-register-btn"
                                     onClick={() => setIsMenuOpen(false)}
+                                    style={!isOpen ? { background: '#FF5F56', borderColor: '#FF5F56' } : {}}
                                 >
-                                    <span>Register Now</span>
+                                    <span>{isOpen ? 'Register Now' : 'Registration Closed'}</span>
                                 </Link>
 
                                 <div className="mobile-status">
-                                    <div className="status-dot" />
-                                    <span>SYSTEM ONLINE</span>
+                                    <div className="status-dot" style={{ background: isOpen ? 'var(--primary)' : '#FF5F56', boxShadow: `0 0 10px ${isOpen ? 'var(--primary)' : '#FF5F56'}` }} />
+                                    <span>SYSTEM {isOpen ? 'ONLINE' : 'OFFLINE'}</span>
                                 </div>
                             </motion.div>
                         </motion.div>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useRegistrationStatus from '../hooks/useRegistrationStatus';
 
 const MatrixBackground = () => {
     const canvasRef = useRef(null);
@@ -70,7 +71,10 @@ const MatrixBackground = () => {
     );
 };
 
+
+
 const Hero = () => {
+    const { isOpen, loading } = useRegistrationStatus();
     const [bootSequence, setBootSequence] = useState(0);
     const [isBooted, setIsBooted] = useState(() => {
         return !!sessionStorage.getItem('infiq_preloader_seen');
@@ -176,11 +180,11 @@ const Hero = () => {
                                     fontSize: '0.75rem',
                                     fontWeight: '800',
                                     letterSpacing: '2px',
-                                    color: 'var(--primary)',
-                                    background: 'rgba(56, 234, 140, 0.1)',
+                                    color: isOpen ? 'var(--primary)' : '#FF5F56',
+                                    background: isOpen ? 'rgba(56, 234, 140, 0.1)' : 'rgba(255, 95, 86, 0.1)',
                                     padding: '0.6rem 1.5rem',
                                     borderRadius: '100px',
-                                    border: '1px solid rgba(56, 234, 140, 0.2)'
+                                    border: `1px solid ${isOpen ? 'rgba(56, 234, 140, 0.2)' : 'rgba(255, 95, 86, 0.2)'}`
                                 }}
                             >
                                 <motion.div
@@ -193,11 +197,11 @@ const Hero = () => {
                                         width: '8px',
                                         height: '8px',
                                         borderRadius: '50%',
-                                        background: 'var(--primary)',
-                                        boxShadow: '0 0 10px var(--primary)'
+                                        background: isOpen ? 'var(--primary)' : '#FF5F56',
+                                        boxShadow: `0 0 10px ${isOpen ? 'var(--primary)' : '#FF5F56'}`
                                     }}
                                 />
-                                SYSTEM STATUS: ONLINE
+                                SYSTEM STATUS: {isOpen ? 'ONLINE' : 'OFFLINE'}
                             </motion.div>
 
                             {/* Main Title */}
