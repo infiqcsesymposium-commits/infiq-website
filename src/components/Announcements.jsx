@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Megaphone, Bell, Calendar, Info, AlertTriangle, X, ChevronRight, Pin } from 'lucide-react';
+import { Megaphone, Bell, Calendar, Info, AlertTriangle, X, ChevronRight, Pin, Clock } from 'lucide-react';
 import { collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 
 const Announcements = () => {
     const [announcements, setAnnouncements] = useState([]);
     const [urgentAnn, setUrgentAnn] = useState(null);
+    const [eventSlots, setEventSlots] = useState({});
     const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
@@ -39,6 +40,16 @@ const Announcements = () => {
             console.error("Announcement Sync Error:", error);
         });
 
+        // Subscribe to event slots for time details
+        const unsubscribeSlots = onSnapshot(collection(db, "event_slots"), (snapshot) => {
+            const slots = {};
+            snapshot.docs.forEach(doc => {
+                const data = doc.data();
+                slots[data.eventName] = data;
+            });
+            setEventSlots(slots);
+        });
+
         // Periodic re-filter for real-time expiration handling
         const timer = setInterval(() => {
             const now = new Date();
@@ -50,6 +61,7 @@ const Announcements = () => {
 
         return () => {
             unsubscribe();
+            unsubscribeSlots();
             clearInterval(timer);
         };
     }, []);
@@ -128,6 +140,23 @@ const Announcements = () => {
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem', minHeight: '60px' }}>
                                     {ann.message}
                                 </p>
+
+                                {/* Event Time Injection */}
+                                {ann.eventName !== 'ALL' && eventSlots[ann.eventName] && (
+                                    <div style={{
+                                        marginBottom: '1.5rem', padding: '0.8rem',
+                                        background: 'rgba(56, 234, 140, 0.05)', borderRadius: '8px',
+                                        border: '1px solid rgba(56, 234, 140, 0.1)',
+                                        display: 'flex', gap: '1rem', flexWrap: 'wrap'
+                                    }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--primary)', fontSize: '0.75rem' }}>
+                                            <Calendar size={12} /> {eventSlots[ann.eventName].date}
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--primary)', fontSize: '0.75rem' }}>
+                                            <Clock size={12} /> {eventSlots[ann.eventName].startTime}
+                                        </div>
+                                    </div>
+                                )}
 
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                     <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.3)' }}>
