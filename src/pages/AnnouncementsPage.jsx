@@ -8,6 +8,7 @@ import PageTransition from '../components/PageTransition';
 const AnnouncementsPage = () => {
     const [announcements, setAnnouncements] = useState([]);
     const [rawDocs, setRawDocs] = useState([]);
+    const [eventSlots, setEventSlots] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -50,6 +51,16 @@ const AnnouncementsPage = () => {
             setLoading(false);
         });
 
+        // Subscribe to event slots for time details
+        const unsubscribeSlots = onSnapshot(collection(db, "event_slots"), (snapshot) => {
+            const slots = {};
+            snapshot.docs.forEach(doc => {
+                const data = doc.data();
+                slots[data.eventName] = data;
+            });
+            setEventSlots(slots);
+        });
+
         // Periodic re-filter for real-time expiration handling
         const timer = setInterval(() => {
             const now = new Date();
@@ -61,6 +72,7 @@ const AnnouncementsPage = () => {
 
         return () => {
             unsubscribe();
+            unsubscribeSlots();
             clearInterval(timer);
         };
     }, []);
@@ -213,9 +225,30 @@ const AnnouncementsPage = () => {
                                             )}
                                         </div>
                                         <h3 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.6rem)', color: '#fff', margin: '0 0 1rem' }}>{ann.title}</h3>
-                                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', margin: 0 }}>
+                                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.8', fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', margin: '0 0 1.5rem 0' }}>
                                             {ann.message}
                                         </p>
+
+                                        {/* Event Time Detail Injection */}
+                                        {ann.eventName !== 'ALL' && eventSlots[ann.eventName] && (
+                                            <div style={{
+                                                display: 'flex', gap: '1.5rem', flexWrap: 'wrap',
+                                                padding: '1rem', background: 'rgba(56, 234, 140, 0.05)',
+                                                borderRadius: '12px', border: '1px solid rgba(56, 234, 140, 0.1)'
+                                            }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.85rem' }}>
+                                                    <Calendar size={14} /> {eventSlots[ann.eventName].date}
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.85rem' }}>
+                                                    <Clock size={14} /> {eventSlots[ann.eventName].startTime}
+                                                </div>
+                                                {eventSlots[ann.eventName].venue && (
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '0.85rem' }}>
+                                                        <MapPin size={14} /> {eventSlots[ann.eventName].venue}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Meta Column */}
