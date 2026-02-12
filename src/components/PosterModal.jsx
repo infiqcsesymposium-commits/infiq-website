@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, Share2, Image as ImageIcon } from 'lucide-react';
-import eventPoster from '../assets/infiq_website_poster.png';
+import eventPoster from '../assets/image.png';
 
 const PosterModal = ({ isOpen, onClose }) => {
     // Close on 'Escape' key press

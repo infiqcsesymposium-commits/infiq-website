@@ -13,6 +13,7 @@ import {
 import Announcements from '../components/Announcements';
 import Timeline from '../pages/Timeline'; // Reusing the timeline layout
 import PosterModal from '../components/PosterModal';
+import RegistrationPopup from '../components/RegistrationPopup';
 
 const HomePage = () => {
     const [showPosterModal, setShowPosterModal] = useState(false);
@@ -29,6 +30,7 @@ const HomePage = () => {
     return (
         <>
             <PageTransition>
+                <RegistrationPopup />
                 <Hero />
                 <Announcements />
 

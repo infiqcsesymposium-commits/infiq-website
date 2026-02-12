@@ -97,7 +97,6 @@ const CRMDashboard = () => {
         { id: 5, name: "Technical Quiz", type: "TECHNICAL", tag: "QUIZ", registered: 0, limit: 15, status: "OPEN" },
         { id: 6, name: "Esports", type: "NON-TECHNICAL", tag: "GAMING", registered: 0, limit: 15, status: "OPEN" },
         { id: 7, name: "Connections", type: "NON-TECHNICAL", tag: "FUN", registered: 0, limit: 15, status: "OPEN" },
-        { id: 8, name: "Multimedia Editing", type: "NON-TECHNICAL", tag: "CREATIVE", registered: 0, limit: 15, status: "OPEN" },
         { id: 9, name: "Photography", type: "NON-TECHNICAL", tag: "ART", registered: 0, limit: 15, status: "OPEN" },
         { id: 10, name: "Short Film", type: "NON-TECHNICAL", tag: "CINEMA", registered: 0, limit: 15, status: "OPEN" },
         { id: 11, name: "Ideathon", type: "TECHNICAL", tag: "HACK", registered: 0, limit: 15, status: "OPEN" }
@@ -593,6 +592,24 @@ const CRMDashboard = () => {
         }
     };
 
+    const handleDeleteRegistration = async (id) => {
+        if (userRole !== 'ADMIN') {
+            alert("Insufficient permissions. Only Admins can delete registrations.");
+            return;
+        }
+        if (window.confirm("CRITICAL: Are you sure you want to PERMANENTLY delete this team data from Firebase? This action cannot be undone.")) {
+            try {
+                await deleteDoc(doc(db, "registrations", id));
+                if (selectedRegistration && selectedRegistration.id === id) {
+                    closeModal();
+                }
+            } catch (error) {
+                console.error("Error deleting registration:", error);
+                alert("Failed to delete registration");
+            }
+        }
+    };
+
     const openEditLimit = (ev) => {
         setEditingEvent(ev);
         setNewLimit(ev.limit);
@@ -692,11 +709,11 @@ const CRMDashboard = () => {
 
     const totalParticipants = uniqueParticipantsCount;
 
-    // Revenue: Sum totalAmount from unique sessions only
+    // Revenue: Sum totalAmount from unique sessions only that are APPROVED
     const uniqueRevenueSessions = new Set();
     const totalRevenue = registrations.reduce((acc, curr) => {
         const sessionKey = `${curr.email}_${curr.paymentId}`;
-        if (!uniqueRevenueSessions.has(sessionKey)) {
+        if (curr.status === 'APPROVED' && !uniqueRevenueSessions.has(sessionKey)) {
             uniqueRevenueSessions.add(sessionKey);
             return acc + (curr.totalAmount || 0);
         }
@@ -988,6 +1005,54 @@ const CRMDashboard = () => {
                                         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Non-CSE Internal</div>
                                     </div>
                                 </div>
+
+                                {/* Event Slots / Limits Management */}
+                                <div className="glass-card" style={{ padding: '2rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                                        <h3 style={{ fontSize: '1.2rem', color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                            <Settings size={20} color="var(--primary)" /> Registration Slots (Limits)
+                                        </h3>
+                                        <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'Share Tech Mono' }}>UNIT_CAPACITY: {eventsFull} CLOSED</div>
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                                        {events.map(ev => (
+                                            <div key={ev.id} style={{
+                                                background: 'rgba(255,255,255,0.02)',
+                                                border: '1px solid rgba(255,255,255,0.05)',
+                                                borderRadius: '16px',
+                                                padding: '1.2rem',
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center'
+                                            }}>
+                                                <div>
+                                                    <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.9rem' }}>{ev.name}</div>
+                                                    <div style={{ fontSize: '0.75rem', color: ev.status === 'CLOSED' ? '#FF5F56' : 'var(--primary)', marginTop: '4px' }}>
+                                                        {ev.registered} / {ev.limit} Slots Filled
+                                                    </div>
+                                                </div>
+                                                {editingEvent && editingEvent.id === ev.id ? (
+                                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                        <input
+                                                            type="number"
+                                                            value={newLimit}
+                                                            onChange={(e) => setNewLimit(e.target.value)}
+                                                            style={{ width: '60px', padding: '5px', background: '#000', border: '1px solid var(--primary)', color: '#fff', borderRadius: '4px' }}
+                                                        />
+                                                        <button onClick={saveLimit} style={{ background: 'var(--primary)', border: 'none', borderRadius: '4px', padding: '5px 10px', fontSize: '0.7rem', cursor: 'pointer', fontWeight: 'bold' }}>SAVE</button>
+                                                    </div>
+                                                ) : (
+                                                    <button
+                                                        onClick={() => openEditLimit(ev)}
+                                                        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '8px 12px', color: 'var(--primary)', fontSize: '0.75rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px' }}
+                                                    >
+                                                        <Edit2 size={12} /> Edit Slots
+                                                    </button>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         )}
 
@@ -1101,7 +1166,12 @@ const CRMDashboard = () => {
                                                                 {reg.status || 'PENDING'}
                                                             </span>
                                                         </td>
-                                                        <td style={{ padding: '1rem' }}><button onClick={() => openModal(reg)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}><MoreHorizontal size={18} /></button></td>
+                                                        <td style={{ padding: '1rem' }}>
+                                                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                                <button onClick={() => openModal(reg)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}><MoreHorizontal size={18} /></button>
+                                                                {userRole === 'ADMIN' && <button onClick={() => handleDeleteRegistration(reg.id)} style={{ background: 'none', border: 'none', color: '#FF5F56', cursor: 'pointer' }}><Trash2 size={18} /></button>}
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -1267,12 +1337,40 @@ const CRMDashboard = () => {
                                                     <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>₹{totalRevenue}</span>
                                                 </div>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px' }}>
-                                                    <span>External Fees</span>
-                                                    <span style={{ color: '#FFBD2E', fontWeight: 'bold' }}>₹{registrations.filter(r => r.category === 'OUTER').reduce((a, c) => a + (c.totalAmount || 0), 0)}</span>
+                                                    <span>External Fees (Approved)</span>
+                                                    <span style={{ color: '#FFBD2E', fontWeight: 'bold' }}>
+                                                        ₹{(() => {
+                                                            const seen = new Set();
+                                                            return registrations
+                                                                .filter(r => r.category === 'OUTER' && r.status === 'APPROVED')
+                                                                .reduce((acc, curr) => {
+                                                                    const key = `${curr.email}_${curr.paymentId}`;
+                                                                    if (!seen.has(key)) {
+                                                                        seen.add(key);
+                                                                        return acc + (curr.totalAmount || 0);
+                                                                    }
+                                                                    return acc;
+                                                                }, 0);
+                                                        })()}
+                                                    </span>
                                                 </div>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px' }}>
-                                                    <span>Other Dept Fees</span>
-                                                    <span style={{ color: 'var(--neon-pink)', fontWeight: 'bold' }}>₹{registrations.filter(r => r.category === 'OTHER_DEPT').reduce((a, c) => a + (c.totalAmount || 0), 0)}</span>
+                                                    <span>Other Dept Fees (Approved)</span>
+                                                    <span style={{ color: 'var(--neon-pink)', fontWeight: 'bold' }}>
+                                                        ₹{(() => {
+                                                            const seen = new Set();
+                                                            return registrations
+                                                                .filter(r => r.category === 'OTHER_DEPT' && r.status === 'APPROVED')
+                                                                .reduce((acc, curr) => {
+                                                                    const key = `${curr.email}_${curr.paymentId}`;
+                                                                    if (!seen.has(key)) {
+                                                                        seen.add(key);
+                                                                        return acc + (curr.totalAmount || 0);
+                                                                    }
+                                                                    return acc;
+                                                                }, 0);
+                                                        })()}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1624,11 +1722,11 @@ const CRMDashboard = () => {
                                 {/* Status Control */}
                                 <div style={{ paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                                     <label style={{ color: '#fff', marginBottom: '1rem', display: 'block' }}>Approval Status</label>
-                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                                         <button
                                             onClick={() => handleStatusUpdate('APPROVED')}
                                             style={{
-                                                flex: 1, padding: '10px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                                                flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
                                                 background: selectedRegistration.status === 'APPROVED' ? 'var(--primary)' : 'rgba(56, 234, 140, 0.1)',
                                                 color: selectedRegistration.status === 'APPROVED' ? '#000' : 'var(--primary)',
                                                 fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
@@ -1639,7 +1737,7 @@ const CRMDashboard = () => {
                                         <button
                                             onClick={() => handleStatusUpdate('REJECTED')}
                                             style={{
-                                                flex: 1, padding: '10px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                                                flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
                                                 background: selectedRegistration.status === 'REJECTED' ? '#FF5F56' : 'rgba(255, 95, 86, 0.1)',
                                                 color: selectedRegistration.status === 'REJECTED' ? '#fff' : '#FF5F56',
                                                 fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
@@ -1650,7 +1748,7 @@ const CRMDashboard = () => {
                                         <button
                                             onClick={() => handleStatusUpdate('PENDING')}
                                             style={{
-                                                flex: 1, padding: '10px', borderRadius: '8px', border: 'none', cursor: 'pointer',
+                                                flex: 2, padding: '12px', borderRadius: '8px', border: 'none', cursor: 'pointer',
                                                 background: (!selectedRegistration.status || selectedRegistration.status === 'PENDING') ? '#FFBD2E' : 'rgba(255, 189, 46, 0.1)',
                                                 color: (!selectedRegistration.status || selectedRegistration.status === 'PENDING') ? '#000' : '#FFBD2E',
                                                 fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
@@ -1658,6 +1756,20 @@ const CRMDashboard = () => {
                                         >
                                             <Clock size={18} /> Pending
                                         </button>
+                                        {userRole === 'ADMIN' && (
+                                            <button
+                                                onClick={() => handleDeleteRegistration(selectedRegistration.id)}
+                                                style={{
+                                                    flex: 1, padding: '12px', borderRadius: '8px', border: '1px solid rgba(255, 95, 86, 0.3)', cursor: 'pointer',
+                                                    background: 'rgba(255, 95, 86, 0.05)',
+                                                    color: '#FF5F56',
+                                                    fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                                }}
+                                                title="Delete Record"
+                                            >
+                                                <Trash2 size={18} />
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
 

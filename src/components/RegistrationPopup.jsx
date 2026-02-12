@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, Terminal, ShieldCheck, ArrowRight, Activity, Cpu } from 'lucide-react';
+import popupImg from '../assets/image.png';
 
 const RegistrationPopup = ({ onClose }) => {
     const [show, setShow] = useState(false);
@@ -72,47 +73,55 @@ const RegistrationPopup = ({ onClose }) => {
                     {/* Visual Side */}
                     <div style={{
                         padding: '3.5rem',
-                        background: 'linear-gradient(135deg, rgba(8, 9, 15, 0.8), transparent)',
+                        background: `linear-gradient(135deg, rgba(8, 9, 15, 0.95), rgba(8, 9, 15, 0.6)), url(${popupImg})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
                         position: 'relative',
-                        borderRight: '1px solid rgba(255,255,255,0.05)'
+                        borderRight: '1px solid rgba(255,255,255,0.05)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center'
                     }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '2rem' }}>
-                            <div style={{ padding: '8px', background: 'rgba(56, 234, 140, 0.1)', borderRadius: '10px' }}>
-                                <Activity size={20} color="var(--primary)" />
-                            </div>
-                            <span style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '4px', fontWeight: '900', fontFamily: 'Orbitron' }}>SYSTEM_LAUNCH</span>
-                        </div>
-
-                        <h2 style={{
-                            fontSize: '3.5rem',
-                            fontWeight: '950',
-                            color: '#fff',
-                            lineHeight: '1',
-                            marginBottom: '1.5rem',
-                            letterSpacing: '-2px',
-                            fontFamily: 'Orbitron'
-                        }}>
-                            GATEWAY <br /><span style={{ color: 'var(--primary)' }}>INITIALIZED</span>
-                        </h2>
-
-                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: '3rem', lineHeight: '1.6' }}>
-                            The portal to INFIQ 2K26 is now active. Secure your node in the network to access the ultimate tech symposium.
-                        </p>
-
-                        <div style={{ display: 'grid', gap: '1.5rem' }}>
-                            {[
-                                { icon: <Calendar size={18} />, label: 'DATE_NODE', value: 'FEB 24, 2026' },
-                                { icon: <ShieldCheck size={18} />, label: 'SECURITY', value: 'ENCRYPTED_ACCESS' },
-                                { icon: <Clock size={18} />, label: 'STATUS', value: 'LIVE_PENDING' }
-                            ].map((item, i) => (
-                                <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                    <div style={{ color: 'rgba(255,255,255,0.3)' }}>{item.icon}</div>
-                                    <div>
-                                        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '2px', fontWeight: '700' }}>{item.label}</div>
-                                        <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.9rem' }}>{item.value}</div>
-                                    </div>
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(15,17,26,1) 0%, transparent 100%)', opacity: 0.4 }}></div>
+                        <div style={{ position: 'relative', zIndex: 1 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '2rem' }}>
+                                <div style={{ padding: '8px', background: 'rgba(56, 234, 140, 0.1)', borderRadius: '10px' }}>
+                                    <Activity size={20} color="var(--primary)" />
                                 </div>
-                            ))}
+                                <span style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '4px', fontWeight: '900', fontFamily: 'Orbitron' }}>SYSTEM_LAUNCH</span>
+                            </div>
+
+                            <h2 style={{
+                                fontSize: '3.5rem',
+                                fontWeight: '950',
+                                color: '#fff',
+                                lineHeight: '1',
+                                marginBottom: '1.5rem',
+                                letterSpacing: '-2px',
+                                fontFamily: 'Orbitron'
+                            }}>
+                                GATEWAY <br /><span style={{ color: 'var(--primary)' }}>INITIALIZED</span>
+                            </h2>
+
+                            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', marginBottom: '3rem', lineHeight: '1.6' }}>
+                                The portal to INFIQ 2K26 is now active. Secure your node in the network to access the ultimate tech symposium.
+                            </p>
+
+                            <div style={{ display: 'grid', gap: '1.5rem' }}>
+                                {[
+                                    { icon: <Calendar size={18} />, label: 'DATE_NODE', value: 'FEB 24, 2026' },
+                                    { icon: <ShieldCheck size={18} />, label: 'SECURITY', value: 'ENCRYPTED_ACCESS' },
+                                    { icon: <Clock size={18} />, label: 'STATUS', value: 'LIVE_PENDING' }
+                                ].map((item, i) => (
+                                    <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                        <div style={{ color: 'rgba(255,255,255,0.3)' }}>{item.icon}</div>
+                                        <div>
+                                            <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '2px', fontWeight: '700' }}>{item.label}</div>
+                                            <div style={{ color: '#fff', fontWeight: 'bold', fontSize: '0.9rem' }}>{item.value}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
