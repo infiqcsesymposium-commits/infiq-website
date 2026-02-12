@@ -119,7 +119,15 @@ const RegistrationForm = () => {
             venue: "Auditorium",
             dbName: "Logo Design"
         },
-
+        {
+            id: 10,
+            title: "Poster Design",
+            category: "NON-TECHNICAL",
+            tag: "DESIGN",
+            time: "11:00 AM",
+            venue: "Lab 1",
+            dbName: "Multimedia Editing"
+        },
         {
             id: 11,
             title: "Quiz (Non-Tech / Pop Culture)",
