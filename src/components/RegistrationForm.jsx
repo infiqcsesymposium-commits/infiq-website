@@ -331,6 +331,7 @@ const RegistrationForm = () => {
 
     const filteredEvents = eventsList.filter(ev => {
         if (filterTab === "ALL") return true;
+        if (filterTab === "INDIVIDUAL") return soloEvents.includes(ev.dbName);
         return ev.category === filterTab;
     });
 
@@ -855,9 +856,9 @@ const RegistrationForm = () => {
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                                         <label style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Select Events (max 4) <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginLeft: '10px' }}>{selectedEvents.length}/4 selected</span></label>
                                     </div>
-                                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
-                                        {['ALL', 'TECHNICAL', 'NON-TECHNICAL'].map(tab => (
-                                            <button key={tab} type="button" onClick={() => setFilterTab(tab)} style={{ background: 'none', border: 'none', color: filterTab === tab ? '#fff' : 'var(--text-muted)', borderBottom: filterTab === tab ? '2px solid var(--primary)' : '2px solid transparent', paddingBottom: '5px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.9rem' }}>{tab}</button>
+                                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', flexWrap: 'wrap' }}>
+                                        {['ALL', 'TECHNICAL', 'NON-TECHNICAL', 'INDIVIDUAL'].map(tab => (
+                                            <button key={tab} type="button" onClick={() => setFilterTab(tab)} style={{ background: 'none', border: 'none', color: filterTab === tab ? '#fff' : 'var(--primary)', borderBottom: filterTab === tab ? '2px solid var(--primary)' : '2px solid transparent', paddingBottom: '5px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.9rem' }}>{tab}</button>
                                         ))}
                                     </div>
                                     <div style={{ display: 'grid', gap: '1rem' }}>
