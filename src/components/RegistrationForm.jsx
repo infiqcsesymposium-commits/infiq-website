@@ -176,17 +176,29 @@ const RegistrationForm = () => {
     const soloEvents = ["Code Debugging", "Web Designing", "Logo Design", "Multimedia Editing", "Photography"];
 
     const toggleEvent = (eventName) => {
+        const eventObj = eventsList.find(e => e.dbName === eventName);
+        if (!eventObj) return;
+
         if (selectedEvents.includes(eventName)) {
             setSelectedEvents(prev => prev.filter(e => e !== eventName));
         } else {
+            // Check if it's a technical event and user already has one
+            if (eventObj.category === "TECHNICAL") {
+                const hasTech = selectedEvents.some(name => {
+                    const e = eventsList.find(ev => ev.dbName === name);
+                    return e && e.category === "TECHNICAL";
+                });
+                if (hasTech) {
+                    showNotify("You can participate in a maximum of 1 Technical event.", "warning");
+                    return;
+                }
+            }
+
             // Check if it's a solo event and teamCount > 1
             if (soloEvents.includes(eventName) && teamCount > 1) {
                 showNotify(`${eventName} is a solo event. Please set Team Size to 1 to select this.`, "warning");
                 return;
             }
-
-            // Check if user already has a solo event and is trying to select a team event while teamCount is still 1? 
-            // Actually, the main constraint is teamCount.
 
             if (selectedEvents.length >= 3) {
                 showNotify("You can select a maximum of 3 events.", "warning");
