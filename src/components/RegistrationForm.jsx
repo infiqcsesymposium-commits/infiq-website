@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Calendar, MapPin, Upload, ArrowLeft, Users, Smartphone, AtSign } from 'lucide-react';
 import { db } from '../firebaseConfig';
 import { collection, addDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
+import paymentQR from '../assets/payment_qr.jpg';
 
 const RegistrationForm = () => {
     // 1=Details, 2=Payment, 3=Success
@@ -919,7 +920,7 @@ const RegistrationForm = () => {
                                                 boxShadow: '0 0 20px rgba(0,0,0,0.5)'
                                             }}>
                                                 <img
-                                                    src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=9042561295@upi&pn=VyuGa%2026&cu=INR"
+                                                    src={paymentQR}
                                                     alt="Payment QR Code"
                                                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                                                 />
@@ -937,7 +938,7 @@ const RegistrationForm = () => {
                                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
                                                     <Smartphone size={20} color="var(--primary)" />
                                                     <span style={{ color: '#fff', fontSize: '1.4rem', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'Share Tech Mono' }}>
-                                                        9042561295@upi
+                                                        diva.con4338-2@okhdfcbank
                                                     </span>
                                                 </div>
                                             </div>
