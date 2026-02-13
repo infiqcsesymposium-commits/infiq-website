@@ -256,7 +256,7 @@ const Hero = () => {
                             >
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <span style={{ fontSize: '1.5rem' }}>📅</span>
-                                    <span style={{ fontWeight: '600', letterSpacing: '1px' }}>24.02.2026</span>
+                                    <span style={{ fontWeight: '600', letterSpacing: '1px' }}>18.02.2026</span>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                     <span style={{ fontSize: '1.5rem' }}>📍</span>

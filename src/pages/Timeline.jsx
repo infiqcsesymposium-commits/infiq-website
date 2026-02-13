@@ -35,7 +35,7 @@ const TimelinePage = () => {
                         viewport={{ once: true }}
                         style={{ textAlign: 'center', marginBottom: '8rem' }}
                     >
-                        <span className="section-subtitle">24.02.2026</span>
+                        <span className="section-subtitle">18.02.2026</span>
                         <h2 className="section-title">Execution Timeline</h2>
                         <p style={{ color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto' }}>
                             Track the real-time flow of INFIQ 2K26. From initialization to final system shutdown.

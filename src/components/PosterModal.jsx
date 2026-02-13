@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Download, Share2, Image as ImageIcon } from 'lucide-react';
-import eventPoster from '../assets/poster.jpeg';
+import eventPoster from '../assets/Black & Blue Minimalist Sunday Service Event Announcement Instagram Post (Presentation).png';
 
 const PosterModal = ({ isOpen, onClose }) => {
     // Close on 'Escape' key press

@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 import campusImg from '../assets/campus.png';
-import posterImg from '../assets/poster.jpeg';
+import posterImg from '../assets/Black & Blue Minimalist Sunday Service Event Announcement Instagram Post (Presentation).png';
 
 /* 1. Event Passes Section */
 export const EventPasses = () => {
@@ -216,7 +216,7 @@ export const EventCountdown = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
-        const targetDate = new Date("February 24, 2026 09:00:00").getTime();
+        const targetDate = new Date("February 18, 2026 09:00:00").getTime();
 
         const timer = setInterval(() => {
             const now = new Date().getTime();
@@ -257,7 +257,7 @@ export const EventCountdown = () => {
                             textShadow: '0 0 20px rgba(56, 234, 140, 0.4)',
                             fontFamily: 'Orbitron'
                         }}>
-                            EVENT STARTS ON 24 FEB 2026
+                            EVENT STARTS ON 18 FEB 2026
                         </h3>
                     </motion.div>
                 </div>
@@ -587,7 +587,7 @@ export const PosterLocation = () => {
                             <div style={{ display: 'flex', gap: '1.5rem' }}>
                                 <div style={{ color: 'var(--primary)', flexShrink: 0 }}><Calendar size={32} /></div>
                                 <div>
-                                    <h4 style={{ color: '#fff', marginBottom: '0.5rem' }}>February 24, 2026</h4>
+                                    <h4 style={{ color: '#fff', marginBottom: '0.5rem' }}>February 18, 2026</h4>
                                     <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Main Auditorium, V.S.B Building. <br />Registration starts at 08:30 AM sharp.</p>
                                 </div>
                             </div>

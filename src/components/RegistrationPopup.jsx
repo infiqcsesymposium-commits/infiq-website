@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Clock, Terminal, ShieldCheck, ArrowRight, Activity, Cpu } from 'lucide-react';
-import popupImg from '../assets/poster.jpeg';
+import popupImg from '../assets/Black & Blue Minimalist Sunday Service Event Announcement Instagram Post (Presentation).png';
 
 const RegistrationPopup = ({ onClose }) => {
     const [show, setShow] = useState(false);
@@ -110,7 +110,7 @@ const RegistrationPopup = ({ onClose }) => {
 
                             <div style={{ display: 'grid', gap: '1.5rem' }}>
                                 {[
-                                    { icon: <Calendar size={18} />, label: 'DATE_NODE', value: 'FEB 24, 2026' },
+                                    { icon: <Calendar size={18} />, label: 'DATE_NODE', value: 'FEB 18, 2026' },
                                     { icon: <ShieldCheck size={18} />, label: 'SECURITY', value: 'ENCRYPTED_ACCESS' },
                                     { icon: <Clock size={18} />, label: 'STATUS', value: 'LIVE_PENDING' }
                                 ].map((item, i) => (

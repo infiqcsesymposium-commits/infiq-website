@@ -8,7 +8,7 @@ import {
 import { db } from '../firebaseConfig';
 import { collection, onSnapshot } from 'firebase/firestore';
 import PageTransition from './PageTransition';
-import eventPoster from '../assets/event_poster_main.jpg';
+import eventPoster from '../assets/Black & Blue Minimalist Sunday Service Event Announcement Instagram Post (Presentation).png';
 
 const TrackCard = ({ track, index, registeredCount, maxLimit, teamList, isManuallyClosed }) => {
     const [isFlipped, setIsFlipped] = useState(false);
@@ -461,7 +461,7 @@ const Events = () => {
                                 <span style={{ fontWeight: '800', letterSpacing: '2px' }}>SYSTEM LOGS</span>
                             </div>
                             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.8' }}>
-                                * Symposium Date: FEB 24, 2026. <br />
+                                * Symposium Date: FEB 18, 2026. <br />
                                 * Total Prize Pool: ₹50,000 across all events. <br />
                                 * Registration Fee: ₹300 (Lunch Included). <br />
                                 * All events are carefully scheduled to prevent major overlaps. <br />
