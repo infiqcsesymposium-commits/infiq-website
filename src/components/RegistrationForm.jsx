@@ -365,7 +365,7 @@ const RegistrationForm = () => {
             }
         } else {
             // Fallback to legacy hardcoded logic if no dynamic rule exists
-            const legacyBase = category === "OUTER" ? 300 : category === "OTHER_DEPT" ? 100 : 0;
+            const legacyBase = category === "OUTER" ? 300 : category === "OTHER_DEPT" ? 300 : 0;
             baseAmount = legacyBase * teamCount;
         }
 
