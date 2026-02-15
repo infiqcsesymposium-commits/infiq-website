@@ -260,7 +260,7 @@ const RegistrationForm = () => {
             // Dept validation
             const dept = formData.department.toUpperCase();
             if (dept === "CSE" || dept === "AI" || dept === "AI&DS" || dept === "AIML" || dept === "CSBS") {
-                showNotify("CSE/DS/ML students should use the 'VSBCETC - CSE / AI Only' category", "error");
+                showNotify("CSE/DS/ML students should use the 'VSBCETC - CSE Only' category", "error");
                 return;
             }
         } else if (category === "CSE_ONLY") {
@@ -271,7 +271,7 @@ const RegistrationForm = () => {
             // Dept validation
             const dept = formData.department.toUpperCase();
             if (dept !== "CSE" && dept !== "AI" && dept !== "AI&DS" && dept !== "AIML" && dept !== "CSBS") {
-                showNotify("Only CSE / AI / DS / ML / CSBS students allowed in this category", "error");
+                showNotify("Only CSE / DS / ML / CSBS students allowed in this category", "error");
                 return;
             }
         } else {
@@ -737,7 +737,7 @@ const RegistrationForm = () => {
                                             <option value="" style={{ color: '#000' }}>-- Select Category --</option>
                                             {systemAccess.outerCollege && <option value="OUTER" style={{ color: '#000' }}>Outer College (Other Institutions)</option>}
                                             {systemAccess.otherDepts && <option value="OTHER_DEPT" style={{ color: '#000' }}>VSBCETC - Other Departments</option>}
-                                            {systemAccess.cseDept && <option value="CSE_ONLY" style={{ color: '#000' }}>VSBCETC - CSE / AI Only</option>}
+                                            {systemAccess.cseDept && <option value="CSE_ONLY" style={{ color: '#000' }}>VSBCETC - CSE Only</option>}
                                         </select>
                                     </div>
                                     <div className="form-group">

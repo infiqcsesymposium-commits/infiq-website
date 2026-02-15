@@ -23,6 +23,7 @@ const CRMDashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('ALL');
     const [eventFilter, setEventFilter] = useState('ALL');
+    const [categoryFilter, setCategoryFilter] = useState('ALL');
 
     // modal state
     const [selectedRegistration, setSelectedRegistration] = useState(null);
@@ -548,9 +549,13 @@ const CRMDashboard = () => {
             result = result.filter(reg => reg.eventName === eventFilter);
         }
 
+        if (categoryFilter !== 'ALL') {
+            result = result.filter(reg => reg.category === categoryFilter);
+        }
+
         // Additional category filter for new views if needed
         setFilteredRegistrations(result);
-    }, [registrations, searchTerm, statusFilter, eventFilter]);
+    }, [registrations, searchTerm, statusFilter, eventFilter, categoryFilter]);
 
 
     const handleLogout = async () => {
@@ -1098,6 +1103,12 @@ const CRMDashboard = () => {
                                     <select value={eventFilter} onChange={(e) => setEventFilter(e.target.value)} style={{ padding: '0.8rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none', width: '160px' }}>
                                         <option value="ALL">All Events</option>
                                         {events.map(ev => <option key={ev.id} value={ev.name}>{ev.name}</option>)}
+                                    </select>
+                                    <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} style={{ padding: '0.8rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none', width: '160px' }}>
+                                        <option value="ALL">All Categories</option>
+                                        <option value="CSE_ONLY">CSE Only</option>
+                                        <option value="OTHER_DEPT">Other Depts</option>
+                                        <option value="OUTER">Outer College</option>
                                     </select>
                                     <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={{ padding: '0.8rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none', width: '140px' }}>
                                         <option value="ALL">All Status</option>
