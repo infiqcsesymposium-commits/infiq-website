@@ -148,7 +148,7 @@ const Registration = () => {
 
                     <RegistrationCard
                         title="OTHER DEPTS"
-                        subtitle="VSBCETC Students (Non-CSE/AI)"
+                        subtitle="VSBCETC Students (Non-CSE)"
                         price="100"
                         icon={Users}
                         color="var(--neon-pink)"

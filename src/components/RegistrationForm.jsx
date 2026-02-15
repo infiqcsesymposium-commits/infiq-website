@@ -260,7 +260,7 @@ const RegistrationForm = () => {
             // Dept validation
             const dept = formData.department.toUpperCase();
             if (dept === "CSE" || dept === "AI" || dept === "AI&DS" || dept === "AIML" || dept === "CSBS") {
-                showNotify("CSE/AI/DS/ML students should use the 'VSBCETC - CSE / AI Only' category", "error");
+                showNotify("CSE/DS/ML students should use the 'VSBCETC - CSE / AI Only' category", "error");
                 return;
             }
         } else if (category === "CSE_ONLY") {

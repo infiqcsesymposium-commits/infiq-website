@@ -10,6 +10,7 @@ import abishImg from '../assets/coord_abish.jpg';
 import apurvaImg from '../assets/coord_apurva.jpg';
 import divaImg from '../assets/coord_diva.jpg';
 import subaImg from '../assets/mypic.jpg.jpeg';
+import babuImg from '../assets/coord_babu.jpeg';
 
 const HeaderSection = () => (
     <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
@@ -419,7 +420,7 @@ const Coordinators = () => {
                         </div>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', maxWidth: '1000px', margin: '0 auto 8rem' }}>
                             <CoordinatorCard person={{ name: "Mr. S. Prem Kumar", role: "Student_Lead", type: "IV YEAR - CSE", img: premImg }} />
-                            <CoordinatorCard person={{ name: "Mr. P. Babu Prasanth", role: "Student_Lead", type: "IV YEAR - CSE" }} />
+                            <CoordinatorCard person={{ name: "Mr. P. Babu Prasanth", role: "Student_Lead", type: "IV YEAR - CSE", img: babuImg }} />
                             <CoordinatorCard person={{ name: "Mr. V. Sridhar", role: "Student_Lead", type: "IV YEAR - CSE", img: sridharImg }} />
                         </div>
 
